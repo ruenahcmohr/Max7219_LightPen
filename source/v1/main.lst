@@ -1,0 +1,659 @@
+
+main.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .data         00000000  00800100  0000035c  000003f0  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  1 .text         0000035c  00000000  00000000  00000094  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  2 .bss          00000001  00800100  00800100  000003f0  2**0
+                  ALLOC
+  3 .stab         00001218  00000000  00000000  000003f0  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  4 .stabstr      00000f76  00000000  00000000  00001608  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  5 .comment      00000011  00000000  00000000  0000257e  2**0
+                  CONTENTS, READONLY
+  6 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  00002590  2**2
+                  CONTENTS, READONLY
+  7 .debug_info   000005f4  00000000  00000000  000025cc  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_abbrev 000005a2  00000000  00000000  00002bc0  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_line   0000001a  00000000  00000000  00003162  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 10 .debug_str    00000208  00000000  00000000  0000317c  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	0c 94 34 00 	jmp	0x68	; 0x68 <__ctors_end>
+   4:	0c 94 e4 00 	jmp	0x1c8	; 0x1c8 <__vector_1>
+   8:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
+   c:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
+  10:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
+  14:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
+  18:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
+  1c:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
+  20:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
+  24:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
+  28:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
+  2c:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
+  30:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
+  34:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
+  38:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
+  3c:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
+  40:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
+  44:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
+  48:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
+  4c:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
+  50:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
+  54:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
+  58:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
+  5c:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
+  60:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
+  64:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
+
+00000068 <__ctors_end>:
+  68:	11 24       	eor	r1, r1
+  6a:	1f be       	out	0x3f, r1	; 63
+  6c:	cf ef       	ldi	r28, 0xFF	; 255
+  6e:	d8 e0       	ldi	r29, 0x08	; 8
+  70:	de bf       	out	0x3e, r29	; 62
+  72:	cd bf       	out	0x3d, r28	; 61
+
+00000074 <__do_clear_bss>:
+  74:	21 e0       	ldi	r18, 0x01	; 1
+  76:	a0 e0       	ldi	r26, 0x00	; 0
+  78:	b1 e0       	ldi	r27, 0x01	; 1
+  7a:	01 c0       	rjmp	.+2      	; 0x7e <.do_clear_bss_start>
+
+0000007c <.do_clear_bss_loop>:
+  7c:	1d 92       	st	X+, r1
+
+0000007e <.do_clear_bss_start>:
+  7e:	a1 30       	cpi	r26, 0x01	; 1
+  80:	b2 07       	cpc	r27, r18
+  82:	e1 f7       	brne	.-8      	; 0x7c <.do_clear_bss_loop>
+  84:	0e 94 ff 00 	call	0x1fe	; 0x1fe <main>
+  88:	0c 94 ac 01 	jmp	0x358	; 0x358 <_exit>
+
+0000008c <__bad_interrupt>:
+  8c:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
+
+00000090 <send16>:
+
+
+// send a 16bit word, msb first
+void send16 (unsigned int bits) {
+  unsigned int temp;  
+  CSlow();
+  90:	5d 98       	cbi	0x0b, 5	; 11
+  92:	40 e1       	ldi	r20, 0x10	; 16
+  94:	50 e0       	ldi	r21, 0x00	; 0
+  for( temp = (0x0001<<15); temp != 0; temp >>= 1) {    
+  96:	20 e0       	ldi	r18, 0x00	; 0
+  98:	30 e8       	ldi	r19, 0x80	; 128
+  9a:	0d c0       	rjmp	.+26     	; 0xb6 <send16+0x26>
+    if ( (bits & temp) != 0 ) {    SendOne();
+  9c:	5b 9a       	sbi	0x0b, 3	; 11
+    } else {                       SendZero();
+  9e:	5c 98       	cbi	0x0b, 4	; 11
+  a0:	00 00       	nop
+  a2:	00 00       	nop
+  a4:	5c 9a       	sbi	0x0b, 4	; 11
+  a6:	00 00       	nop
+    }    
+   NOP();
+  a8:	00 00       	nop
+   NOP();
+  aa:	00 00       	nop
+
+// send a 16bit word, msb first
+void send16 (unsigned int bits) {
+  unsigned int temp;  
+  CSlow();
+  for( temp = (0x0001<<15); temp != 0; temp >>= 1) {    
+  ac:	36 95       	lsr	r19
+  ae:	27 95       	ror	r18
+  b0:	41 50       	subi	r20, 0x01	; 1
+  b2:	51 09       	sbc	r21, r1
+  b4:	39 f0       	breq	.+14     	; 0xc4 <send16+0x34>
+    if ( (bits & temp) != 0 ) {    SendOne();
+  b6:	bc 01       	movw	r22, r24
+  b8:	62 23       	and	r22, r18
+  ba:	73 23       	and	r23, r19
+  bc:	67 2b       	or	r22, r23
+  be:	71 f7       	brne	.-36     	; 0x9c <send16+0xc>
+    } else {                       SendZero();
+  c0:	5b 98       	cbi	0x0b, 3	; 11
+  c2:	ed cf       	rjmp	.-38     	; 0x9e <send16+0xe>
+    }    
+   NOP();
+   NOP();
+  } 
+  CShigh();
+  c4:	5d 9a       	sbi	0x0b, 5	; 11
+  c6:	08 95       	ret
+
+000000c8 <max7219MakePacket>:
+}
+
+unsigned int max7219MakePacket(unsigned char cmd, unsigned char value) {
+  return ( (cmd<<8) | (value));
+  c8:	70 e0       	ldi	r23, 0x00	; 0
+}
+  ca:	9b 01       	movw	r18, r22
+  cc:	38 2b       	or	r19, r24
+  ce:	c9 01       	movw	r24, r18
+  d0:	08 95       	ret
+
+000000d2 <max7219Init>:
+
+
+void max7219Init( ) { 
+   send16(max7219MakePacket(cmdPOWER,  0x01));   // wakeup
+  d2:	81 e0       	ldi	r24, 0x01	; 1
+  d4:	9c e0       	ldi	r25, 0x0C	; 12
+  d6:	0e 94 48 00 	call	0x90	; 0x90 <send16>
+   send16(max7219MakePacket(cmdTEST,   0x00));   // no test mode   
+  da:	80 e0       	ldi	r24, 0x00	; 0
+  dc:	9d e0       	ldi	r25, 0x0D	; 13
+  de:	0e 94 48 00 	call	0x90	; 0x90 <send16>
+   send16(max7219MakePacket(cmdINT,    0x07)); // 1/2 brightness (8/15)     
+  e2:	87 e0       	ldi	r24, 0x07	; 7
+  e4:	9a e0       	ldi	r25, 0x0A	; 10
+  e6:	0e 94 48 00 	call	0x90	; 0x90 <send16>
+   send16(max7219MakePacket(cmdSCAN,   0xFF)); // all digits
+  ea:	8f ef       	ldi	r24, 0xFF	; 255
+  ec:	9b e0       	ldi	r25, 0x0B	; 11
+  ee:	0e 94 48 00 	call	0x90	; 0x90 <send16>
+   send16(max7219MakePacket(cmdMODE,   0x00)); // no decode
+  f2:	80 e0       	ldi	r24, 0x00	; 0
+  f4:	99 e0       	ldi	r25, 0x09	; 9
+  f6:	0e 94 48 00 	call	0x90	; 0x90 <send16>
+  // send16(max7219MakePacket(cmdMODE,   0xFF));  // all decode
+  
+   send16(max7219MakePacket(cmdDIG0+0, 0x00)); // dots!
+  fa:	80 e0       	ldi	r24, 0x00	; 0
+  fc:	91 e0       	ldi	r25, 0x01	; 1
+  fe:	0e 94 48 00 	call	0x90	; 0x90 <send16>
+   send16(max7219MakePacket(cmdDIG0+1, 0x00)); // dots!
+ 102:	80 e0       	ldi	r24, 0x00	; 0
+ 104:	92 e0       	ldi	r25, 0x02	; 2
+ 106:	0e 94 48 00 	call	0x90	; 0x90 <send16>
+   send16(max7219MakePacket(cmdDIG0+2, 0x00)); // dots!
+ 10a:	80 e0       	ldi	r24, 0x00	; 0
+ 10c:	93 e0       	ldi	r25, 0x03	; 3
+ 10e:	0e 94 48 00 	call	0x90	; 0x90 <send16>
+   send16(max7219MakePacket(cmdDIG0+3, 0x00)); // dots!
+ 112:	80 e0       	ldi	r24, 0x00	; 0
+ 114:	94 e0       	ldi	r25, 0x04	; 4
+ 116:	0e 94 48 00 	call	0x90	; 0x90 <send16>
+   send16(max7219MakePacket(cmdDIG0+4, 0xFF)); // dots!
+ 11a:	8f ef       	ldi	r24, 0xFF	; 255
+ 11c:	95 e0       	ldi	r25, 0x05	; 5
+ 11e:	0e 94 48 00 	call	0x90	; 0x90 <send16>
+   send16(max7219MakePacket(cmdDIG0+5, 0xFF)); // dots!
+ 122:	8f ef       	ldi	r24, 0xFF	; 255
+ 124:	96 e0       	ldi	r25, 0x06	; 6
+ 126:	0e 94 48 00 	call	0x90	; 0x90 <send16>
+   send16(max7219MakePacket(cmdDIG0+6, 0xFF)); // dots!
+ 12a:	8f ef       	ldi	r24, 0xFF	; 255
+ 12c:	97 e0       	ldi	r25, 0x07	; 7
+ 12e:	0e 94 48 00 	call	0x90	; 0x90 <send16>
+   send16(max7219MakePacket(cmdDIG0+7, 0xFF)); // dots! 
+ 132:	8f ef       	ldi	r24, 0xFF	; 255
+ 134:	98 e0       	ldi	r25, 0x08	; 8
+ 136:	0c 94 48 00 	jmp	0x90	; 0x90 <send16>
+
+0000013a <max7219SetDisplay>:
+    
+}
+
+void max7219SetDisplay( unsigned char digit, unsigned char v)   { 
+   digit &= 0x07;
+   send16(max7219MakePacket(cmdDIG0+digit, v));       
+ 13a:	87 70       	andi	r24, 0x07	; 7
+ 13c:	21 e0       	ldi	r18, 0x01	; 1
+ 13e:	28 0f       	add	r18, r24
+ 140:	86 2f       	mov	r24, r22
+ 142:	90 e0       	ldi	r25, 0x00	; 0
+ 144:	92 2b       	or	r25, r18
+ 146:	0c 94 48 00 	jmp	0x90	; 0x90 <send16>
+
+0000014a <max7219Blit>:
+}
+
+void max7219Blit( uint8_t *i) {
+ 14a:	cf 93       	push	r28
+ 14c:	df 93       	push	r29
+ 14e:	ec 01       	movw	r28, r24
+   send16(max7219MakePacket(cmdDIG0+0, *(i+0))); // dots!
+ 150:	88 81       	ld	r24, Y
+ 152:	90 e0       	ldi	r25, 0x00	; 0
+ 154:	91 60       	ori	r25, 0x01	; 1
+ 156:	0e 94 48 00 	call	0x90	; 0x90 <send16>
+   send16(max7219MakePacket(cmdDIG0+1, *(i+1))); // dots!
+ 15a:	89 81       	ldd	r24, Y+1	; 0x01
+ 15c:	90 e0       	ldi	r25, 0x00	; 0
+ 15e:	92 60       	ori	r25, 0x02	; 2
+ 160:	0e 94 48 00 	call	0x90	; 0x90 <send16>
+   send16(max7219MakePacket(cmdDIG0+2, *(i+2))); // dots!
+ 164:	8a 81       	ldd	r24, Y+2	; 0x02
+ 166:	90 e0       	ldi	r25, 0x00	; 0
+ 168:	93 60       	ori	r25, 0x03	; 3
+ 16a:	0e 94 48 00 	call	0x90	; 0x90 <send16>
+   send16(max7219MakePacket(cmdDIG0+3, *(i+3))); // dots!
+ 16e:	8b 81       	ldd	r24, Y+3	; 0x03
+ 170:	90 e0       	ldi	r25, 0x00	; 0
+ 172:	94 60       	ori	r25, 0x04	; 4
+ 174:	0e 94 48 00 	call	0x90	; 0x90 <send16>
+   send16(max7219MakePacket(cmdDIG0+4, *(i+4))); // dots!
+ 178:	8c 81       	ldd	r24, Y+4	; 0x04
+ 17a:	90 e0       	ldi	r25, 0x00	; 0
+ 17c:	95 60       	ori	r25, 0x05	; 5
+ 17e:	0e 94 48 00 	call	0x90	; 0x90 <send16>
+   send16(max7219MakePacket(cmdDIG0+5, *(i+5))); // dots!
+ 182:	8d 81       	ldd	r24, Y+5	; 0x05
+ 184:	90 e0       	ldi	r25, 0x00	; 0
+ 186:	96 60       	ori	r25, 0x06	; 6
+ 188:	0e 94 48 00 	call	0x90	; 0x90 <send16>
+   send16(max7219MakePacket(cmdDIG0+6, *(i+6))); // dots!
+ 18c:	8e 81       	ldd	r24, Y+6	; 0x06
+ 18e:	90 e0       	ldi	r25, 0x00	; 0
+ 190:	97 60       	ori	r25, 0x07	; 7
+ 192:	0e 94 48 00 	call	0x90	; 0x90 <send16>
+   send16(max7219MakePacket(cmdDIG0+7, *(i+7))); // dots! 
+ 196:	8f 81       	ldd	r24, Y+7	; 0x07
+ 198:	90 e0       	ldi	r25, 0x00	; 0
+ 19a:	98 60       	ori	r25, 0x08	; 8
+}
+ 19c:	df 91       	pop	r29
+ 19e:	cf 91       	pop	r28
+   send16(max7219MakePacket(cmdDIG0+2, *(i+2))); // dots!
+   send16(max7219MakePacket(cmdDIG0+3, *(i+3))); // dots!
+   send16(max7219MakePacket(cmdDIG0+4, *(i+4))); // dots!
+   send16(max7219MakePacket(cmdDIG0+5, *(i+5))); // dots!
+   send16(max7219MakePacket(cmdDIG0+6, *(i+6))); // dots!
+   send16(max7219MakePacket(cmdDIG0+7, *(i+7))); // dots! 
+ 1a0:	0c 94 48 00 	jmp	0x90	; 0x90 <send16>
+
+000001a4 <max7219SetIntensity>:
+}
+
+void max7219SetIntensity( unsigned char v)   { send16(max7219MakePacket(cmdINT, v)); }
+ 1a4:	90 e0       	ldi	r25, 0x00	; 0
+ 1a6:	9a 60       	ori	r25, 0x0A	; 10
+ 1a8:	0c 94 48 00 	jmp	0x90	; 0x90 <send16>
+
+000001ac <max7219SetScanLimit>:
+void max7219SetScanLimit( unsigned char v)   { send16(max7219MakePacket(cmdSCAN, v)); }
+ 1ac:	90 e0       	ldi	r25, 0x00	; 0
+ 1ae:	9b 60       	ori	r25, 0x0B	; 11
+ 1b0:	0c 94 48 00 	jmp	0x90	; 0x90 <send16>
+
+000001b4 <max7219SetDecodeFlags>:
+void max7219SetDecodeFlags( unsigned char v) { send16(max7219MakePacket(cmdMODE, v)); }
+ 1b4:	90 e0       	ldi	r25, 0x00	; 0
+ 1b6:	99 60       	ori	r25, 0x09	; 9
+ 1b8:	0c 94 48 00 	jmp	0x90	; 0x90 <send16>
+
+000001bc <setupInt>:
+}
+
+
+
+void setupInt() {        
+  EICRA = (1<<ISC10) | (1<<ISC00);  // we need to set up int0 and int1 to trigger interrupts on both edges         
+ 1bc:	85 e0       	ldi	r24, 0x05	; 5
+ 1be:	80 93 69 00 	sts	0x0069, r24	; 0x800069 <__TEXT_REGION_LENGTH__+0x7f8069>
+  EIMSK = (1<<INT0) | (0<<INT1); // then enable them.
+ 1c2:	81 e0       	ldi	r24, 0x01	; 1
+ 1c4:	8d bb       	out	0x1d, r24	; 29
+ 1c6:	08 95       	ret
+
+000001c8 <__vector_1>:
+}
+ 
+
+ISR(INT0_vect){
+ 1c8:	1f 92       	push	r1
+ 1ca:	0f 92       	push	r0
+ 1cc:	0f b6       	in	r0, 0x3f	; 63
+ 1ce:	0f 92       	push	r0
+ 1d0:	11 24       	eor	r1, r1
+ 1d2:	8f 93       	push	r24
+   Flag = 1;
+ 1d4:	81 e0       	ldi	r24, 0x01	; 1
+ 1d6:	80 93 00 01 	sts	0x0100, r24	; 0x800100 <__DATA_REGION_ORIGIN__>
+}
+ 1da:	8f 91       	pop	r24
+ 1dc:	0f 90       	pop	r0
+ 1de:	0f be       	out	0x3f, r0	; 63
+ 1e0:	0f 90       	pop	r0
+ 1e2:	1f 90       	pop	r1
+ 1e4:	18 95       	reti
+
+000001e6 <Delay>:
+ 1e6:	05 c0       	rjmp	.+10     	; 0x1f2 <Delay+0xc>
+ 1e8:	00 00       	nop
+ 1ea:	61 50       	subi	r22, 0x01	; 1
+ 1ec:	71 09       	sbc	r23, r1
+ 1ee:	81 09       	sbc	r24, r1
+ 1f0:	91 09       	sbc	r25, r1
+ 1f2:	61 15       	cp	r22, r1
+ 1f4:	71 05       	cpc	r23, r1
+ 1f6:	81 05       	cpc	r24, r1
+ 1f8:	91 05       	cpc	r25, r1
+ 1fa:	b1 f7       	brne	.-20     	; 0x1e8 <Delay+0x2>
+ 1fc:	08 95       	ret
+
+000001fe <main>:
+
+
+void setupInt(void);
+
+
+int main( void ) {
+ 1fe:	cf 93       	push	r28
+ 200:	df 93       	push	r29
+ 202:	cd b7       	in	r28, 0x3d	; 61
+ 204:	de b7       	in	r29, 0x3e	; 62
+ 206:	28 97       	sbiw	r28, 0x08	; 8
+ 208:	0f b6       	in	r0, 0x3f	; 63
+ 20a:	f8 94       	cli
+ 20c:	de bf       	out	0x3e, r29	; 62
+ 20e:	0f be       	out	0x3f, r0	; 63
+ 210:	cd bf       	out	0x3d, r28	; 61
+ uint8_t penX, penY;
+ int8_t detX, detY;
+ 
+
+    // set up directions 
+  DDRB = (OUTPUT << PB0 | OUTPUT << PB1 | INPUT << PB2 | INPUT << PB3 | INPUT << PB4 |OUTPUT << PB5 | INPUT << PB6 | INPUT << PB7);
+ 212:	83 e2       	ldi	r24, 0x23	; 35
+ 214:	84 b9       	out	0x04, r24	; 4
+  DDRD = (INPUT << PD0 | INPUT << PD1 | INPUT << PD2 |OUTPUT << PD3 |OUTPUT << PD4 |OUTPUT << PD5 |OUTPUT << PD6 |INPUT << PD7);        
+ 216:	88 e7       	ldi	r24, 0x78	; 120
+ 218:	8a b9       	out	0x0a, r24	; 10
+  DDRC = (INPUT << PC0 | INPUT << PC1 | INPUT << PC2 |INPUT << PC3 |INPUT << PC4 |INPUT << PC5 |INPUT << PC6 ); 
+ 21a:	17 b8       	out	0x07, r1	; 7
+  
+  max7219Init();
+ 21c:	0e 94 69 00 	call	0xd2	; 0xd2 <max7219Init>
+}
+
+
+
+void setupInt() {        
+  EICRA = (1<<ISC10) | (1<<ISC00);  // we need to set up int0 and int1 to trigger interrupts on both edges         
+ 220:	85 e0       	ldi	r24, 0x05	; 5
+ 222:	80 93 69 00 	sts	0x0069, r24	; 0x800069 <__TEXT_REGION_LENGTH__+0x7f8069>
+  EIMSK = (1<<INT0) | (0<<INT1); // then enable them.
+ 226:	81 e0       	ldi	r24, 0x01	; 1
+ 228:	8d bb       	out	0x1d, r24	; 29
+  DDRD = (INPUT << PD0 | INPUT << PD1 | INPUT << PD2 |OUTPUT << PD3 |OUTPUT << PD4 |OUTPUT << PD5 |OUTPUT << PD6 |INPUT << PD7);        
+  DDRC = (INPUT << PC0 | INPUT << PC1 | INPUT << PC2 |INPUT << PC3 |INPUT << PC4 |INPUT << PC5 |INPUT << PC6 ); 
+  
+  max7219Init();
+  setupInt();
+  sei(); 
+ 22a:	78 94       	sei
+
+  penX = penY = 0;
+ 22c:	91 2c       	mov	r9, r1
+ 22e:	a1 2c       	mov	r10, r1
+ 230:	8e 01       	movw	r16, r28
+ 232:	07 5f       	subi	r16, 0xF7	; 247
+ 234:	1f 4f       	sbci	r17, 0xFF	; 255
+ 236:	bb 24       	eor	r11, r11
+ 238:	b3 94       	inc	r11
+
+   
+  while(1) {
+  
+  send16(max7219MakePacket(cmdINT,    0x07)); // 1/2 brightness (8/15)     
+ 23a:	67 e0       	ldi	r22, 0x07	; 7
+ 23c:	8a e0       	ldi	r24, 0x0A	; 10
+ 23e:	0e 94 64 00 	call	0xc8	; 0xc8 <max7219MakePacket>
+ 242:	0e 94 48 00 	call	0x90	; 0x90 <send16>
+  detX = detY = -1;
+  
+  
+  SetBit(6, PORTD);
+ 246:	5e 9a       	sbi	0x0b, 6	; 11
+ 248:	e1 2c       	mov	r14, r1
+ 24a:	f1 2c       	mov	r15, r1
+ 24c:	8b 2d       	mov	r24, r11
+ 24e:	0e 2c       	mov	r0, r14
+ 250:	01 c0       	rjmp	.+2      	; 0x254 <main+0x56>
+ 252:	88 0f       	add	r24, r24
+ 254:	0a 94       	dec	r0
+ 256:	ea f7       	brpl	.-6      	; 0x252 <main+0x54>
+ 258:	fe 01       	movw	r30, r28
+ 25a:	31 96       	adiw	r30, 0x01	; 1
+ 25c:	6f 01       	movw	r12, r30
+  
+   for (line = 0; line < 8; line++) {
+     for( i = 0; i<8; i++) {
+       image[i] = (0x01<<line);
+ 25e:	81 93       	st	Z+, r24
+  
+  
+  SetBit(6, PORTD);
+  
+   for (line = 0; line < 8; line++) {
+     for( i = 0; i<8; i++) {
+ 260:	0e 17       	cp	r16, r30
+ 262:	1f 07       	cpc	r17, r31
+ 264:	e1 f7       	brne	.-8      	; 0x25e <main+0x60>
+       image[i] = (0x01<<line);
+     }  
+     
+     max7219Blit( image );   
+ 266:	ce 01       	movw	r24, r28
+ 268:	01 96       	adiw	r24, 0x01	; 1
+ 26a:	0e 94 a5 00 	call	0x14a	; 0x14a <max7219Blit>
+     Delay(10);
+ 26e:	6a e0       	ldi	r22, 0x0A	; 10
+ 270:	70 e0       	ldi	r23, 0x00	; 0
+ 272:	80 e0       	ldi	r24, 0x00	; 0
+ 274:	90 e0       	ldi	r25, 0x00	; 0
+ 276:	0e 94 f3 00 	call	0x1e6	; 0x1e6 <Delay>
+     Flag = 0;
+ 27a:	10 92 00 01 	sts	0x0100, r1	; 0x800100 <__DATA_REGION_ORIGIN__>
+     Delay(100000);
+ 27e:	60 ea       	ldi	r22, 0xA0	; 160
+ 280:	76 e8       	ldi	r23, 0x86	; 134
+ 282:	81 e0       	ldi	r24, 0x01	; 1
+ 284:	90 e0       	ldi	r25, 0x00	; 0
+ 286:	0e 94 f3 00 	call	0x1e6	; 0x1e6 <Delay>
+     
+     if (Flag) {
+ 28a:	80 91 00 01 	lds	r24, 0x0100	; 0x800100 <__DATA_REGION_ORIGIN__>
+ 28e:	88 23       	and	r24, r24
+ 290:	09 f4       	brne	.+2      	; 0x294 <main+0x96>
+ 292:	53 c0       	rjmp	.+166    	; 0x33a <main+0x13c>
+       detX = line;
+ 294:	fe 01       	movw	r30, r28
+ 296:	31 96       	adiw	r30, 0x01	; 1
+      
+   }
+   
+   if (detX != -1) {
+       for( i = 0; i < 8; i++) { // clear image
+	 image[i] = 0x00;
+ 298:	11 92       	st	Z+, r1
+     }
+      
+   }
+   
+   if (detX != -1) {
+       for( i = 0; i < 8; i++) { // clear image
+ 29a:	e0 17       	cp	r30, r16
+ 29c:	f1 07       	cpc	r31, r17
+ 29e:	e1 f7       	brne	.-8      	; 0x298 <main+0x9a>
+	 image[i] = 0x00;
+       }          
+       max7219Blit( image );   
+ 2a0:	ce 01       	movw	r24, r28
+ 2a2:	01 96       	adiw	r24, 0x01	; 1
+ 2a4:	0e 94 a5 00 	call	0x14a	; 0x14a <max7219Blit>
+
+     for (row = 0; row < 8; row++) {
+ 2a8:	81 2c       	mov	r8, r1
+     Delay(10);
+     Flag = 0;
+     Delay(100000);
+     
+     if (Flag) {
+       detX = line;
+ 2aa:	fe 01       	movw	r30, r28
+ 2ac:	31 96       	adiw	r30, 0x01	; 1
+ 2ae:	90 e0       	ldi	r25, 0x00	; 0
+       }          
+       max7219Blit( image );   
+
+     for (row = 0; row < 8; row++) {
+	for( i = 0; i < 8; i++) {
+          image[i] = (i == row)?0xFF:0x00;      
+ 2b0:	81 e0       	ldi	r24, 0x01	; 1
+ 2b2:	89 12       	cpse	r8, r25
+ 2b4:	80 e0       	ldi	r24, 0x00	; 0
+ 2b6:	81 95       	neg	r24
+ 2b8:	81 93       	st	Z+, r24
+	 image[i] = 0x00;
+       }          
+       max7219Blit( image );   
+
+     for (row = 0; row < 8; row++) {
+	for( i = 0; i < 8; i++) {
+ 2ba:	9f 5f       	subi	r25, 0xFF	; 255
+ 2bc:	98 30       	cpi	r25, 0x08	; 8
+ 2be:	c1 f7       	brne	.-16     	; 0x2b0 <main+0xb2>
+          image[i] = (i == row)?0xFF:0x00;      
+	}
+	max7219Blit( image );   
+ 2c0:	ce 01       	movw	r24, r28
+ 2c2:	01 96       	adiw	r24, 0x01	; 1
+ 2c4:	0e 94 a5 00 	call	0x14a	; 0x14a <max7219Blit>
+	Delay(10);
+ 2c8:	6a e0       	ldi	r22, 0x0A	; 10
+ 2ca:	70 e0       	ldi	r23, 0x00	; 0
+ 2cc:	80 e0       	ldi	r24, 0x00	; 0
+ 2ce:	90 e0       	ldi	r25, 0x00	; 0
+ 2d0:	0e 94 f3 00 	call	0x1e6	; 0x1e6 <Delay>
+	Flag = 0;
+ 2d4:	10 92 00 01 	sts	0x0100, r1	; 0x800100 <__DATA_REGION_ORIGIN__>
+	Delay(100000);
+ 2d8:	60 ea       	ldi	r22, 0xA0	; 160
+ 2da:	76 e8       	ldi	r23, 0x86	; 134
+ 2dc:	81 e0       	ldi	r24, 0x01	; 1
+ 2de:	90 e0       	ldi	r25, 0x00	; 0
+ 2e0:	0e 94 f3 00 	call	0x1e6	; 0x1e6 <Delay>
+
+	if (Flag) {
+ 2e4:	80 91 00 01 	lds	r24, 0x0100	; 0x800100 <__DATA_REGION_ORIGIN__>
+ 2e8:	88 23       	and	r24, r24
+ 2ea:	89 f1       	breq	.+98     	; 0x34e <main+0x150>
+	}
+
+     }  
+     
+      if (detY != -1) {
+        penX = detX;
+ 2ec:	ae 2c       	mov	r10, r14
+	penY = detY;
+      }
+   }
+   
+   ClearBit(6, PORTD);
+ 2ee:	5e 98       	cbi	0x0b, 6	; 11
+   send16(max7219MakePacket(cmdINT,    0x0C)); // 1/2 brightness (8/15)     
+ 2f0:	6c e0       	ldi	r22, 0x0C	; 12
+ 2f2:	8a e0       	ldi	r24, 0x0A	; 10
+ 2f4:	0e 94 64 00 	call	0xc8	; 0xc8 <max7219MakePacket>
+ 2f8:	0e 94 48 00 	call	0x90	; 0x90 <send16>
+     for( i = 0; i < 8; i++) { // clear image
+       image[i] = 0x00;
+ 2fc:	f6 01       	movw	r30, r12
+ 2fe:	11 92       	st	Z+, r1
+ 300:	6f 01       	movw	r12, r30
+      }
+   }
+   
+   ClearBit(6, PORTD);
+   send16(max7219MakePacket(cmdINT,    0x0C)); // 1/2 brightness (8/15)     
+     for( i = 0; i < 8; i++) { // clear image
+ 302:	0e 17       	cp	r16, r30
+ 304:	1f 07       	cpc	r17, r31
+ 306:	d1 f7       	brne	.-12     	; 0x2fc <main+0xfe>
+       image[i] = 0x00;
+     }
+     
+     image[penY] = (1<<penX);
+ 308:	e1 e0       	ldi	r30, 0x01	; 1
+ 30a:	f0 e0       	ldi	r31, 0x00	; 0
+ 30c:	ec 0f       	add	r30, r28
+ 30e:	fd 1f       	adc	r31, r29
+ 310:	e8 0d       	add	r30, r8
+ 312:	f1 1d       	adc	r31, r1
+ 314:	8b 2d       	mov	r24, r11
+ 316:	0a 2c       	mov	r0, r10
+ 318:	01 c0       	rjmp	.+2      	; 0x31c <main+0x11e>
+ 31a:	88 0f       	add	r24, r24
+ 31c:	0a 94       	dec	r0
+ 31e:	ea f7       	brpl	.-6      	; 0x31a <main+0x11c>
+ 320:	80 83       	st	Z, r24
+     
+     max7219Blit( image );   
+ 322:	ce 01       	movw	r24, r28
+ 324:	01 96       	adiw	r24, 0x01	; 1
+ 326:	0e 94 a5 00 	call	0x14a	; 0x14a <max7219Blit>
+     
+     Delay(2400000);    
+ 32a:	60 e0       	ldi	r22, 0x00	; 0
+ 32c:	7f e9       	ldi	r23, 0x9F	; 159
+ 32e:	84 e2       	ldi	r24, 0x24	; 36
+ 330:	90 e0       	ldi	r25, 0x00	; 0
+ 332:	0e 94 f3 00 	call	0x1e6	; 0x1e6 <Delay>
+   
+  }
+ 336:	98 2c       	mov	r9, r8
+ 338:	80 cf       	rjmp	.-256    	; 0x23a <main+0x3c>
+ 33a:	2f ef       	ldi	r18, 0xFF	; 255
+ 33c:	e2 1a       	sub	r14, r18
+ 33e:	f2 0a       	sbc	r15, r18
+  detX = detY = -1;
+  
+  
+  SetBit(6, PORTD);
+  
+   for (line = 0; line < 8; line++) {
+ 340:	38 e0       	ldi	r19, 0x08	; 8
+ 342:	e3 16       	cp	r14, r19
+ 344:	f1 04       	cpc	r15, r1
+ 346:	09 f0       	breq	.+2      	; 0x34a <main+0x14c>
+ 348:	81 cf       	rjmp	.-254    	; 0x24c <main+0x4e>
+ 34a:	89 2c       	mov	r8, r9
+ 34c:	d0 cf       	rjmp	.-96     	; 0x2ee <main+0xf0>
+       for( i = 0; i < 8; i++) { // clear image
+	 image[i] = 0x00;
+       }          
+       max7219Blit( image );   
+
+     for (row = 0; row < 8; row++) {
+ 34e:	83 94       	inc	r8
+ 350:	f8 e0       	ldi	r31, 0x08	; 8
+ 352:	8f 12       	cpse	r8, r31
+ 354:	aa cf       	rjmp	.-172    	; 0x2aa <main+0xac>
+ 356:	f9 cf       	rjmp	.-14     	; 0x34a <main+0x14c>
+
+00000358 <_exit>:
+ 358:	f8 94       	cli
+
+0000035a <__stop_program>:
+ 35a:	ff cf       	rjmp	.-2      	; 0x35a <__stop_program>
