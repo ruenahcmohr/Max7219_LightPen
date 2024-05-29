@@ -137,7 +137,7 @@ int main( void ) {
      max7219Blit( image );   
      Delay(2000); // this is a 'finish scanning and accept new data' delay
      Flag = 0;
-     Delay(360000); // <---------- change this delay down to about 3000 min. for high speed scanning.
+     Delay(3000); // <---------- change this delay down to about 3000 min. for high speed scanning.
     }
   }
     
@@ -169,7 +169,7 @@ int main( void ) {
 	max7219Blit( image );   
 	Delay(2000);
 	Flag = 0;
-	Delay(360000);// <---------- change this delay down to about 3000 min. for high speed scanning.
+	Delay(3000);// <---------- change this delay down to about 3000 min. for high speed scanning.
        }
 
     }
