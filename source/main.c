@@ -44,34 +44,6 @@ A7  adc7
 #include "avrcommon.h"
 #include "nopDelay.h"
 
-/*
-try success fail
-----------------
-0F     03    F0
-F0     30    xx
-
-03     01    0C
-01     yy    02
-02     yy    xx
-
-0C     04    xx
-04     yy    08
-08     yy    xx
-
-
-30     10    C0
-10     yy    20
-20     yy    xx
-
-C0     40    xx
-40     yy    80
-80     yy    xx
-
-This was all silly, I should have just used alternating bits that are AND'd togethor.
-I'll try again later.
-
-*/
-
 
 volatile uint8_t Flag;
 
@@ -84,7 +56,7 @@ int main( void ) {
  uint8_t image[8];
 
  uint8_t line, row;
- uint8_t i;
+ uint8_t i, x, y, c;
  
  uint8_t penX, penY;
  int8_t detX, detY;
@@ -109,79 +81,48 @@ int main( void ) {
   detX = detY = -1;
   
   
-  SetBit(6, PORTD);
- 
-  step = 0x00; 
-  while(step < 0xFE) {    
-    switch(step) { // sorry, Rue is state machine.      
-      case 0x0F: step = Flag?0x03:0xF0; break;      
-      case 0xF0: step = Flag?0x30:0xFF; break;
-      case 0x03: step = Flag?0x01:0x0C; break;
-      case 0x01: step = Flag?0xFE:0x02; detX = Flag?0:detX ; break;
-      case 0x02: step = Flag?0xFE:0xFF; detX = Flag?1:detX; break;
-      case 0x0C: step = Flag?0x04:0xFF; break;
-      case 0x04: step = Flag?0xFE:0x08; detX = Flag?2:detX; break;
-      case 0x08: step = Flag?0xFE:0xFF; detX = Flag?3:detX; break;
-      case 0x30: step = Flag?0x10:0xC0; break;
-      case 0x10: step = Flag?0xFE:0x20; detX = Flag?4:detX; break;
-      case 0x20: step = Flag?0xFE:0xFF; detX = Flag?5:detX; break;
-      case 0xC0: step = Flag?0x40:0xFF; break;
-      case 0x40: step = Flag?0xFE:0x80; detX = Flag?6:detX; break;
-      case 0x80: step = Flag?0xFE:0xFF; detX = Flag?7:detX; break;
-      default:   step = 0x0F;           break;        
-    }
-    if (step < 0xFE) {
-     for( i = 0; i<8; i++) {
-       image[i] = step;
-     } 
-     max7219Blit( image );   
-     Delay(2000); // this is a 'finish scanning and accept new data' delay
-     Flag = 0;
-     Delay(360000); // <---------- change this delay down to about 3000 min. for high speed scanning.
-    }
-  }
-    
-   if (detX != -1) {
-   
-     step = 0x00; 
-     while(step < 0xFE) {    
-       switch(step) { // sorry, Rue is state machine.      
-	 case 0x0F: step = Flag?0x03:0xF0; break;      
-	 case 0xF0: step = Flag?0x30:0xFF; break;
-	 case 0x03: step = Flag?0x01:0x0C; break;
-	 case 0x01: step = Flag?0xFE:0x02; detY = Flag?0:detY ; break;
-	 case 0x02: step = Flag?0xFE:0xFF; detY = Flag?1:detY; break;
-	 case 0x0C: step = Flag?0x04:0xFF; break;
-	 case 0x04: step = Flag?0xFE:0x08; detY = Flag?2:detY; break;
-	 case 0x08: step = Flag?0xFE:0xFF; detY = Flag?3:detY; break;
-	 case 0x30: step = Flag?0x10:0xC0; break;
-	 case 0x10: step = Flag?0xFE:0x20; detY = Flag?4:detY; break;
-	 case 0x20: step = Flag?0xFE:0xFF; detY = Flag?5:detY; break;
-	 case 0xC0: step = Flag?0x40:0xFF; break;
-	 case 0x40: step = Flag?0xFE:0x80; detY = Flag?6:detY; break;
-	 case 0x80: step = Flag?0xFE:0xFF; detY = Flag?7:detY; break;
-	 default:   step = 0x0F;           break;        
-       }
-       if (step < 0xFE) {
-	for( i = 0; i < 8; i++ ) {
-	  image[i] = (step&(1<<i))?0xFF:0x00;
+  
+  
+  SetBit(6, PORTD);// started scan
+  
+  for( i = 0; i < 8; i++) image[i] = 0xFF; // set all leds, to search for ANY pixel.
+  max7219Blit( image );   
+  Delay(800); // this is a 'finish scanning and accept new data' delay
+  Flag = 0;
+  Delay(4000);
+  
+  if (Flag) { // I saws a pixel!
+  
+    detX = 0;
+    for(step = 32; step != 0; step >>= 1 ) {
+      c = step;
+      i = 1;
+      for( y = 0; y < 8; y++ ) {
+	image[y] = 0x00;
+	for(x = 0; x < 8; x++ ) {
+          c--;
+          image[y] |= (i<<x);
+	  i = (c==0)?0x01-i:i;
+	  c = (c==0)?step:c;
 	} 
-	max7219Blit( image );   
-	Delay(2000);
-	Flag = 0;
-	Delay(360000);// <---------- change this delay down to about 3000 min. for high speed scanning.
-       }
-
-    }
-    
-    if (detY != -1) { // accept the position if we got an X and Y
-        penX = detX;
-        penY = detY;
-    }
+      } 
+      max7219Blit( image );   
+      Delay(800); // this is a 'finish scanning and accept new data' delay
+      Flag = 0;
+      Delay(4000);
+      detX = Flag?(detX|step):detX;
+    }    
+  
+    // Then process the resulting pixel number a bit.
+    penY = 7-(detX >> 3);
+    penX = 7-(detX & 0x07);
+  
+  }   
+  ClearBit(6, PORTD); // scan done.
    
-  }
    
-   ClearBit(6, PORTD);
+   
+   
    send16(max7219MakePacket(cmdINT,    0x0C)); // 1/2 brightness (C/15)     
      for( i = 0; i < 8; i++) { // clear image
        image[i] = 0x00;
@@ -191,7 +132,7 @@ int main( void ) {
      
      max7219Blit( image );   
      
-     Delay(800000);   //<--- this is the amount of time to show the detected location before searching again.
+     Delay(16000);   //<--- this is the amount of time to show the detected location before searching again.
    
   }
 

@@ -3,34 +3,34 @@ main.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .data         00000000  00800100  00000720  000007b4  2**0
+  0 .data         00000000  00800100  00000370  00000404  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  1 .text         00000720  00000000  00000000  00000094  2**1
+  1 .text         00000370  00000000  00000000  00000094  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  2 .bss          00000001  00800100  00800100  000007b4  2**0
+  2 .bss          00000001  00800100  00800100  00000404  2**0
                   ALLOC
-  3 .stab         00001458  00000000  00000000  000007b4  2**2
+  3 .stab         0000123c  00000000  00000000  00000404  2**2
                   CONTENTS, READONLY, DEBUGGING
-  4 .stabstr      00000f67  00000000  00000000  00001c0c  2**0
+  4 .stabstr      00000f6e  00000000  00000000  00001640  2**0
                   CONTENTS, READONLY, DEBUGGING
-  5 .comment      00000011  00000000  00000000  00002b73  2**0
+  5 .comment      00000011  00000000  00000000  000025ae  2**0
                   CONTENTS, READONLY
-  6 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  00002b84  2**2
+  6 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  000025c0  2**2
                   CONTENTS, READONLY
-  7 .debug_info   000005f4  00000000  00000000  00002bc0  2**0
+  7 .debug_info   000005f4  00000000  00000000  000025fc  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_abbrev 000005a2  00000000  00000000  000031b4  2**0
+  8 .debug_abbrev 000005a2  00000000  00000000  00002bf0  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_line   0000001a  00000000  00000000  00003756  2**0
+  9 .debug_line   0000001a  00000000  00000000  00003192  2**0
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_str    00000208  00000000  00000000  00003770  2**0
+ 10 .debug_str    00000208  00000000  00000000  000031ac  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
 
 00000000 <__vectors>:
    0:	0c 94 34 00 	jmp	0x68	; 0x68 <__ctors_end>
-   4:	0c 94 4e 00 	jmp	0x9c	; 0x9c <__vector_1>
+   4:	0c 94 e4 00 	jmp	0x1c8	; 0x1c8 <__vector_1>
    8:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
    c:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
   10:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
@@ -78,264 +78,264 @@ Disassembly of section .text:
   80:	b2 07       	cpc	r27, r18
   82:	e1 f7       	brne	.-8      	; 0x7c <.do_clear_bss_loop>
   84:	0e 94 ff 00 	call	0x1fe	; 0x1fe <main>
-  88:	0c 94 8e 03 	jmp	0x71c	; 0x71c <_exit>
+  88:	0c 94 b6 01 	jmp	0x36c	; 0x36c <_exit>
 
 0000008c <__bad_interrupt>:
   8c:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
 
-00000090 <setupInt>:
-}
-
-
-
-void setupInt() {        
-  EICRA = (1<<ISC10) | (1<<ISC00);  // we need to set up int0 and int1 to trigger interrupts on both edges         
-  90:	85 e0       	ldi	r24, 0x05	; 5
-  92:	80 93 69 00 	sts	0x0069, r24	; 0x800069 <__TEXT_REGION_LENGTH__+0x7f8069>
-  EIMSK = (1<<INT0) | (0<<INT1); // then enable them.
-  96:	81 e0       	ldi	r24, 0x01	; 1
-  98:	8d bb       	out	0x1d, r24	; 29
-  9a:	08 95       	ret
-
-0000009c <__vector_1>:
-}
- 
-
-ISR(INT0_vect){
-  9c:	1f 92       	push	r1
-  9e:	0f 92       	push	r0
-  a0:	0f b6       	in	r0, 0x3f	; 63
-  a2:	0f 92       	push	r0
-  a4:	11 24       	eor	r1, r1
-  a6:	8f 93       	push	r24
-   Flag = 1;
-  a8:	81 e0       	ldi	r24, 0x01	; 1
-  aa:	80 93 00 01 	sts	0x0100, r24	; 0x800100 <__DATA_REGION_ORIGIN__>
-}
-  ae:	8f 91       	pop	r24
-  b0:	0f 90       	pop	r0
-  b2:	0f be       	out	0x3f, r0	; 63
-  b4:	0f 90       	pop	r0
-  b6:	1f 90       	pop	r1
-  b8:	18 95       	reti
-
-000000ba <send16>:
+00000090 <send16>:
 
 
 // send a 16bit word, msb first
 void send16 (unsigned int bits) {
   unsigned int temp;  
   CSlow();
-  ba:	5d 98       	cbi	0x0b, 5	; 11
-  bc:	40 e1       	ldi	r20, 0x10	; 16
-  be:	50 e0       	ldi	r21, 0x00	; 0
+  90:	5d 98       	cbi	0x0b, 5	; 11
+  92:	40 e1       	ldi	r20, 0x10	; 16
+  94:	50 e0       	ldi	r21, 0x00	; 0
   for( temp = (0x0001<<15); temp != 0; temp >>= 1) {    
-  c0:	20 e0       	ldi	r18, 0x00	; 0
-  c2:	30 e8       	ldi	r19, 0x80	; 128
-  c4:	0d c0       	rjmp	.+26     	; 0xe0 <send16+0x26>
+  96:	20 e0       	ldi	r18, 0x00	; 0
+  98:	30 e8       	ldi	r19, 0x80	; 128
+  9a:	0d c0       	rjmp	.+26     	; 0xb6 <send16+0x26>
     if ( (bits & temp) != 0 ) {    SendOne();
-  c6:	5b 9a       	sbi	0x0b, 3	; 11
+  9c:	5b 9a       	sbi	0x0b, 3	; 11
     } else {                       SendZero();
-  c8:	5c 98       	cbi	0x0b, 4	; 11
-  ca:	00 00       	nop
-  cc:	00 00       	nop
-  ce:	5c 9a       	sbi	0x0b, 4	; 11
-  d0:	00 00       	nop
+  9e:	5c 98       	cbi	0x0b, 4	; 11
+  a0:	00 00       	nop
+  a2:	00 00       	nop
+  a4:	5c 9a       	sbi	0x0b, 4	; 11
+  a6:	00 00       	nop
     }    
    NOP();
-  d2:	00 00       	nop
+  a8:	00 00       	nop
    NOP();
-  d4:	00 00       	nop
+  aa:	00 00       	nop
 
 // send a 16bit word, msb first
 void send16 (unsigned int bits) {
   unsigned int temp;  
   CSlow();
   for( temp = (0x0001<<15); temp != 0; temp >>= 1) {    
-  d6:	36 95       	lsr	r19
-  d8:	27 95       	ror	r18
-  da:	41 50       	subi	r20, 0x01	; 1
-  dc:	51 09       	sbc	r21, r1
-  de:	39 f0       	breq	.+14     	; 0xee <send16+0x34>
+  ac:	36 95       	lsr	r19
+  ae:	27 95       	ror	r18
+  b0:	41 50       	subi	r20, 0x01	; 1
+  b2:	51 09       	sbc	r21, r1
+  b4:	39 f0       	breq	.+14     	; 0xc4 <send16+0x34>
     if ( (bits & temp) != 0 ) {    SendOne();
-  e0:	bc 01       	movw	r22, r24
-  e2:	62 23       	and	r22, r18
-  e4:	73 23       	and	r23, r19
-  e6:	67 2b       	or	r22, r23
-  e8:	71 f7       	brne	.-36     	; 0xc6 <send16+0xc>
+  b6:	bc 01       	movw	r22, r24
+  b8:	62 23       	and	r22, r18
+  ba:	73 23       	and	r23, r19
+  bc:	67 2b       	or	r22, r23
+  be:	71 f7       	brne	.-36     	; 0x9c <send16+0xc>
     } else {                       SendZero();
-  ea:	5b 98       	cbi	0x0b, 3	; 11
-  ec:	ed cf       	rjmp	.-38     	; 0xc8 <send16+0xe>
+  c0:	5b 98       	cbi	0x0b, 3	; 11
+  c2:	ed cf       	rjmp	.-38     	; 0x9e <send16+0xe>
     }    
    NOP();
    NOP();
   } 
   CShigh();
-  ee:	5d 9a       	sbi	0x0b, 5	; 11
-  f0:	08 95       	ret
+  c4:	5d 9a       	sbi	0x0b, 5	; 11
+  c6:	08 95       	ret
 
-000000f2 <max7219MakePacket>:
+000000c8 <max7219MakePacket>:
 }
 
 unsigned int max7219MakePacket(unsigned char cmd, unsigned char value) {
   return ( (cmd<<8) | (value));
-  f2:	70 e0       	ldi	r23, 0x00	; 0
+  c8:	70 e0       	ldi	r23, 0x00	; 0
 }
-  f4:	9b 01       	movw	r18, r22
-  f6:	38 2b       	or	r19, r24
-  f8:	c9 01       	movw	r24, r18
-  fa:	08 95       	ret
+  ca:	9b 01       	movw	r18, r22
+  cc:	38 2b       	or	r19, r24
+  ce:	c9 01       	movw	r24, r18
+  d0:	08 95       	ret
 
-000000fc <max7219Init>:
+000000d2 <max7219Init>:
 
 
 void max7219Init( ) { 
    send16(max7219MakePacket(cmdPOWER,  0x01));   // wakeup
-  fc:	81 e0       	ldi	r24, 0x01	; 1
-  fe:	9c e0       	ldi	r25, 0x0C	; 12
- 100:	0e 94 5d 00 	call	0xba	; 0xba <send16>
+  d2:	81 e0       	ldi	r24, 0x01	; 1
+  d4:	9c e0       	ldi	r25, 0x0C	; 12
+  d6:	0e 94 48 00 	call	0x90	; 0x90 <send16>
    send16(max7219MakePacket(cmdTEST,   0x00));   // no test mode   
- 104:	80 e0       	ldi	r24, 0x00	; 0
- 106:	9d e0       	ldi	r25, 0x0D	; 13
- 108:	0e 94 5d 00 	call	0xba	; 0xba <send16>
+  da:	80 e0       	ldi	r24, 0x00	; 0
+  dc:	9d e0       	ldi	r25, 0x0D	; 13
+  de:	0e 94 48 00 	call	0x90	; 0x90 <send16>
    send16(max7219MakePacket(cmdINT,    0x07)); // 1/2 brightness (8/15)     
- 10c:	87 e0       	ldi	r24, 0x07	; 7
- 10e:	9a e0       	ldi	r25, 0x0A	; 10
- 110:	0e 94 5d 00 	call	0xba	; 0xba <send16>
+  e2:	87 e0       	ldi	r24, 0x07	; 7
+  e4:	9a e0       	ldi	r25, 0x0A	; 10
+  e6:	0e 94 48 00 	call	0x90	; 0x90 <send16>
    send16(max7219MakePacket(cmdSCAN,   0xFF)); // all digits
- 114:	8f ef       	ldi	r24, 0xFF	; 255
- 116:	9b e0       	ldi	r25, 0x0B	; 11
- 118:	0e 94 5d 00 	call	0xba	; 0xba <send16>
+  ea:	8f ef       	ldi	r24, 0xFF	; 255
+  ec:	9b e0       	ldi	r25, 0x0B	; 11
+  ee:	0e 94 48 00 	call	0x90	; 0x90 <send16>
    send16(max7219MakePacket(cmdMODE,   0x00)); // no decode
- 11c:	80 e0       	ldi	r24, 0x00	; 0
- 11e:	99 e0       	ldi	r25, 0x09	; 9
- 120:	0e 94 5d 00 	call	0xba	; 0xba <send16>
+  f2:	80 e0       	ldi	r24, 0x00	; 0
+  f4:	99 e0       	ldi	r25, 0x09	; 9
+  f6:	0e 94 48 00 	call	0x90	; 0x90 <send16>
   // send16(max7219MakePacket(cmdMODE,   0xFF));  // all decode
   
    send16(max7219MakePacket(cmdDIG0+0, 0x00)); // dots!
- 124:	80 e0       	ldi	r24, 0x00	; 0
- 126:	91 e0       	ldi	r25, 0x01	; 1
- 128:	0e 94 5d 00 	call	0xba	; 0xba <send16>
+  fa:	80 e0       	ldi	r24, 0x00	; 0
+  fc:	91 e0       	ldi	r25, 0x01	; 1
+  fe:	0e 94 48 00 	call	0x90	; 0x90 <send16>
    send16(max7219MakePacket(cmdDIG0+1, 0x00)); // dots!
- 12c:	80 e0       	ldi	r24, 0x00	; 0
- 12e:	92 e0       	ldi	r25, 0x02	; 2
- 130:	0e 94 5d 00 	call	0xba	; 0xba <send16>
+ 102:	80 e0       	ldi	r24, 0x00	; 0
+ 104:	92 e0       	ldi	r25, 0x02	; 2
+ 106:	0e 94 48 00 	call	0x90	; 0x90 <send16>
    send16(max7219MakePacket(cmdDIG0+2, 0x00)); // dots!
- 134:	80 e0       	ldi	r24, 0x00	; 0
- 136:	93 e0       	ldi	r25, 0x03	; 3
- 138:	0e 94 5d 00 	call	0xba	; 0xba <send16>
+ 10a:	80 e0       	ldi	r24, 0x00	; 0
+ 10c:	93 e0       	ldi	r25, 0x03	; 3
+ 10e:	0e 94 48 00 	call	0x90	; 0x90 <send16>
    send16(max7219MakePacket(cmdDIG0+3, 0x00)); // dots!
- 13c:	80 e0       	ldi	r24, 0x00	; 0
- 13e:	94 e0       	ldi	r25, 0x04	; 4
- 140:	0e 94 5d 00 	call	0xba	; 0xba <send16>
+ 112:	80 e0       	ldi	r24, 0x00	; 0
+ 114:	94 e0       	ldi	r25, 0x04	; 4
+ 116:	0e 94 48 00 	call	0x90	; 0x90 <send16>
    send16(max7219MakePacket(cmdDIG0+4, 0xFF)); // dots!
- 144:	8f ef       	ldi	r24, 0xFF	; 255
- 146:	95 e0       	ldi	r25, 0x05	; 5
- 148:	0e 94 5d 00 	call	0xba	; 0xba <send16>
+ 11a:	8f ef       	ldi	r24, 0xFF	; 255
+ 11c:	95 e0       	ldi	r25, 0x05	; 5
+ 11e:	0e 94 48 00 	call	0x90	; 0x90 <send16>
    send16(max7219MakePacket(cmdDIG0+5, 0xFF)); // dots!
- 14c:	8f ef       	ldi	r24, 0xFF	; 255
- 14e:	96 e0       	ldi	r25, 0x06	; 6
- 150:	0e 94 5d 00 	call	0xba	; 0xba <send16>
+ 122:	8f ef       	ldi	r24, 0xFF	; 255
+ 124:	96 e0       	ldi	r25, 0x06	; 6
+ 126:	0e 94 48 00 	call	0x90	; 0x90 <send16>
    send16(max7219MakePacket(cmdDIG0+6, 0xFF)); // dots!
- 154:	8f ef       	ldi	r24, 0xFF	; 255
- 156:	97 e0       	ldi	r25, 0x07	; 7
- 158:	0e 94 5d 00 	call	0xba	; 0xba <send16>
+ 12a:	8f ef       	ldi	r24, 0xFF	; 255
+ 12c:	97 e0       	ldi	r25, 0x07	; 7
+ 12e:	0e 94 48 00 	call	0x90	; 0x90 <send16>
    send16(max7219MakePacket(cmdDIG0+7, 0xFF)); // dots! 
- 15c:	8f ef       	ldi	r24, 0xFF	; 255
- 15e:	98 e0       	ldi	r25, 0x08	; 8
- 160:	0c 94 5d 00 	jmp	0xba	; 0xba <send16>
+ 132:	8f ef       	ldi	r24, 0xFF	; 255
+ 134:	98 e0       	ldi	r25, 0x08	; 8
+ 136:	0c 94 48 00 	jmp	0x90	; 0x90 <send16>
 
-00000164 <max7219SetDisplay>:
+0000013a <max7219SetDisplay>:
     
 }
 
 void max7219SetDisplay( unsigned char digit, unsigned char v)   { 
    digit &= 0x07;
    send16(max7219MakePacket(cmdDIG0+digit, v));       
- 164:	87 70       	andi	r24, 0x07	; 7
- 166:	21 e0       	ldi	r18, 0x01	; 1
- 168:	28 0f       	add	r18, r24
- 16a:	86 2f       	mov	r24, r22
- 16c:	90 e0       	ldi	r25, 0x00	; 0
- 16e:	92 2b       	or	r25, r18
- 170:	0c 94 5d 00 	jmp	0xba	; 0xba <send16>
+ 13a:	87 70       	andi	r24, 0x07	; 7
+ 13c:	21 e0       	ldi	r18, 0x01	; 1
+ 13e:	28 0f       	add	r18, r24
+ 140:	86 2f       	mov	r24, r22
+ 142:	90 e0       	ldi	r25, 0x00	; 0
+ 144:	92 2b       	or	r25, r18
+ 146:	0c 94 48 00 	jmp	0x90	; 0x90 <send16>
 
-00000174 <max7219Blit>:
+0000014a <max7219Blit>:
 }
 
 void max7219Blit( uint8_t *i) {
- 174:	cf 93       	push	r28
- 176:	df 93       	push	r29
- 178:	ec 01       	movw	r28, r24
+ 14a:	cf 93       	push	r28
+ 14c:	df 93       	push	r29
+ 14e:	ec 01       	movw	r28, r24
    send16(max7219MakePacket(cmdDIG0+0, *(i+0))); // dots!
- 17a:	88 81       	ld	r24, Y
- 17c:	90 e0       	ldi	r25, 0x00	; 0
- 17e:	91 60       	ori	r25, 0x01	; 1
- 180:	0e 94 5d 00 	call	0xba	; 0xba <send16>
+ 150:	88 81       	ld	r24, Y
+ 152:	90 e0       	ldi	r25, 0x00	; 0
+ 154:	91 60       	ori	r25, 0x01	; 1
+ 156:	0e 94 48 00 	call	0x90	; 0x90 <send16>
    send16(max7219MakePacket(cmdDIG0+1, *(i+1))); // dots!
- 184:	89 81       	ldd	r24, Y+1	; 0x01
- 186:	90 e0       	ldi	r25, 0x00	; 0
- 188:	92 60       	ori	r25, 0x02	; 2
- 18a:	0e 94 5d 00 	call	0xba	; 0xba <send16>
+ 15a:	89 81       	ldd	r24, Y+1	; 0x01
+ 15c:	90 e0       	ldi	r25, 0x00	; 0
+ 15e:	92 60       	ori	r25, 0x02	; 2
+ 160:	0e 94 48 00 	call	0x90	; 0x90 <send16>
    send16(max7219MakePacket(cmdDIG0+2, *(i+2))); // dots!
- 18e:	8a 81       	ldd	r24, Y+2	; 0x02
- 190:	90 e0       	ldi	r25, 0x00	; 0
- 192:	93 60       	ori	r25, 0x03	; 3
- 194:	0e 94 5d 00 	call	0xba	; 0xba <send16>
+ 164:	8a 81       	ldd	r24, Y+2	; 0x02
+ 166:	90 e0       	ldi	r25, 0x00	; 0
+ 168:	93 60       	ori	r25, 0x03	; 3
+ 16a:	0e 94 48 00 	call	0x90	; 0x90 <send16>
    send16(max7219MakePacket(cmdDIG0+3, *(i+3))); // dots!
- 198:	8b 81       	ldd	r24, Y+3	; 0x03
- 19a:	90 e0       	ldi	r25, 0x00	; 0
- 19c:	94 60       	ori	r25, 0x04	; 4
- 19e:	0e 94 5d 00 	call	0xba	; 0xba <send16>
+ 16e:	8b 81       	ldd	r24, Y+3	; 0x03
+ 170:	90 e0       	ldi	r25, 0x00	; 0
+ 172:	94 60       	ori	r25, 0x04	; 4
+ 174:	0e 94 48 00 	call	0x90	; 0x90 <send16>
    send16(max7219MakePacket(cmdDIG0+4, *(i+4))); // dots!
- 1a2:	8c 81       	ldd	r24, Y+4	; 0x04
- 1a4:	90 e0       	ldi	r25, 0x00	; 0
- 1a6:	95 60       	ori	r25, 0x05	; 5
- 1a8:	0e 94 5d 00 	call	0xba	; 0xba <send16>
+ 178:	8c 81       	ldd	r24, Y+4	; 0x04
+ 17a:	90 e0       	ldi	r25, 0x00	; 0
+ 17c:	95 60       	ori	r25, 0x05	; 5
+ 17e:	0e 94 48 00 	call	0x90	; 0x90 <send16>
    send16(max7219MakePacket(cmdDIG0+5, *(i+5))); // dots!
- 1ac:	8d 81       	ldd	r24, Y+5	; 0x05
- 1ae:	90 e0       	ldi	r25, 0x00	; 0
- 1b0:	96 60       	ori	r25, 0x06	; 6
- 1b2:	0e 94 5d 00 	call	0xba	; 0xba <send16>
+ 182:	8d 81       	ldd	r24, Y+5	; 0x05
+ 184:	90 e0       	ldi	r25, 0x00	; 0
+ 186:	96 60       	ori	r25, 0x06	; 6
+ 188:	0e 94 48 00 	call	0x90	; 0x90 <send16>
    send16(max7219MakePacket(cmdDIG0+6, *(i+6))); // dots!
- 1b6:	8e 81       	ldd	r24, Y+6	; 0x06
- 1b8:	90 e0       	ldi	r25, 0x00	; 0
- 1ba:	97 60       	ori	r25, 0x07	; 7
- 1bc:	0e 94 5d 00 	call	0xba	; 0xba <send16>
+ 18c:	8e 81       	ldd	r24, Y+6	; 0x06
+ 18e:	90 e0       	ldi	r25, 0x00	; 0
+ 190:	97 60       	ori	r25, 0x07	; 7
+ 192:	0e 94 48 00 	call	0x90	; 0x90 <send16>
    send16(max7219MakePacket(cmdDIG0+7, *(i+7))); // dots! 
- 1c0:	8f 81       	ldd	r24, Y+7	; 0x07
- 1c2:	90 e0       	ldi	r25, 0x00	; 0
- 1c4:	98 60       	ori	r25, 0x08	; 8
+ 196:	8f 81       	ldd	r24, Y+7	; 0x07
+ 198:	90 e0       	ldi	r25, 0x00	; 0
+ 19a:	98 60       	ori	r25, 0x08	; 8
 }
- 1c6:	df 91       	pop	r29
- 1c8:	cf 91       	pop	r28
+ 19c:	df 91       	pop	r29
+ 19e:	cf 91       	pop	r28
    send16(max7219MakePacket(cmdDIG0+2, *(i+2))); // dots!
    send16(max7219MakePacket(cmdDIG0+3, *(i+3))); // dots!
    send16(max7219MakePacket(cmdDIG0+4, *(i+4))); // dots!
    send16(max7219MakePacket(cmdDIG0+5, *(i+5))); // dots!
    send16(max7219MakePacket(cmdDIG0+6, *(i+6))); // dots!
    send16(max7219MakePacket(cmdDIG0+7, *(i+7))); // dots! 
- 1ca:	0c 94 5d 00 	jmp	0xba	; 0xba <send16>
+ 1a0:	0c 94 48 00 	jmp	0x90	; 0x90 <send16>
 
-000001ce <max7219SetIntensity>:
+000001a4 <max7219SetIntensity>:
 }
 
 void max7219SetIntensity( unsigned char v)   { send16(max7219MakePacket(cmdINT, v)); }
- 1ce:	90 e0       	ldi	r25, 0x00	; 0
- 1d0:	9a 60       	ori	r25, 0x0A	; 10
- 1d2:	0c 94 5d 00 	jmp	0xba	; 0xba <send16>
+ 1a4:	90 e0       	ldi	r25, 0x00	; 0
+ 1a6:	9a 60       	ori	r25, 0x0A	; 10
+ 1a8:	0c 94 48 00 	jmp	0x90	; 0x90 <send16>
 
-000001d6 <max7219SetScanLimit>:
+000001ac <max7219SetScanLimit>:
 void max7219SetScanLimit( unsigned char v)   { send16(max7219MakePacket(cmdSCAN, v)); }
- 1d6:	90 e0       	ldi	r25, 0x00	; 0
- 1d8:	9b 60       	ori	r25, 0x0B	; 11
- 1da:	0c 94 5d 00 	jmp	0xba	; 0xba <send16>
+ 1ac:	90 e0       	ldi	r25, 0x00	; 0
+ 1ae:	9b 60       	ori	r25, 0x0B	; 11
+ 1b0:	0c 94 48 00 	jmp	0x90	; 0x90 <send16>
 
-000001de <max7219SetDecodeFlags>:
+000001b4 <max7219SetDecodeFlags>:
 void max7219SetDecodeFlags( unsigned char v) { send16(max7219MakePacket(cmdMODE, v)); }
- 1de:	90 e0       	ldi	r25, 0x00	; 0
- 1e0:	99 60       	ori	r25, 0x09	; 9
- 1e2:	0c 94 5d 00 	jmp	0xba	; 0xba <send16>
+ 1b4:	90 e0       	ldi	r25, 0x00	; 0
+ 1b6:	99 60       	ori	r25, 0x09	; 9
+ 1b8:	0c 94 48 00 	jmp	0x90	; 0x90 <send16>
+
+000001bc <setupInt>:
+}
+
+
+
+void setupInt() {        
+  EICRA = (1<<ISC10) | (1<<ISC00);  // we need to set up int0 and int1 to trigger interrupts on both edges         
+ 1bc:	85 e0       	ldi	r24, 0x05	; 5
+ 1be:	80 93 69 00 	sts	0x0069, r24	; 0x800069 <__TEXT_REGION_LENGTH__+0x7f8069>
+  EIMSK = (1<<INT0) | (0<<INT1); // then enable them.
+ 1c2:	81 e0       	ldi	r24, 0x01	; 1
+ 1c4:	8d bb       	out	0x1d, r24	; 29
+ 1c6:	08 95       	ret
+
+000001c8 <__vector_1>:
+}
+ 
+
+ISR(INT0_vect){ // the scanning produces brief pulses, we just need to know if it saw one since we last cleared the flag.
+ 1c8:	1f 92       	push	r1
+ 1ca:	0f 92       	push	r0
+ 1cc:	0f b6       	in	r0, 0x3f	; 63
+ 1ce:	0f 92       	push	r0
+ 1d0:	11 24       	eor	r1, r1
+ 1d2:	8f 93       	push	r24
+   Flag = 1;
+ 1d4:	81 e0       	ldi	r24, 0x01	; 1
+ 1d6:	80 93 00 01 	sts	0x0100, r24	; 0x800100 <__DATA_REGION_ORIGIN__>
+}
+ 1da:	8f 91       	pop	r24
+ 1dc:	0f 90       	pop	r0
+ 1de:	0f be       	out	0x3f, r0	; 63
+ 1e0:	0f 90       	pop	r0
+ 1e2:	1f 90       	pop	r1
+ 1e4:	18 95       	reti
 
 000001e6 <Delay>:
  1e6:	05 c0       	rjmp	.+10     	; 0x1f2 <Delay+0xc>
@@ -383,7 +383,7 @@ int main( void ) {
  21a:	17 b8       	out	0x07, r1	; 7
   
   max7219Init();
- 21c:	0e 94 7e 00 	call	0xfc	; 0xfc <max7219Init>
+ 21c:	0e 94 69 00 	call	0xd2	; 0xd2 <max7219Init>
 }
 
 
@@ -404,956 +404,266 @@ void setupInt() {
  22a:	78 94       	sei
 
   penX = penY = 0;
- 22c:	c1 2c       	mov	r12, r1
- 22e:	d1 2c       	mov	r13, r1
+ 22c:	a1 2c       	mov	r10, r1
+ 22e:	b1 2c       	mov	r11, r1
  230:	8e 01       	movw	r16, r28
  232:	07 5f       	subi	r16, 0xF7	; 247
  234:	1f 4f       	sbci	r17, 0xFF	; 255
-
-   
-  while(1) {
-  
-  send16(max7219MakePacket(cmdINT,    0x07)); // 1/2 brightness (8/15)     
- 236:	67 e0       	ldi	r22, 0x07	; 7
- 238:	8a e0       	ldi	r24, 0x0A	; 10
- 23a:	0e 94 79 00 	call	0xf2	; 0xf2 <max7219MakePacket>
- 23e:	0e 94 5d 00 	call	0xba	; 0xba <send16>
-  detX = detY = -1;
   
   
-  SetBit(6, PORTD);
- 242:	5e 9a       	sbi	0x0b, 6	; 11
- 
-  step = 0x00; 
- 244:	f1 2c       	mov	r15, r1
-
-   
-  while(1) {
   
-  send16(max7219MakePacket(cmdINT,    0x07)); // 1/2 brightness (8/15)     
-  detX = detY = -1;
- 246:	ee 24       	eor	r14, r14
- 248:	ea 94       	dec	r14
+  SetBit(6, PORTD);// started scan
   
-  SetBit(6, PORTD);
- 
-  step = 0x00; 
-  while(step < 0xFE) {    
-    switch(step) { // sorry I am state machine.      
- 24a:	8f e0       	ldi	r24, 0x0F	; 15
- 24c:	f8 16       	cp	r15, r24
- 24e:	09 f4       	brne	.+2      	; 0x252 <main+0x54>
- 250:	a3 c0       	rjmp	.+326    	; 0x398 <main+0x19a>
- 252:	8f 15       	cp	r24, r15
- 254:	08 f0       	brcs	.+2      	; 0x258 <main+0x5a>
- 256:	fb c1       	rjmp	.+1014   	; 0x64e <__EEPROM_REGION_LENGTH__+0x24e>
- 258:	80 e4       	ldi	r24, 0x40	; 64
- 25a:	f8 16       	cp	r15, r24
- 25c:	09 f4       	brne	.+2      	; 0x260 <main+0x62>
- 25e:	8f c0       	rjmp	.+286    	; 0x37e <main+0x180>
- 260:	8f 15       	cp	r24, r15
- 262:	08 f4       	brcc	.+2      	; 0x266 <main+0x68>
- 264:	d1 c1       	rjmp	.+930    	; 0x608 <__EEPROM_REGION_LENGTH__+0x208>
- 266:	80 e2       	ldi	r24, 0x20	; 32
- 268:	f8 16       	cp	r15, r24
- 26a:	09 f4       	brne	.+2      	; 0x26e <main+0x70>
- 26c:	7e c0       	rjmp	.+252    	; 0x36a <main+0x16c>
- 26e:	80 e3       	ldi	r24, 0x30	; 48
- 270:	f8 16       	cp	r15, r24
- 272:	09 f4       	brne	.+2      	; 0x276 <main+0x78>
- 274:	72 c0       	rjmp	.+228    	; 0x35a <main+0x15c>
- 276:	80 e1       	ldi	r24, 0x10	; 16
- 278:	f8 16       	cp	r15, r24
- 27a:	d9 f0       	breq	.+54     	; 0x2b2 <main+0xb4>
-      case 0x10: step = Flag?0xFE:0x20; detX = Flag?4:detX; break;
-      case 0x20: step = Flag?0xFE:0xFF; detX = Flag?5:detX; break;
-      case 0xC0: step = Flag?0x40:0xFF; break;
-      case 0x40: step = Flag?0xFE:0x80; detX = Flag?6:detX; break;
-      case 0x80: step = Flag?0xFE:0xFF; detX = Flag?7:detX; break;
-      default:   step = 0x0F;           break;        
- 27c:	9f e0       	ldi	r25, 0x0F	; 15
- 27e:	f9 2e       	mov	r15, r25
- 280:	fe 01       	movw	r30, r28
- 282:	31 96       	adiw	r30, 0x01	; 1
-    }
-    if (step < 0xFE) {
-     for( i = 0; i<8; i++) {
-       image[i] = step;
- 284:	f1 92       	st	Z+, r15
-      case 0x40: step = Flag?0xFE:0x80; detX = Flag?6:detX; break;
-      case 0x80: step = Flag?0xFE:0xFF; detX = Flag?7:detX; break;
-      default:   step = 0x0F;           break;        
-    }
-    if (step < 0xFE) {
-     for( i = 0; i<8; i++) {
- 286:	e0 17       	cp	r30, r16
- 288:	f1 07       	cpc	r31, r17
- 28a:	e1 f7       	brne	.-8      	; 0x284 <main+0x86>
-       image[i] = step;
-     } 
-     max7219Blit( image );   
- 28c:	ce 01       	movw	r24, r28
- 28e:	01 96       	adiw	r24, 0x01	; 1
- 290:	0e 94 ba 00 	call	0x174	; 0x174 <max7219Blit>
-     Delay(2000);
- 294:	60 ed       	ldi	r22, 0xD0	; 208
- 296:	77 e0       	ldi	r23, 0x07	; 7
- 298:	80 e0       	ldi	r24, 0x00	; 0
- 29a:	90 e0       	ldi	r25, 0x00	; 0
- 29c:	0e 94 f3 00 	call	0x1e6	; 0x1e6 <Delay>
-     Flag = 0;
- 2a0:	10 92 00 01 	sts	0x0100, r1	; 0x800100 <__DATA_REGION_ORIGIN__>
-     Delay(120000);
- 2a4:	60 ec       	ldi	r22, 0xC0	; 192
- 2a6:	74 ed       	ldi	r23, 0xD4	; 212
- 2a8:	81 e0       	ldi	r24, 0x01	; 1
- 2aa:	90 e0       	ldi	r25, 0x00	; 0
- 2ac:	0e 94 f3 00 	call	0x1e6	; 0x1e6 <Delay>
- 2b0:	cc cf       	rjmp	.-104    	; 0x24a <main+0x4c>
-      case 0x02: step = Flag?0xFE:0xFF; detX = Flag?1:detX; break;
-      case 0x0C: step = Flag?0x04:0xFF; break;
-      case 0x04: step = Flag?0xFE:0x08; detX = Flag?2:detX; break;
-      case 0x08: step = Flag?0xFE:0xFF; detX = Flag?3:detX; break;
-      case 0x30: step = Flag?0x10:0xC0; break;
-      case 0x10: step = Flag?0xFE:0x20; detX = Flag?4:detX; break;
- 2b2:	80 91 00 01 	lds	r24, 0x0100	; 0x800100 <__DATA_REGION_ORIGIN__>
- 2b6:	88 23       	and	r24, r24
- 2b8:	09 f4       	brne	.+2      	; 0x2bc <main+0xbe>
- 2ba:	a9 c0       	rjmp	.+338    	; 0x40e <__EEPROM_REGION_LENGTH__+0xe>
- 2bc:	80 91 00 01 	lds	r24, 0x0100	; 0x800100 <__DATA_REGION_ORIGIN__>
- 2c0:	81 11       	cpse	r24, r1
- 2c2:	29 c2       	rjmp	.+1106   	; 0x716 <__EEPROM_REGION_LENGTH__+0x316>
-     Flag = 0;
-     Delay(120000);
-    }
-  }
-    
-   if (detX != -1) {
- 2c4:	8f ef       	ldi	r24, 0xFF	; 255
- 2c6:	e8 16       	cp	r14, r24
- 2c8:	09 f4       	brne	.+2      	; 0x2cc <main+0xce>
- 2ca:	7c c0       	rjmp	.+248    	; 0x3c4 <main+0x1c6>
-    switch(step) { // sorry I am state machine.      
-      case 0x0F: step = Flag?0x03:0xF0; break;      
-      case 0xF0: step = Flag?0x30:0xFF; break;
-      case 0x03: step = Flag?0x01:0x0C; break;
-      case 0x01: step = Flag?0xFE:0x02; detX = Flag?0:detX ; break;
-      case 0x02: step = Flag?0xFE:0xFF; detX = Flag?1:detX; break;
- 2cc:	f1 2c       	mov	r15, r1
- 2ce:	bb 24       	eor	r11, r11
- 2d0:	ba 94       	dec	r11
-    
-   if (detX != -1) {
-   
-     step = 0x00; 
-     while(step < 0xFE) {    
-       switch(step) { // sorry I am state machine.      
- 2d2:	8f e0       	ldi	r24, 0x0F	; 15
- 2d4:	f8 16       	cp	r15, r24
- 2d6:	09 f4       	brne	.+2      	; 0x2da <main+0xdc>
- 2d8:	b4 c0       	rjmp	.+360    	; 0x442 <__EEPROM_REGION_LENGTH__+0x42>
- 2da:	8f 15       	cp	r24, r15
- 2dc:	08 f0       	brcs	.+2      	; 0x2e0 <main+0xe2>
- 2de:	25 c1       	rjmp	.+586    	; 0x52a <__EEPROM_REGION_LENGTH__+0x12a>
- 2e0:	80 e4       	ldi	r24, 0x40	; 64
- 2e2:	f8 16       	cp	r15, r24
- 2e4:	09 f4       	brne	.+2      	; 0x2e8 <main+0xea>
- 2e6:	60 c0       	rjmp	.+192    	; 0x3a8 <main+0x1aa>
- 2e8:	8f 15       	cp	r24, r15
- 2ea:	08 f4       	brcc	.+2      	; 0x2ee <main+0xf0>
- 2ec:	f7 c0       	rjmp	.+494    	; 0x4dc <__EEPROM_REGION_LENGTH__+0xdc>
- 2ee:	80 e2       	ldi	r24, 0x20	; 32
- 2f0:	f8 16       	cp	r15, r24
- 2f2:	09 f4       	brne	.+2      	; 0x2f6 <main+0xf8>
- 2f4:	c4 c0       	rjmp	.+392    	; 0x47e <__EEPROM_REGION_LENGTH__+0x7e>
- 2f6:	80 e3       	ldi	r24, 0x30	; 48
- 2f8:	f8 16       	cp	r15, r24
- 2fa:	09 f4       	brne	.+2      	; 0x2fe <main+0x100>
- 2fc:	b7 c0       	rjmp	.+366    	; 0x46c <__EEPROM_REGION_LENGTH__+0x6c>
- 2fe:	80 e1       	ldi	r24, 0x10	; 16
- 300:	f8 16       	cp	r15, r24
- 302:	09 f4       	brne	.+2      	; 0x306 <main+0x108>
- 304:	a7 c0       	rjmp	.+334    	; 0x454 <__EEPROM_REGION_LENGTH__+0x54>
- 306:	4f e0       	ldi	r20, 0x0F	; 15
- 308:	50 e0       	ldi	r21, 0x00	; 0
-	 case 0x10: step = Flag?0xFE:0x20; detY = Flag?4:detY; break;
-	 case 0x20: step = Flag?0xFE:0xFF; detY = Flag?5:detY; break;
-	 case 0xC0: step = Flag?0x40:0xFF; break;
-	 case 0x40: step = Flag?0xFE:0x80; detY = Flag?6:detY; break;
-	 case 0x80: step = Flag?0xFE:0xFF; detY = Flag?7:detY; break;
-	 default:   step = 0x0F;           break;        
- 30a:	ef e0       	ldi	r30, 0x0F	; 15
- 30c:	fe 2e       	mov	r15, r30
- 30e:	fe 01       	movw	r30, r28
- 310:	31 96       	adiw	r30, 0x01	; 1
-     while(step < 0xFE) {    
-       switch(step) { // sorry I am state machine.      
-	 case 0x0F: step = Flag?0x03:0xF0; break;      
-	 case 0xF0: step = Flag?0x30:0xFF; break;
-	 case 0x03: step = Flag?0x01:0x0C; break;
-	 case 0x01: step = Flag?0xFE:0x02; detY = Flag?0:detY ; break;
- 312:	20 e0       	ldi	r18, 0x00	; 0
- 314:	30 e0       	ldi	r19, 0x00	; 0
-	 case 0x80: step = Flag?0xFE:0xFF; detY = Flag?7:detY; break;
-	 default:   step = 0x0F;           break;        
-       }
-       if (step < 0xFE) {
-	for( i = 0; i < 8; i++ ) {
-	  image[i] = (step&(1<<i))?0xFF:0x00;
- 316:	ca 01       	movw	r24, r20
- 318:	02 2e       	mov	r0, r18
- 31a:	02 c0       	rjmp	.+4      	; 0x320 <main+0x122>
- 31c:	95 95       	asr	r25
- 31e:	87 95       	ror	r24
- 320:	0a 94       	dec	r0
- 322:	e2 f7       	brpl	.-8      	; 0x31c <main+0x11e>
- 324:	81 70       	andi	r24, 0x01	; 1
- 326:	81 95       	neg	r24
- 328:	81 93       	st	Z+, r24
- 32a:	2f 5f       	subi	r18, 0xFF	; 255
- 32c:	3f 4f       	sbci	r19, 0xFF	; 255
-	 case 0x40: step = Flag?0xFE:0x80; detY = Flag?6:detY; break;
-	 case 0x80: step = Flag?0xFE:0xFF; detY = Flag?7:detY; break;
-	 default:   step = 0x0F;           break;        
-       }
-       if (step < 0xFE) {
-	for( i = 0; i < 8; i++ ) {
- 32e:	28 30       	cpi	r18, 0x08	; 8
- 330:	31 05       	cpc	r19, r1
- 332:	89 f7       	brne	.-30     	; 0x316 <main+0x118>
-	  image[i] = (step&(1<<i))?0xFF:0x00;
-	} 
-	max7219Blit( image );   
- 334:	ce 01       	movw	r24, r28
- 336:	01 96       	adiw	r24, 0x01	; 1
- 338:	0e 94 ba 00 	call	0x174	; 0x174 <max7219Blit>
-	Delay(2000);
- 33c:	60 ed       	ldi	r22, 0xD0	; 208
- 33e:	77 e0       	ldi	r23, 0x07	; 7
- 340:	80 e0       	ldi	r24, 0x00	; 0
- 342:	90 e0       	ldi	r25, 0x00	; 0
- 344:	0e 94 f3 00 	call	0x1e6	; 0x1e6 <Delay>
-	Flag = 0;
- 348:	10 92 00 01 	sts	0x0100, r1	; 0x800100 <__DATA_REGION_ORIGIN__>
-	Delay(120000);
- 34c:	60 ec       	ldi	r22, 0xC0	; 192
- 34e:	74 ed       	ldi	r23, 0xD4	; 212
- 350:	81 e0       	ldi	r24, 0x01	; 1
- 352:	90 e0       	ldi	r25, 0x00	; 0
- 354:	0e 94 f3 00 	call	0x1e6	; 0x1e6 <Delay>
- 358:	bc cf       	rjmp	.-136    	; 0x2d2 <main+0xd4>
-      case 0x01: step = Flag?0xFE:0x02; detX = Flag?0:detX ; break;
-      case 0x02: step = Flag?0xFE:0xFF; detX = Flag?1:detX; break;
-      case 0x0C: step = Flag?0x04:0xFF; break;
-      case 0x04: step = Flag?0xFE:0x08; detX = Flag?2:detX; break;
-      case 0x08: step = Flag?0xFE:0xFF; detX = Flag?3:detX; break;
-      case 0x30: step = Flag?0x10:0xC0; break;
- 35a:	80 91 00 01 	lds	r24, 0x0100	; 0x800100 <__DATA_REGION_ORIGIN__>
- 35e:	88 23       	and	r24, r24
- 360:	09 f4       	brne	.+2      	; 0x364 <main+0x166>
- 362:	5f c0       	rjmp	.+190    	; 0x422 <__EEPROM_REGION_LENGTH__+0x22>
- 364:	80 e1       	ldi	r24, 0x10	; 16
- 366:	f8 2e       	mov	r15, r24
- 368:	8b cf       	rjmp	.-234    	; 0x280 <main+0x82>
-      case 0x10: step = Flag?0xFE:0x20; detX = Flag?4:detX; break;
-      case 0x20: step = Flag?0xFE:0xFF; detX = Flag?5:detX; break;
- 36a:	80 91 00 01 	lds	r24, 0x0100	; 0x800100 <__DATA_REGION_ORIGIN__>
- 36e:	80 91 00 01 	lds	r24, 0x0100	; 0x800100 <__DATA_REGION_ORIGIN__>
- 372:	88 23       	and	r24, r24
- 374:	09 f4       	brne	.+2      	; 0x378 <main+0x17a>
- 376:	a6 cf       	rjmp	.-180    	; 0x2c4 <main+0xc6>
- 378:	b5 e0       	ldi	r27, 0x05	; 5
- 37a:	eb 2e       	mov	r14, r27
- 37c:	a7 cf       	rjmp	.-178    	; 0x2cc <main+0xce>
-      case 0xC0: step = Flag?0x40:0xFF; break;
-      case 0x40: step = Flag?0xFE:0x80; detX = Flag?6:detX; break;
- 37e:	80 91 00 01 	lds	r24, 0x0100	; 0x800100 <__DATA_REGION_ORIGIN__>
- 382:	88 23       	and	r24, r24
- 384:	09 f4       	brne	.+2      	; 0x388 <main+0x18a>
- 386:	50 c0       	rjmp	.+160    	; 0x428 <__EEPROM_REGION_LENGTH__+0x28>
- 388:	80 91 00 01 	lds	r24, 0x0100	; 0x800100 <__DATA_REGION_ORIGIN__>
- 38c:	88 23       	and	r24, r24
- 38e:	09 f4       	brne	.+2      	; 0x392 <main+0x194>
- 390:	99 cf       	rjmp	.-206    	; 0x2c4 <main+0xc6>
- 392:	26 e0       	ldi	r18, 0x06	; 6
- 394:	e2 2e       	mov	r14, r18
- 396:	9a cf       	rjmp	.-204    	; 0x2cc <main+0xce>
-  SetBit(6, PORTD);
- 
-  step = 0x00; 
-  while(step < 0xFE) {    
-    switch(step) { // sorry I am state machine.      
-      case 0x0F: step = Flag?0x03:0xF0; break;      
- 398:	80 91 00 01 	lds	r24, 0x0100	; 0x800100 <__DATA_REGION_ORIGIN__>
- 39c:	88 23       	and	r24, r24
- 39e:	09 f4       	brne	.+2      	; 0x3a2 <main+0x1a4>
- 3a0:	4d c0       	rjmp	.+154    	; 0x43c <__EEPROM_REGION_LENGTH__+0x3c>
- 3a2:	23 e0       	ldi	r18, 0x03	; 3
- 3a4:	f2 2e       	mov	r15, r18
- 3a6:	6c cf       	rjmp	.-296    	; 0x280 <main+0x82>
-	 case 0x08: step = Flag?0xFE:0xFF; detY = Flag?3:detY; break;
-	 case 0x30: step = Flag?0x10:0xC0; break;
-	 case 0x10: step = Flag?0xFE:0x20; detY = Flag?4:detY; break;
-	 case 0x20: step = Flag?0xFE:0xFF; detY = Flag?5:detY; break;
-	 case 0xC0: step = Flag?0x40:0xFF; break;
-	 case 0x40: step = Flag?0xFE:0x80; detY = Flag?6:detY; break;
- 3a8:	80 91 00 01 	lds	r24, 0x0100	; 0x800100 <__DATA_REGION_ORIGIN__>
- 3ac:	88 23       	and	r24, r24
- 3ae:	09 f4       	brne	.+2      	; 0x3b2 <main+0x1b4>
- 3b0:	81 c0       	rjmp	.+258    	; 0x4b4 <__EEPROM_REGION_LENGTH__+0xb4>
- 3b2:	80 91 00 01 	lds	r24, 0x0100	; 0x800100 <__DATA_REGION_ORIGIN__>
- 3b6:	81 11       	cpse	r24, r1
- 3b8:	8e c0       	rjmp	.+284    	; 0x4d6 <__EEPROM_REGION_LENGTH__+0xd6>
-	Delay(120000);
-       }
-
-    }
-    
-    if (detY != -1) {
- 3ba:	8f ef       	ldi	r24, 0xFF	; 255
- 3bc:	b8 16       	cp	r11, r24
- 3be:	11 f0       	breq	.+4      	; 0x3c4 <main+0x1c6>
-        penX = detX;
- 3c0:	de 2c       	mov	r13, r14
-        penY = detY;
- 3c2:	cb 2c       	mov	r12, r11
-    }
-   
-  }
-   
-   ClearBit(6, PORTD);
- 3c4:	5e 98       	cbi	0x0b, 6	; 11
-   send16(max7219MakePacket(cmdINT,    0x0C)); // 1/2 brightness (8/15)     
- 3c6:	6c e0       	ldi	r22, 0x0C	; 12
- 3c8:	8a e0       	ldi	r24, 0x0A	; 10
- 3ca:	0e 94 79 00 	call	0xf2	; 0xf2 <max7219MakePacket>
- 3ce:	0e 94 5d 00 	call	0xba	; 0xba <send16>
- 3d2:	fe 01       	movw	r30, r28
- 3d4:	31 96       	adiw	r30, 0x01	; 1
+  for( i = 0; i < 8; i++) image[i] = 0xFF; // set all leds, to search for ANY pixel.
+ 236:	77 24       	eor	r7, r7
+ 238:	7a 94       	dec	r7
+      for( y = 0; y < 8; y++ ) {
+	image[y] = 0x00;
+	for(x = 0; x < 8; x++ ) {
+          c--;
+          image[y] |= (i<<x);
+	  i = (c==0)?0x01-i:i;
+ 23a:	88 24       	eor	r8, r8
+ 23c:	83 94       	inc	r8
+   send16(max7219MakePacket(cmdINT,    0x0C)); // 1/2 brightness (C/15)     
      for( i = 0; i < 8; i++) { // clear image
-       image[i] = 0x00;
- 3d6:	11 92       	st	Z+, r1
-   
-  }
-   
-   ClearBit(6, PORTD);
-   send16(max7219MakePacket(cmdINT,    0x0C)); // 1/2 brightness (8/15)     
-     for( i = 0; i < 8; i++) { // clear image
- 3d8:	0e 17       	cp	r16, r30
- 3da:	1f 07       	cpc	r17, r31
- 3dc:	e1 f7       	brne	.-8      	; 0x3d6 <main+0x1d8>
        image[i] = 0x00;
      }
      
      image[penY] = (1<<penX);
- 3de:	e1 e0       	ldi	r30, 0x01	; 1
- 3e0:	f0 e0       	ldi	r31, 0x00	; 0
- 3e2:	ec 0f       	add	r30, r28
- 3e4:	fd 1f       	adc	r31, r29
- 3e6:	ec 0d       	add	r30, r12
- 3e8:	f1 1d       	adc	r31, r1
- 3ea:	81 e0       	ldi	r24, 0x01	; 1
- 3ec:	0d 2c       	mov	r0, r13
- 3ee:	01 c0       	rjmp	.+2      	; 0x3f2 <main+0x1f4>
- 3f0:	88 0f       	add	r24, r24
- 3f2:	0a 94       	dec	r0
- 3f4:	ea f7       	brpl	.-6      	; 0x3f0 <main+0x1f2>
- 3f6:	80 83       	st	Z, r24
+ 23e:	cc 24       	eor	r12, r12
+ 240:	c3 94       	inc	r12
+ 242:	d1 2c       	mov	r13, r1
+  penX = penY = 0;
+
+   
+  while(1) {
+  
+  send16(max7219MakePacket(cmdINT,    0x07)); // 1/2 brightness (7/15)     
+ 244:	67 e0       	ldi	r22, 0x07	; 7
+ 246:	8a e0       	ldi	r24, 0x0A	; 10
+ 248:	0e 94 64 00 	call	0xc8	; 0xc8 <max7219MakePacket>
+ 24c:	0e 94 48 00 	call	0x90	; 0x90 <send16>
+  detX = detY = -1;
+  
+  
+  
+  
+  SetBit(6, PORTD);// started scan
+ 250:	5e 9a       	sbi	0x0b, 6	; 11
+ 252:	ce 01       	movw	r24, r28
+ 254:	01 96       	adiw	r24, 0x01	; 1
+ 256:	7c 01       	movw	r14, r24
+ 258:	fc 01       	movw	r30, r24
+  
+  for( i = 0; i < 8; i++) image[i] = 0xFF; // set all leds, to search for ANY pixel.
+ 25a:	71 92       	st	Z+, r7
+ 25c:	0e 17       	cp	r16, r30
+ 25e:	1f 07       	cpc	r17, r31
+ 260:	e1 f7       	brne	.-8      	; 0x25a <main+0x5c>
+  max7219Blit( image );   
+ 262:	ce 01       	movw	r24, r28
+ 264:	01 96       	adiw	r24, 0x01	; 1
+ 266:	0e 94 a5 00 	call	0x14a	; 0x14a <max7219Blit>
+  Delay(800); // this is a 'finish scanning and accept new data' delay
+ 26a:	60 e2       	ldi	r22, 0x20	; 32
+ 26c:	73 e0       	ldi	r23, 0x03	; 3
+ 26e:	80 e0       	ldi	r24, 0x00	; 0
+ 270:	90 e0       	ldi	r25, 0x00	; 0
+ 272:	0e 94 f3 00 	call	0x1e6	; 0x1e6 <Delay>
+  Flag = 0;
+ 276:	10 92 00 01 	sts	0x0100, r1	; 0x800100 <__DATA_REGION_ORIGIN__>
+  Delay(4000);
+ 27a:	60 ea       	ldi	r22, 0xA0	; 160
+ 27c:	7f e0       	ldi	r23, 0x0F	; 15
+ 27e:	80 e0       	ldi	r24, 0x00	; 0
+ 280:	90 e0       	ldi	r25, 0x00	; 0
+ 282:	0e 94 f3 00 	call	0x1e6	; 0x1e6 <Delay>
+  
+  if (Flag) { // I saws a pixel!
+ 286:	80 91 00 01 	lds	r24, 0x0100	; 0x800100 <__DATA_REGION_ORIGIN__>
+ 28a:	88 23       	and	r24, r24
+ 28c:	09 f4       	brne	.+2      	; 0x290 <main+0x92>
+ 28e:	49 c0       	rjmp	.+146    	; 0x322 <main+0x124>
+ 290:	86 e0       	ldi	r24, 0x06	; 6
+ 292:	a8 2e       	mov	r10, r24
+ 294:	b1 2c       	mov	r11, r1
+ 296:	90 e2       	ldi	r25, 0x20	; 32
+ 298:	99 2e       	mov	r9, r25
+ 29a:	61 2c       	mov	r6, r1
+  detX = detY = -1;
+  
+  
+  
+  
+  SetBit(6, PORTD);// started scan
+ 29c:	fe 01       	movw	r30, r28
+ 29e:	31 96       	adiw	r30, 0x01	; 1
+ 2a0:	29 2d       	mov	r18, r9
+ 2a2:	61 e0       	ldi	r22, 0x01	; 1
+ 2a4:	80 e0       	ldi	r24, 0x00	; 0
+ 2a6:	90 e0       	ldi	r25, 0x00	; 0
+ 2a8:	30 e0       	ldi	r19, 0x00	; 0
+      c = step;
+      i = 1;
+      for( y = 0; y < 8; y++ ) {
+	image[y] = 0x00;
+	for(x = 0; x < 8; x++ ) {
+          c--;
+ 2aa:	21 50       	subi	r18, 0x01	; 1
+          image[y] |= (i<<x);
+ 2ac:	46 2f       	mov	r20, r22
+ 2ae:	08 2e       	mov	r0, r24
+ 2b0:	01 c0       	rjmp	.+2      	; 0x2b4 <main+0xb6>
+ 2b2:	44 0f       	add	r20, r20
+ 2b4:	0a 94       	dec	r0
+ 2b6:	ea f7       	brpl	.-6      	; 0x2b2 <main+0xb4>
+ 2b8:	34 2b       	or	r19, r20
+	  i = (c==0)?0x01-i:i;
+ 2ba:	21 11       	cpse	r18, r1
+ 2bc:	04 c0       	rjmp	.+8      	; 0x2c6 <main+0xc8>
+ 2be:	28 2d       	mov	r18, r8
+ 2c0:	26 1b       	sub	r18, r22
+ 2c2:	62 2f       	mov	r22, r18
+ 2c4:	29 2d       	mov	r18, r9
+ 2c6:	01 96       	adiw	r24, 0x01	; 1
+    for(step = 32; step != 0; step >>= 1 ) {
+      c = step;
+      i = 1;
+      for( y = 0; y < 8; y++ ) {
+	image[y] = 0x00;
+	for(x = 0; x < 8; x++ ) {
+ 2c8:	88 30       	cpi	r24, 0x08	; 8
+ 2ca:	91 05       	cpc	r25, r1
+ 2cc:	71 f7       	brne	.-36     	; 0x2aa <main+0xac>
+ 2ce:	31 93       	st	Z+, r19
+  
+    detX = 0;
+    for(step = 32; step != 0; step >>= 1 ) {
+      c = step;
+      i = 1;
+      for( y = 0; y < 8; y++ ) {
+ 2d0:	0e 17       	cp	r16, r30
+ 2d2:	1f 07       	cpc	r17, r31
+ 2d4:	39 f7       	brne	.-50     	; 0x2a4 <main+0xa6>
+          image[y] |= (i<<x);
+	  i = (c==0)?0x01-i:i;
+	  c = (c==0)?step:c;
+	} 
+      } 
+      max7219Blit( image );   
+ 2d6:	ce 01       	movw	r24, r28
+ 2d8:	01 96       	adiw	r24, 0x01	; 1
+ 2da:	0e 94 a5 00 	call	0x14a	; 0x14a <max7219Blit>
+      Delay(800); // this is a 'finish scanning and accept new data' delay
+ 2de:	60 e2       	ldi	r22, 0x20	; 32
+ 2e0:	73 e0       	ldi	r23, 0x03	; 3
+ 2e2:	80 e0       	ldi	r24, 0x00	; 0
+ 2e4:	90 e0       	ldi	r25, 0x00	; 0
+ 2e6:	0e 94 f3 00 	call	0x1e6	; 0x1e6 <Delay>
+      Flag = 0;
+ 2ea:	10 92 00 01 	sts	0x0100, r1	; 0x800100 <__DATA_REGION_ORIGIN__>
+      Delay(4000);
+ 2ee:	60 ea       	ldi	r22, 0xA0	; 160
+ 2f0:	7f e0       	ldi	r23, 0x0F	; 15
+ 2f2:	80 e0       	ldi	r24, 0x00	; 0
+ 2f4:	90 e0       	ldi	r25, 0x00	; 0
+ 2f6:	0e 94 f3 00 	call	0x1e6	; 0x1e6 <Delay>
+      detX = Flag?(detX|step):detX;
+ 2fa:	80 91 00 01 	lds	r24, 0x0100	; 0x800100 <__DATA_REGION_ORIGIN__>
+ 2fe:	81 11       	cpse	r24, r1
+ 300:	69 28       	or	r6, r9
+  Delay(4000);
+  
+  if (Flag) { // I saws a pixel!
+  
+    detX = 0;
+    for(step = 32; step != 0; step >>= 1 ) {
+ 302:	96 94       	lsr	r9
+ 304:	81 e0       	ldi	r24, 0x01	; 1
+ 306:	a8 1a       	sub	r10, r24
+ 308:	b1 08       	sbc	r11, r1
+ 30a:	41 f6       	brne	.-112    	; 0x29c <main+0x9e>
+      Delay(4000);
+      detX = Flag?(detX|step):detX;
+    }    
+  
+    // Then process the resulting pixel number a bit.
+    penY = 7-(detX >> 3);
+ 30c:	86 2d       	mov	r24, r6
+ 30e:	85 95       	asr	r24
+ 310:	85 95       	asr	r24
+ 312:	85 95       	asr	r24
+ 314:	97 e0       	ldi	r25, 0x07	; 7
+ 316:	a9 2e       	mov	r10, r25
+ 318:	a8 1a       	sub	r10, r24
+    penX = 7-(detX & 0x07);
+ 31a:	86 2d       	mov	r24, r6
+ 31c:	80 95       	com	r24
+ 31e:	87 70       	andi	r24, 0x07	; 7
+ 320:	b8 2e       	mov	r11, r24
+  
+  }   
+  ClearBit(6, PORTD); // scan done.
+ 322:	5e 98       	cbi	0x0b, 6	; 11
+   
+   
+   
+   
+   send16(max7219MakePacket(cmdINT,    0x0C)); // 1/2 brightness (C/15)     
+ 324:	6c e0       	ldi	r22, 0x0C	; 12
+ 326:	8a e0       	ldi	r24, 0x0A	; 10
+ 328:	0e 94 64 00 	call	0xc8	; 0xc8 <max7219MakePacket>
+ 32c:	0e 94 48 00 	call	0x90	; 0x90 <send16>
+     for( i = 0; i < 8; i++) { // clear image
+       image[i] = 0x00;
+ 330:	f7 01       	movw	r30, r14
+ 332:	11 92       	st	Z+, r1
+ 334:	7f 01       	movw	r14, r30
+   
+   
+   
+   
+   send16(max7219MakePacket(cmdINT,    0x0C)); // 1/2 brightness (C/15)     
+     for( i = 0; i < 8; i++) { // clear image
+ 336:	0e 17       	cp	r16, r30
+ 338:	1f 07       	cpc	r17, r31
+ 33a:	d1 f7       	brne	.-12     	; 0x330 <main+0x132>
+       image[i] = 0x00;
+     }
+     
+     image[penY] = (1<<penX);
+ 33c:	c6 01       	movw	r24, r12
+ 33e:	0b 2c       	mov	r0, r11
+ 340:	01 c0       	rjmp	.+2      	; 0x344 <main+0x146>
+ 342:	88 0f       	add	r24, r24
+ 344:	0a 94       	dec	r0
+ 346:	ea f7       	brpl	.-6      	; 0x342 <main+0x144>
+ 348:	e1 e0       	ldi	r30, 0x01	; 1
+ 34a:	f0 e0       	ldi	r31, 0x00	; 0
+ 34c:	ec 0f       	add	r30, r28
+ 34e:	fd 1f       	adc	r31, r29
+ 350:	ea 0d       	add	r30, r10
+ 352:	f1 1d       	adc	r31, r1
+ 354:	80 83       	st	Z, r24
      
      max7219Blit( image );   
- 3f8:	ce 01       	movw	r24, r28
- 3fa:	01 96       	adiw	r24, 0x01	; 1
- 3fc:	0e 94 ba 00 	call	0x174	; 0x174 <max7219Blit>
+ 356:	ce 01       	movw	r24, r28
+ 358:	01 96       	adiw	r24, 0x01	; 1
+ 35a:	0e 94 a5 00 	call	0x14a	; 0x14a <max7219Blit>
      
-     Delay(800000);    
- 400:	60 e0       	ldi	r22, 0x00	; 0
- 402:	75 e3       	ldi	r23, 0x35	; 53
- 404:	8c e0       	ldi	r24, 0x0C	; 12
- 406:	90 e0       	ldi	r25, 0x00	; 0
- 408:	0e 94 f3 00 	call	0x1e6	; 0x1e6 <Delay>
+     Delay(16000);   //<--- this is the amount of time to show the detected location before searching again.
+ 35e:	60 e8       	ldi	r22, 0x80	; 128
+ 360:	7e e3       	ldi	r23, 0x3E	; 62
+ 362:	80 e0       	ldi	r24, 0x00	; 0
+ 364:	90 e0       	ldi	r25, 0x00	; 0
+ 366:	0e 94 f3 00 	call	0x1e6	; 0x1e6 <Delay>
    
   }
- 40c:	14 cf       	rjmp	.-472    	; 0x236 <main+0x38>
-      case 0x02: step = Flag?0xFE:0xFF; detX = Flag?1:detX; break;
-      case 0x0C: step = Flag?0x04:0xFF; break;
-      case 0x04: step = Flag?0xFE:0x08; detX = Flag?2:detX; break;
-      case 0x08: step = Flag?0xFE:0xFF; detX = Flag?3:detX; break;
-      case 0x30: step = Flag?0x10:0xC0; break;
-      case 0x10: step = Flag?0xFE:0x20; detX = Flag?4:detX; break;
- 40e:	80 91 00 01 	lds	r24, 0x0100	; 0x800100 <__DATA_REGION_ORIGIN__>
- 412:	50 e2       	ldi	r21, 0x20	; 32
- 414:	f5 2e       	mov	r15, r21
- 416:	88 23       	and	r24, r24
- 418:	09 f4       	brne	.+2      	; 0x41c <__EEPROM_REGION_LENGTH__+0x1c>
- 41a:	32 cf       	rjmp	.-412    	; 0x280 <main+0x82>
- 41c:	e4 e0       	ldi	r30, 0x04	; 4
- 41e:	ee 2e       	mov	r14, r30
- 420:	2f cf       	rjmp	.-418    	; 0x280 <main+0x82>
-      case 0x01: step = Flag?0xFE:0x02; detX = Flag?0:detX ; break;
-      case 0x02: step = Flag?0xFE:0xFF; detX = Flag?1:detX; break;
-      case 0x0C: step = Flag?0x04:0xFF; break;
-      case 0x04: step = Flag?0xFE:0x08; detX = Flag?2:detX; break;
-      case 0x08: step = Flag?0xFE:0xFF; detX = Flag?3:detX; break;
-      case 0x30: step = Flag?0x10:0xC0; break;
- 422:	e0 ec       	ldi	r30, 0xC0	; 192
- 424:	fe 2e       	mov	r15, r30
- 426:	2c cf       	rjmp	.-424    	; 0x280 <main+0x82>
-      case 0x10: step = Flag?0xFE:0x20; detX = Flag?4:detX; break;
-      case 0x20: step = Flag?0xFE:0xFF; detX = Flag?5:detX; break;
-      case 0xC0: step = Flag?0x40:0xFF; break;
-      case 0x40: step = Flag?0xFE:0x80; detX = Flag?6:detX; break;
- 428:	80 91 00 01 	lds	r24, 0x0100	; 0x800100 <__DATA_REGION_ORIGIN__>
- 42c:	30 e8       	ldi	r19, 0x80	; 128
- 42e:	f3 2e       	mov	r15, r19
- 430:	88 23       	and	r24, r24
- 432:	09 f4       	brne	.+2      	; 0x436 <__EEPROM_REGION_LENGTH__+0x36>
- 434:	25 cf       	rjmp	.-438    	; 0x280 <main+0x82>
- 436:	76 e0       	ldi	r23, 0x06	; 6
- 438:	e7 2e       	mov	r14, r23
- 43a:	22 cf       	rjmp	.-444    	; 0x280 <main+0x82>
-  SetBit(6, PORTD);
- 
-  step = 0x00; 
-  while(step < 0xFE) {    
-    switch(step) { // sorry I am state machine.      
-      case 0x0F: step = Flag?0x03:0xF0; break;      
- 43c:	80 ef       	ldi	r24, 0xF0	; 240
- 43e:	f8 2e       	mov	r15, r24
- 440:	1f cf       	rjmp	.-450    	; 0x280 <main+0x82>
-   if (detX != -1) {
-   
-     step = 0x00; 
-     while(step < 0xFE) {    
-       switch(step) { // sorry I am state machine.      
-	 case 0x0F: step = Flag?0x03:0xF0; break;      
- 442:	80 91 00 01 	lds	r24, 0x0100	; 0x800100 <__DATA_REGION_ORIGIN__>
- 446:	88 23       	and	r24, r24
- 448:	81 f1       	breq	.+96     	; 0x4aa <__EEPROM_REGION_LENGTH__+0xaa>
- 44a:	43 e0       	ldi	r20, 0x03	; 3
- 44c:	50 e0       	ldi	r21, 0x00	; 0
- 44e:	63 e0       	ldi	r22, 0x03	; 3
- 450:	f6 2e       	mov	r15, r22
- 452:	5d cf       	rjmp	.-326    	; 0x30e <main+0x110>
-	 case 0x02: step = Flag?0xFE:0xFF; detY = Flag?1:detY; break;
-	 case 0x0C: step = Flag?0x04:0xFF; break;
-	 case 0x04: step = Flag?0xFE:0x08; detY = Flag?2:detY; break;
-	 case 0x08: step = Flag?0xFE:0xFF; detY = Flag?3:detY; break;
-	 case 0x30: step = Flag?0x10:0xC0; break;
-	 case 0x10: step = Flag?0xFE:0x20; detY = Flag?4:detY; break;
- 454:	80 91 00 01 	lds	r24, 0x0100	; 0x800100 <__DATA_REGION_ORIGIN__>
- 458:	88 23       	and	r24, r24
- 45a:	d9 f0       	breq	.+54     	; 0x492 <__EEPROM_REGION_LENGTH__+0x92>
- 45c:	80 91 00 01 	lds	r24, 0x0100	; 0x800100 <__DATA_REGION_ORIGIN__>
- 460:	88 23       	and	r24, r24
- 462:	09 f4       	brne	.+2      	; 0x466 <__EEPROM_REGION_LENGTH__+0x66>
- 464:	aa cf       	rjmp	.-172    	; 0x3ba <main+0x1bc>
- 466:	b4 e0       	ldi	r27, 0x04	; 4
- 468:	bb 2e       	mov	r11, r27
- 46a:	aa cf       	rjmp	.-172    	; 0x3c0 <main+0x1c2>
-	 case 0x01: step = Flag?0xFE:0x02; detY = Flag?0:detY ; break;
-	 case 0x02: step = Flag?0xFE:0xFF; detY = Flag?1:detY; break;
-	 case 0x0C: step = Flag?0x04:0xFF; break;
-	 case 0x04: step = Flag?0xFE:0x08; detY = Flag?2:detY; break;
-	 case 0x08: step = Flag?0xFE:0xFF; detY = Flag?3:detY; break;
-	 case 0x30: step = Flag?0x10:0xC0; break;
- 46c:	80 91 00 01 	lds	r24, 0x0100	; 0x800100 <__DATA_REGION_ORIGIN__>
- 470:	88 23       	and	r24, r24
- 472:	61 f1       	breq	.+88     	; 0x4cc <__EEPROM_REGION_LENGTH__+0xcc>
- 474:	40 e1       	ldi	r20, 0x10	; 16
- 476:	50 e0       	ldi	r21, 0x00	; 0
- 478:	20 e1       	ldi	r18, 0x10	; 16
- 47a:	f2 2e       	mov	r15, r18
- 47c:	48 cf       	rjmp	.-368    	; 0x30e <main+0x110>
-	 case 0x10: step = Flag?0xFE:0x20; detY = Flag?4:detY; break;
-	 case 0x20: step = Flag?0xFE:0xFF; detY = Flag?5:detY; break;
- 47e:	80 91 00 01 	lds	r24, 0x0100	; 0x800100 <__DATA_REGION_ORIGIN__>
- 482:	80 91 00 01 	lds	r24, 0x0100	; 0x800100 <__DATA_REGION_ORIGIN__>
- 486:	88 23       	and	r24, r24
- 488:	09 f4       	brne	.+2      	; 0x48c <__EEPROM_REGION_LENGTH__+0x8c>
- 48a:	97 cf       	rjmp	.-210    	; 0x3ba <main+0x1bc>
- 48c:	95 e0       	ldi	r25, 0x05	; 5
- 48e:	b9 2e       	mov	r11, r25
- 490:	97 cf       	rjmp	.-210    	; 0x3c0 <main+0x1c2>
-	 case 0x02: step = Flag?0xFE:0xFF; detY = Flag?1:detY; break;
-	 case 0x0C: step = Flag?0x04:0xFF; break;
-	 case 0x04: step = Flag?0xFE:0x08; detY = Flag?2:detY; break;
-	 case 0x08: step = Flag?0xFE:0xFF; detY = Flag?3:detY; break;
-	 case 0x30: step = Flag?0x10:0xC0; break;
-	 case 0x10: step = Flag?0xFE:0x20; detY = Flag?4:detY; break;
- 492:	80 91 00 01 	lds	r24, 0x0100	; 0x800100 <__DATA_REGION_ORIGIN__>
- 496:	40 e2       	ldi	r20, 0x20	; 32
- 498:	50 e0       	ldi	r21, 0x00	; 0
- 49a:	90 e2       	ldi	r25, 0x20	; 32
- 49c:	f9 2e       	mov	r15, r25
- 49e:	88 23       	and	r24, r24
- 4a0:	09 f4       	brne	.+2      	; 0x4a4 <__EEPROM_REGION_LENGTH__+0xa4>
- 4a2:	35 cf       	rjmp	.-406    	; 0x30e <main+0x110>
- 4a4:	a4 e0       	ldi	r26, 0x04	; 4
- 4a6:	ba 2e       	mov	r11, r26
- 4a8:	32 cf       	rjmp	.-412    	; 0x30e <main+0x110>
- 4aa:	40 ef       	ldi	r20, 0xF0	; 240
- 4ac:	50 e0       	ldi	r21, 0x00	; 0
-   if (detX != -1) {
-   
-     step = 0x00; 
-     while(step < 0xFE) {    
-       switch(step) { // sorry I am state machine.      
-	 case 0x0F: step = Flag?0x03:0xF0; break;      
- 4ae:	70 ef       	ldi	r23, 0xF0	; 240
- 4b0:	f7 2e       	mov	r15, r23
- 4b2:	2d cf       	rjmp	.-422    	; 0x30e <main+0x110>
-	 case 0x08: step = Flag?0xFE:0xFF; detY = Flag?3:detY; break;
-	 case 0x30: step = Flag?0x10:0xC0; break;
-	 case 0x10: step = Flag?0xFE:0x20; detY = Flag?4:detY; break;
-	 case 0x20: step = Flag?0xFE:0xFF; detY = Flag?5:detY; break;
-	 case 0xC0: step = Flag?0x40:0xFF; break;
-	 case 0x40: step = Flag?0xFE:0x80; detY = Flag?6:detY; break;
- 4b4:	80 91 00 01 	lds	r24, 0x0100	; 0x800100 <__DATA_REGION_ORIGIN__>
- 4b8:	40 e8       	ldi	r20, 0x80	; 128
- 4ba:	50 e0       	ldi	r21, 0x00	; 0
- 4bc:	a0 e8       	ldi	r26, 0x80	; 128
- 4be:	fa 2e       	mov	r15, r26
- 4c0:	88 23       	and	r24, r24
- 4c2:	09 f4       	brne	.+2      	; 0x4c6 <__EEPROM_REGION_LENGTH__+0xc6>
- 4c4:	24 cf       	rjmp	.-440    	; 0x30e <main+0x110>
- 4c6:	f6 e0       	ldi	r31, 0x06	; 6
- 4c8:	bf 2e       	mov	r11, r31
- 4ca:	21 cf       	rjmp	.-446    	; 0x30e <main+0x110>
- 4cc:	40 ec       	ldi	r20, 0xC0	; 192
- 4ce:	50 e0       	ldi	r21, 0x00	; 0
-	 case 0x01: step = Flag?0xFE:0x02; detY = Flag?0:detY ; break;
-	 case 0x02: step = Flag?0xFE:0xFF; detY = Flag?1:detY; break;
-	 case 0x0C: step = Flag?0x04:0xFF; break;
-	 case 0x04: step = Flag?0xFE:0x08; detY = Flag?2:detY; break;
-	 case 0x08: step = Flag?0xFE:0xFF; detY = Flag?3:detY; break;
-	 case 0x30: step = Flag?0x10:0xC0; break;
- 4d0:	90 ec       	ldi	r25, 0xC0	; 192
- 4d2:	f9 2e       	mov	r15, r25
- 4d4:	1c cf       	rjmp	.-456    	; 0x30e <main+0x110>
-	 case 0x10: step = Flag?0xFE:0x20; detY = Flag?4:detY; break;
-	 case 0x20: step = Flag?0xFE:0xFF; detY = Flag?5:detY; break;
-	 case 0xC0: step = Flag?0x40:0xFF; break;
-	 case 0x40: step = Flag?0xFE:0x80; detY = Flag?6:detY; break;
- 4d6:	f6 e0       	ldi	r31, 0x06	; 6
- 4d8:	bf 2e       	mov	r11, r31
- 4da:	72 cf       	rjmp	.-284    	; 0x3c0 <main+0x1c2>
-    
-   if (detX != -1) {
-   
-     step = 0x00; 
-     while(step < 0xFE) {    
-       switch(step) { // sorry I am state machine.      
- 4dc:	80 ec       	ldi	r24, 0xC0	; 192
- 4de:	f8 16       	cp	r15, r24
- 4e0:	81 f0       	breq	.+32     	; 0x502 <__EEPROM_REGION_LENGTH__+0x102>
- 4e2:	80 ef       	ldi	r24, 0xF0	; 240
- 4e4:	f8 16       	cp	r15, r24
- 4e6:	b9 f0       	breq	.+46     	; 0x516 <__EEPROM_REGION_LENGTH__+0x116>
- 4e8:	80 e8       	ldi	r24, 0x80	; 128
- 4ea:	f8 12       	cpse	r15, r24
- 4ec:	0c cf       	rjmp	.-488    	; 0x306 <main+0x108>
-	 case 0x30: step = Flag?0x10:0xC0; break;
-	 case 0x10: step = Flag?0xFE:0x20; detY = Flag?4:detY; break;
-	 case 0x20: step = Flag?0xFE:0xFF; detY = Flag?5:detY; break;
-	 case 0xC0: step = Flag?0x40:0xFF; break;
-	 case 0x40: step = Flag?0xFE:0x80; detY = Flag?6:detY; break;
-	 case 0x80: step = Flag?0xFE:0xFF; detY = Flag?7:detY; break;
- 4ee:	80 91 00 01 	lds	r24, 0x0100	; 0x800100 <__DATA_REGION_ORIGIN__>
- 4f2:	80 91 00 01 	lds	r24, 0x0100	; 0x800100 <__DATA_REGION_ORIGIN__>
- 4f6:	88 23       	and	r24, r24
- 4f8:	09 f4       	brne	.+2      	; 0x4fc <__EEPROM_REGION_LENGTH__+0xfc>
- 4fa:	5f cf       	rjmp	.-322    	; 0x3ba <main+0x1bc>
- 4fc:	87 e0       	ldi	r24, 0x07	; 7
- 4fe:	b8 2e       	mov	r11, r24
- 500:	5f cf       	rjmp	.-322    	; 0x3c0 <main+0x1c2>
-	 case 0x04: step = Flag?0xFE:0x08; detY = Flag?2:detY; break;
-	 case 0x08: step = Flag?0xFE:0xFF; detY = Flag?3:detY; break;
-	 case 0x30: step = Flag?0x10:0xC0; break;
-	 case 0x10: step = Flag?0xFE:0x20; detY = Flag?4:detY; break;
-	 case 0x20: step = Flag?0xFE:0xFF; detY = Flag?5:detY; break;
-	 case 0xC0: step = Flag?0x40:0xFF; break;
- 502:	80 91 00 01 	lds	r24, 0x0100	; 0x800100 <__DATA_REGION_ORIGIN__>
- 506:	88 23       	and	r24, r24
- 508:	09 f4       	brne	.+2      	; 0x50c <__EEPROM_REGION_LENGTH__+0x10c>
- 50a:	57 cf       	rjmp	.-338    	; 0x3ba <main+0x1bc>
- 50c:	40 e4       	ldi	r20, 0x40	; 64
- 50e:	50 e0       	ldi	r21, 0x00	; 0
- 510:	80 e4       	ldi	r24, 0x40	; 64
- 512:	f8 2e       	mov	r15, r24
- 514:	fc ce       	rjmp	.-520    	; 0x30e <main+0x110>
-   
-     step = 0x00; 
-     while(step < 0xFE) {    
-       switch(step) { // sorry I am state machine.      
-	 case 0x0F: step = Flag?0x03:0xF0; break;      
-	 case 0xF0: step = Flag?0x30:0xFF; break;
- 516:	80 91 00 01 	lds	r24, 0x0100	; 0x800100 <__DATA_REGION_ORIGIN__>
- 51a:	88 23       	and	r24, r24
- 51c:	09 f4       	brne	.+2      	; 0x520 <__EEPROM_REGION_LENGTH__+0x120>
- 51e:	4d cf       	rjmp	.-358    	; 0x3ba <main+0x1bc>
- 520:	40 e3       	ldi	r20, 0x30	; 48
- 522:	50 e0       	ldi	r21, 0x00	; 0
- 524:	60 e3       	ldi	r22, 0x30	; 48
- 526:	f6 2e       	mov	r15, r22
- 528:	f2 ce       	rjmp	.-540    	; 0x30e <main+0x110>
-    
-   if (detX != -1) {
-   
-     step = 0x00; 
-     while(step < 0xFE) {    
-       switch(step) { // sorry I am state machine.      
- 52a:	83 e0       	ldi	r24, 0x03	; 3
- 52c:	f8 16       	cp	r15, r24
- 52e:	c1 f0       	breq	.+48     	; 0x560 <__EEPROM_REGION_LENGTH__+0x160>
- 530:	8f 15       	cp	r24, r15
- 532:	08 f0       	brcs	.+2      	; 0x536 <__EEPROM_REGION_LENGTH__+0x136>
- 534:	43 c0       	rjmp	.+134    	; 0x5bc <__EEPROM_REGION_LENGTH__+0x1bc>
- 536:	88 e0       	ldi	r24, 0x08	; 8
- 538:	f8 16       	cp	r15, r24
- 53a:	29 f1       	breq	.+74     	; 0x586 <__EEPROM_REGION_LENGTH__+0x186>
- 53c:	8c e0       	ldi	r24, 0x0C	; 12
- 53e:	f8 16       	cp	r15, r24
- 540:	c1 f0       	breq	.+48     	; 0x572 <__EEPROM_REGION_LENGTH__+0x172>
- 542:	84 e0       	ldi	r24, 0x04	; 4
- 544:	f8 12       	cpse	r15, r24
- 546:	df ce       	rjmp	.-578    	; 0x306 <main+0x108>
-	 case 0xF0: step = Flag?0x30:0xFF; break;
-	 case 0x03: step = Flag?0x01:0x0C; break;
-	 case 0x01: step = Flag?0xFE:0x02; detY = Flag?0:detY ; break;
-	 case 0x02: step = Flag?0xFE:0xFF; detY = Flag?1:detY; break;
-	 case 0x0C: step = Flag?0x04:0xFF; break;
-	 case 0x04: step = Flag?0xFE:0x08; detY = Flag?2:detY; break;
- 548:	80 91 00 01 	lds	r24, 0x0100	; 0x800100 <__DATA_REGION_ORIGIN__>
- 54c:	88 23       	and	r24, r24
- 54e:	29 f1       	breq	.+74     	; 0x59a <__EEPROM_REGION_LENGTH__+0x19a>
- 550:	80 91 00 01 	lds	r24, 0x0100	; 0x800100 <__DATA_REGION_ORIGIN__>
- 554:	88 23       	and	r24, r24
- 556:	09 f4       	brne	.+2      	; 0x55a <__EEPROM_REGION_LENGTH__+0x15a>
- 558:	30 cf       	rjmp	.-416    	; 0x3ba <main+0x1bc>
- 55a:	22 e0       	ldi	r18, 0x02	; 2
- 55c:	b2 2e       	mov	r11, r18
- 55e:	30 cf       	rjmp	.-416    	; 0x3c0 <main+0x1c2>
-     step = 0x00; 
-     while(step < 0xFE) {    
-       switch(step) { // sorry I am state machine.      
-	 case 0x0F: step = Flag?0x03:0xF0; break;      
-	 case 0xF0: step = Flag?0x30:0xFF; break;
-	 case 0x03: step = Flag?0x01:0x0C; break;
- 560:	80 91 00 01 	lds	r24, 0x0100	; 0x800100 <__DATA_REGION_ORIGIN__>
- 564:	88 23       	and	r24, r24
- 566:	29 f1       	breq	.+74     	; 0x5b2 <__EEPROM_REGION_LENGTH__+0x1b2>
- 568:	41 e0       	ldi	r20, 0x01	; 1
- 56a:	50 e0       	ldi	r21, 0x00	; 0
- 56c:	ff 24       	eor	r15, r15
- 56e:	f3 94       	inc	r15
- 570:	ce ce       	rjmp	.-612    	; 0x30e <main+0x110>
-	 case 0x01: step = Flag?0xFE:0x02; detY = Flag?0:detY ; break;
-	 case 0x02: step = Flag?0xFE:0xFF; detY = Flag?1:detY; break;
-	 case 0x0C: step = Flag?0x04:0xFF; break;
- 572:	80 91 00 01 	lds	r24, 0x0100	; 0x800100 <__DATA_REGION_ORIGIN__>
- 576:	88 23       	and	r24, r24
- 578:	09 f4       	brne	.+2      	; 0x57c <__EEPROM_REGION_LENGTH__+0x17c>
- 57a:	1f cf       	rjmp	.-450    	; 0x3ba <main+0x1bc>
- 57c:	44 e0       	ldi	r20, 0x04	; 4
- 57e:	50 e0       	ldi	r21, 0x00	; 0
- 580:	24 e0       	ldi	r18, 0x04	; 4
- 582:	f2 2e       	mov	r15, r18
- 584:	c4 ce       	rjmp	.-632    	; 0x30e <main+0x110>
-	 case 0x04: step = Flag?0xFE:0x08; detY = Flag?2:detY; break;
-	 case 0x08: step = Flag?0xFE:0xFF; detY = Flag?3:detY; break;
- 586:	80 91 00 01 	lds	r24, 0x0100	; 0x800100 <__DATA_REGION_ORIGIN__>
- 58a:	80 91 00 01 	lds	r24, 0x0100	; 0x800100 <__DATA_REGION_ORIGIN__>
- 58e:	88 23       	and	r24, r24
- 590:	09 f4       	brne	.+2      	; 0x594 <__EEPROM_REGION_LENGTH__+0x194>
- 592:	13 cf       	rjmp	.-474    	; 0x3ba <main+0x1bc>
- 594:	33 e0       	ldi	r19, 0x03	; 3
- 596:	b3 2e       	mov	r11, r19
- 598:	13 cf       	rjmp	.-474    	; 0x3c0 <main+0x1c2>
-	 case 0xF0: step = Flag?0x30:0xFF; break;
-	 case 0x03: step = Flag?0x01:0x0C; break;
-	 case 0x01: step = Flag?0xFE:0x02; detY = Flag?0:detY ; break;
-	 case 0x02: step = Flag?0xFE:0xFF; detY = Flag?1:detY; break;
-	 case 0x0C: step = Flag?0x04:0xFF; break;
-	 case 0x04: step = Flag?0xFE:0x08; detY = Flag?2:detY; break;
- 59a:	80 91 00 01 	lds	r24, 0x0100	; 0x800100 <__DATA_REGION_ORIGIN__>
- 59e:	48 e0       	ldi	r20, 0x08	; 8
- 5a0:	50 e0       	ldi	r21, 0x00	; 0
- 5a2:	38 e0       	ldi	r19, 0x08	; 8
- 5a4:	f3 2e       	mov	r15, r19
- 5a6:	88 23       	and	r24, r24
- 5a8:	09 f4       	brne	.+2      	; 0x5ac <__EEPROM_REGION_LENGTH__+0x1ac>
- 5aa:	b1 ce       	rjmp	.-670    	; 0x30e <main+0x110>
- 5ac:	b2 e0       	ldi	r27, 0x02	; 2
- 5ae:	bb 2e       	mov	r11, r27
- 5b0:	ae ce       	rjmp	.-676    	; 0x30e <main+0x110>
- 5b2:	4c e0       	ldi	r20, 0x0C	; 12
- 5b4:	50 e0       	ldi	r21, 0x00	; 0
-     step = 0x00; 
-     while(step < 0xFE) {    
-       switch(step) { // sorry I am state machine.      
-	 case 0x0F: step = Flag?0x03:0xF0; break;      
-	 case 0xF0: step = Flag?0x30:0xFF; break;
-	 case 0x03: step = Flag?0x01:0x0C; break;
- 5b6:	3c e0       	ldi	r19, 0x0C	; 12
- 5b8:	f3 2e       	mov	r15, r19
- 5ba:	a9 ce       	rjmp	.-686    	; 0x30e <main+0x110>
-    
-   if (detX != -1) {
-   
-     step = 0x00; 
-     while(step < 0xFE) {    
-       switch(step) { // sorry I am state machine.      
- 5bc:	81 e0       	ldi	r24, 0x01	; 1
- 5be:	f8 16       	cp	r15, r24
- 5c0:	69 f0       	breq	.+26     	; 0x5dc <__EEPROM_REGION_LENGTH__+0x1dc>
- 5c2:	82 e0       	ldi	r24, 0x02	; 2
- 5c4:	f8 12       	cpse	r15, r24
- 5c6:	9f ce       	rjmp	.-706    	; 0x306 <main+0x108>
-	 case 0x0F: step = Flag?0x03:0xF0; break;      
-	 case 0xF0: step = Flag?0x30:0xFF; break;
-	 case 0x03: step = Flag?0x01:0x0C; break;
-	 case 0x01: step = Flag?0xFE:0x02; detY = Flag?0:detY ; break;
-	 case 0x02: step = Flag?0xFE:0xFF; detY = Flag?1:detY; break;
- 5c8:	80 91 00 01 	lds	r24, 0x0100	; 0x800100 <__DATA_REGION_ORIGIN__>
- 5cc:	80 91 00 01 	lds	r24, 0x0100	; 0x800100 <__DATA_REGION_ORIGIN__>
- 5d0:	88 23       	and	r24, r24
- 5d2:	09 f4       	brne	.+2      	; 0x5d6 <__EEPROM_REGION_LENGTH__+0x1d6>
- 5d4:	f2 ce       	rjmp	.-540    	; 0x3ba <main+0x1bc>
- 5d6:	bb 24       	eor	r11, r11
- 5d8:	b3 94       	inc	r11
- 5da:	f2 ce       	rjmp	.-540    	; 0x3c0 <main+0x1c2>
-     while(step < 0xFE) {    
-       switch(step) { // sorry I am state machine.      
-	 case 0x0F: step = Flag?0x03:0xF0; break;      
-	 case 0xF0: step = Flag?0x30:0xFF; break;
-	 case 0x03: step = Flag?0x01:0x0C; break;
-	 case 0x01: step = Flag?0xFE:0x02; detY = Flag?0:detY ; break;
- 5dc:	80 91 00 01 	lds	r24, 0x0100	; 0x800100 <__DATA_REGION_ORIGIN__>
- 5e0:	88 23       	and	r24, r24
- 5e2:	39 f0       	breq	.+14     	; 0x5f2 <__EEPROM_REGION_LENGTH__+0x1f2>
- 5e4:	80 91 00 01 	lds	r24, 0x0100	; 0x800100 <__DATA_REGION_ORIGIN__>
- 5e8:	88 23       	and	r24, r24
- 5ea:	09 f4       	brne	.+2      	; 0x5ee <__EEPROM_REGION_LENGTH__+0x1ee>
- 5ec:	e6 ce       	rjmp	.-564    	; 0x3ba <main+0x1bc>
- 5ee:	b1 2c       	mov	r11, r1
- 5f0:	e7 ce       	rjmp	.-562    	; 0x3c0 <main+0x1c2>
- 5f2:	80 91 00 01 	lds	r24, 0x0100	; 0x800100 <__DATA_REGION_ORIGIN__>
- 5f6:	42 e0       	ldi	r20, 0x02	; 2
- 5f8:	50 e0       	ldi	r21, 0x00	; 0
- 5fa:	62 e0       	ldi	r22, 0x02	; 2
- 5fc:	f6 2e       	mov	r15, r22
- 5fe:	88 23       	and	r24, r24
- 600:	09 f4       	brne	.+2      	; 0x604 <__EEPROM_REGION_LENGTH__+0x204>
- 602:	85 ce       	rjmp	.-758    	; 0x30e <main+0x110>
- 604:	b1 2c       	mov	r11, r1
- 606:	83 ce       	rjmp	.-762    	; 0x30e <main+0x110>
-  
-  SetBit(6, PORTD);
- 
-  step = 0x00; 
-  while(step < 0xFE) {    
-    switch(step) { // sorry I am state machine.      
- 608:	80 ec       	ldi	r24, 0xC0	; 192
- 60a:	f8 16       	cp	r15, r24
- 60c:	81 f0       	breq	.+32     	; 0x62e <__EEPROM_REGION_LENGTH__+0x22e>
- 60e:	80 ef       	ldi	r24, 0xF0	; 240
- 610:	f8 16       	cp	r15, r24
- 612:	a9 f0       	breq	.+42     	; 0x63e <__EEPROM_REGION_LENGTH__+0x23e>
- 614:	80 e8       	ldi	r24, 0x80	; 128
- 616:	f8 12       	cpse	r15, r24
- 618:	31 ce       	rjmp	.-926    	; 0x27c <main+0x7e>
-      case 0x30: step = Flag?0x10:0xC0; break;
-      case 0x10: step = Flag?0xFE:0x20; detX = Flag?4:detX; break;
-      case 0x20: step = Flag?0xFE:0xFF; detX = Flag?5:detX; break;
-      case 0xC0: step = Flag?0x40:0xFF; break;
-      case 0x40: step = Flag?0xFE:0x80; detX = Flag?6:detX; break;
-      case 0x80: step = Flag?0xFE:0xFF; detX = Flag?7:detX; break;
- 61a:	80 91 00 01 	lds	r24, 0x0100	; 0x800100 <__DATA_REGION_ORIGIN__>
- 61e:	80 91 00 01 	lds	r24, 0x0100	; 0x800100 <__DATA_REGION_ORIGIN__>
- 622:	88 23       	and	r24, r24
- 624:	09 f4       	brne	.+2      	; 0x628 <__EEPROM_REGION_LENGTH__+0x228>
- 626:	4e ce       	rjmp	.-868    	; 0x2c4 <main+0xc6>
- 628:	a7 e0       	ldi	r26, 0x07	; 7
- 62a:	ea 2e       	mov	r14, r26
- 62c:	4f ce       	rjmp	.-866    	; 0x2cc <main+0xce>
-      case 0x04: step = Flag?0xFE:0x08; detX = Flag?2:detX; break;
-      case 0x08: step = Flag?0xFE:0xFF; detX = Flag?3:detX; break;
-      case 0x30: step = Flag?0x10:0xC0; break;
-      case 0x10: step = Flag?0xFE:0x20; detX = Flag?4:detX; break;
-      case 0x20: step = Flag?0xFE:0xFF; detX = Flag?5:detX; break;
-      case 0xC0: step = Flag?0x40:0xFF; break;
- 62e:	80 91 00 01 	lds	r24, 0x0100	; 0x800100 <__DATA_REGION_ORIGIN__>
- 632:	88 23       	and	r24, r24
- 634:	09 f4       	brne	.+2      	; 0x638 <__EEPROM_REGION_LENGTH__+0x238>
- 636:	46 ce       	rjmp	.-884    	; 0x2c4 <main+0xc6>
- 638:	70 e4       	ldi	r23, 0x40	; 64
- 63a:	f7 2e       	mov	r15, r23
- 63c:	21 ce       	rjmp	.-958    	; 0x280 <main+0x82>
- 
-  step = 0x00; 
-  while(step < 0xFE) {    
-    switch(step) { // sorry I am state machine.      
-      case 0x0F: step = Flag?0x03:0xF0; break;      
-      case 0xF0: step = Flag?0x30:0xFF; break;
- 63e:	80 91 00 01 	lds	r24, 0x0100	; 0x800100 <__DATA_REGION_ORIGIN__>
- 642:	88 23       	and	r24, r24
- 644:	09 f4       	brne	.+2      	; 0x648 <__EEPROM_REGION_LENGTH__+0x248>
- 646:	3e ce       	rjmp	.-900    	; 0x2c4 <main+0xc6>
- 648:	b0 e3       	ldi	r27, 0x30	; 48
- 64a:	fb 2e       	mov	r15, r27
- 64c:	19 ce       	rjmp	.-974    	; 0x280 <main+0x82>
-  
-  SetBit(6, PORTD);
- 
-  step = 0x00; 
-  while(step < 0xFE) {    
-    switch(step) { // sorry I am state machine.      
- 64e:	83 e0       	ldi	r24, 0x03	; 3
- 650:	f8 16       	cp	r15, r24
- 652:	b9 f0       	breq	.+46     	; 0x682 <__EEPROM_REGION_LENGTH__+0x282>
- 654:	8f 15       	cp	r24, r15
- 656:	d8 f5       	brcc	.+118    	; 0x6ce <__EEPROM_REGION_LENGTH__+0x2ce>
- 658:	88 e0       	ldi	r24, 0x08	; 8
- 65a:	f8 16       	cp	r15, r24
- 65c:	09 f1       	breq	.+66     	; 0x6a0 <__EEPROM_REGION_LENGTH__+0x2a0>
- 65e:	8c e0       	ldi	r24, 0x0C	; 12
- 660:	f8 16       	cp	r15, r24
- 662:	b1 f0       	breq	.+44     	; 0x690 <__EEPROM_REGION_LENGTH__+0x290>
- 664:	84 e0       	ldi	r24, 0x04	; 4
- 666:	f8 12       	cpse	r15, r24
- 668:	09 ce       	rjmp	.-1006   	; 0x27c <main+0x7e>
-      case 0xF0: step = Flag?0x30:0xFF; break;
-      case 0x03: step = Flag?0x01:0x0C; break;
-      case 0x01: step = Flag?0xFE:0x02; detX = Flag?0:detX ; break;
-      case 0x02: step = Flag?0xFE:0xFF; detX = Flag?1:detX; break;
-      case 0x0C: step = Flag?0x04:0xFF; break;
-      case 0x04: step = Flag?0xFE:0x08; detX = Flag?2:detX; break;
- 66a:	80 91 00 01 	lds	r24, 0x0100	; 0x800100 <__DATA_REGION_ORIGIN__>
- 66e:	88 23       	and	r24, r24
- 670:	09 f1       	breq	.+66     	; 0x6b4 <__EEPROM_REGION_LENGTH__+0x2b4>
- 672:	80 91 00 01 	lds	r24, 0x0100	; 0x800100 <__DATA_REGION_ORIGIN__>
- 676:	88 23       	and	r24, r24
- 678:	09 f4       	brne	.+2      	; 0x67c <__EEPROM_REGION_LENGTH__+0x27c>
- 67a:	24 ce       	rjmp	.-952    	; 0x2c4 <main+0xc6>
- 67c:	62 e0       	ldi	r22, 0x02	; 2
- 67e:	e6 2e       	mov	r14, r22
- 680:	25 ce       	rjmp	.-950    	; 0x2cc <main+0xce>
-  step = 0x00; 
-  while(step < 0xFE) {    
-    switch(step) { // sorry I am state machine.      
-      case 0x0F: step = Flag?0x03:0xF0; break;      
-      case 0xF0: step = Flag?0x30:0xFF; break;
-      case 0x03: step = Flag?0x01:0x0C; break;
- 682:	80 91 00 01 	lds	r24, 0x0100	; 0x800100 <__DATA_REGION_ORIGIN__>
- 686:	88 23       	and	r24, r24
- 688:	f9 f0       	breq	.+62     	; 0x6c8 <__EEPROM_REGION_LENGTH__+0x2c8>
- 68a:	ff 24       	eor	r15, r15
- 68c:	f3 94       	inc	r15
- 68e:	f8 cd       	rjmp	.-1040   	; 0x280 <main+0x82>
-      case 0x01: step = Flag?0xFE:0x02; detX = Flag?0:detX ; break;
-      case 0x02: step = Flag?0xFE:0xFF; detX = Flag?1:detX; break;
-      case 0x0C: step = Flag?0x04:0xFF; break;
- 690:	80 91 00 01 	lds	r24, 0x0100	; 0x800100 <__DATA_REGION_ORIGIN__>
- 694:	88 23       	and	r24, r24
- 696:	09 f4       	brne	.+2      	; 0x69a <__EEPROM_REGION_LENGTH__+0x29a>
- 698:	15 ce       	rjmp	.-982    	; 0x2c4 <main+0xc6>
- 69a:	f4 e0       	ldi	r31, 0x04	; 4
- 69c:	ff 2e       	mov	r15, r31
- 69e:	f0 cd       	rjmp	.-1056   	; 0x280 <main+0x82>
-      case 0x04: step = Flag?0xFE:0x08; detX = Flag?2:detX; break;
-      case 0x08: step = Flag?0xFE:0xFF; detX = Flag?3:detX; break;
- 6a0:	80 91 00 01 	lds	r24, 0x0100	; 0x800100 <__DATA_REGION_ORIGIN__>
- 6a4:	80 91 00 01 	lds	r24, 0x0100	; 0x800100 <__DATA_REGION_ORIGIN__>
- 6a8:	88 23       	and	r24, r24
- 6aa:	09 f4       	brne	.+2      	; 0x6ae <__EEPROM_REGION_LENGTH__+0x2ae>
- 6ac:	0b ce       	rjmp	.-1002   	; 0x2c4 <main+0xc6>
- 6ae:	93 e0       	ldi	r25, 0x03	; 3
- 6b0:	e9 2e       	mov	r14, r25
- 6b2:	0c ce       	rjmp	.-1000   	; 0x2cc <main+0xce>
-      case 0xF0: step = Flag?0x30:0xFF; break;
-      case 0x03: step = Flag?0x01:0x0C; break;
-      case 0x01: step = Flag?0xFE:0x02; detX = Flag?0:detX ; break;
-      case 0x02: step = Flag?0xFE:0xFF; detX = Flag?1:detX; break;
-      case 0x0C: step = Flag?0x04:0xFF; break;
-      case 0x04: step = Flag?0xFE:0x08; detX = Flag?2:detX; break;
- 6b4:	80 91 00 01 	lds	r24, 0x0100	; 0x800100 <__DATA_REGION_ORIGIN__>
- 6b8:	78 e0       	ldi	r23, 0x08	; 8
- 6ba:	f7 2e       	mov	r15, r23
- 6bc:	88 23       	and	r24, r24
- 6be:	09 f4       	brne	.+2      	; 0x6c2 <__EEPROM_REGION_LENGTH__+0x2c2>
- 6c0:	df cd       	rjmp	.-1090   	; 0x280 <main+0x82>
- 6c2:	f2 e0       	ldi	r31, 0x02	; 2
- 6c4:	ef 2e       	mov	r14, r31
- 6c6:	dc cd       	rjmp	.-1096   	; 0x280 <main+0x82>
-  step = 0x00; 
-  while(step < 0xFE) {    
-    switch(step) { // sorry I am state machine.      
-      case 0x0F: step = Flag?0x03:0xF0; break;      
-      case 0xF0: step = Flag?0x30:0xFF; break;
-      case 0x03: step = Flag?0x01:0x0C; break;
- 6c8:	ac e0       	ldi	r26, 0x0C	; 12
- 6ca:	fa 2e       	mov	r15, r26
- 6cc:	d9 cd       	rjmp	.-1102   	; 0x280 <main+0x82>
-  
-  SetBit(6, PORTD);
- 
-  step = 0x00; 
-  while(step < 0xFE) {    
-    switch(step) { // sorry I am state machine.      
- 6ce:	81 e0       	ldi	r24, 0x01	; 1
- 6d0:	f8 16       	cp	r15, r24
- 6d2:	69 f0       	breq	.+26     	; 0x6ee <__EEPROM_REGION_LENGTH__+0x2ee>
- 6d4:	82 e0       	ldi	r24, 0x02	; 2
- 6d6:	f8 12       	cpse	r15, r24
- 6d8:	d1 cd       	rjmp	.-1118   	; 0x27c <main+0x7e>
-      case 0x0F: step = Flag?0x03:0xF0; break;      
-      case 0xF0: step = Flag?0x30:0xFF; break;
-      case 0x03: step = Flag?0x01:0x0C; break;
-      case 0x01: step = Flag?0xFE:0x02; detX = Flag?0:detX ; break;
-      case 0x02: step = Flag?0xFE:0xFF; detX = Flag?1:detX; break;
- 6da:	80 91 00 01 	lds	r24, 0x0100	; 0x800100 <__DATA_REGION_ORIGIN__>
- 6de:	80 91 00 01 	lds	r24, 0x0100	; 0x800100 <__DATA_REGION_ORIGIN__>
- 6e2:	88 23       	and	r24, r24
- 6e4:	09 f4       	brne	.+2      	; 0x6e8 <__EEPROM_REGION_LENGTH__+0x2e8>
- 6e6:	ee cd       	rjmp	.-1060   	; 0x2c4 <main+0xc6>
- 6e8:	ee 24       	eor	r14, r14
- 6ea:	e3 94       	inc	r14
- 6ec:	ef cd       	rjmp	.-1058   	; 0x2cc <main+0xce>
-  while(step < 0xFE) {    
-    switch(step) { // sorry I am state machine.      
-      case 0x0F: step = Flag?0x03:0xF0; break;      
-      case 0xF0: step = Flag?0x30:0xFF; break;
-      case 0x03: step = Flag?0x01:0x0C; break;
-      case 0x01: step = Flag?0xFE:0x02; detX = Flag?0:detX ; break;
- 6ee:	80 91 00 01 	lds	r24, 0x0100	; 0x800100 <__DATA_REGION_ORIGIN__>
- 6f2:	88 23       	and	r24, r24
- 6f4:	39 f0       	breq	.+14     	; 0x704 <__EEPROM_REGION_LENGTH__+0x304>
- 6f6:	80 91 00 01 	lds	r24, 0x0100	; 0x800100 <__DATA_REGION_ORIGIN__>
- 6fa:	88 23       	and	r24, r24
- 6fc:	09 f4       	brne	.+2      	; 0x700 <__EEPROM_REGION_LENGTH__+0x300>
- 6fe:	e2 cd       	rjmp	.-1084   	; 0x2c4 <main+0xc6>
- 700:	e1 2c       	mov	r14, r1
- 702:	e4 cd       	rjmp	.-1080   	; 0x2cc <main+0xce>
- 704:	80 91 00 01 	lds	r24, 0x0100	; 0x800100 <__DATA_REGION_ORIGIN__>
- 708:	e2 e0       	ldi	r30, 0x02	; 2
- 70a:	fe 2e       	mov	r15, r30
- 70c:	88 23       	and	r24, r24
- 70e:	09 f4       	brne	.+2      	; 0x712 <__EEPROM_REGION_LENGTH__+0x312>
- 710:	b7 cd       	rjmp	.-1170   	; 0x280 <main+0x82>
- 712:	e1 2c       	mov	r14, r1
- 714:	b5 cd       	rjmp	.-1174   	; 0x280 <main+0x82>
-      case 0x02: step = Flag?0xFE:0xFF; detX = Flag?1:detX; break;
-      case 0x0C: step = Flag?0x04:0xFF; break;
-      case 0x04: step = Flag?0xFE:0x08; detX = Flag?2:detX; break;
-      case 0x08: step = Flag?0xFE:0xFF; detX = Flag?3:detX; break;
-      case 0x30: step = Flag?0x10:0xC0; break;
-      case 0x10: step = Flag?0xFE:0x20; detX = Flag?4:detX; break;
- 716:	44 e0       	ldi	r20, 0x04	; 4
- 718:	e4 2e       	mov	r14, r20
- 71a:	d8 cd       	rjmp	.-1104   	; 0x2cc <main+0xce>
+ 36a:	6c cf       	rjmp	.-296    	; 0x244 <main+0x46>
 
-0000071c <_exit>:
- 71c:	f8 94       	cli
+0000036c <_exit>:
+ 36c:	f8 94       	cli
 
-0000071e <__stop_program>:
- 71e:	ff cf       	rjmp	.-2      	; 0x71e <__stop_program>
+0000036e <__stop_program>:
+ 36e:	ff cf       	rjmp	.-2      	; 0x36e <__stop_program>
