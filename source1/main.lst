@@ -3,41 +3,41 @@ main.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .data         000003c4  00800100  000003f8  0000048c  2**0
+  0 .data         000003c4  00800100  00000658  000006ec  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  1 .text         000003f8  00000000  00000000  00000094  2**1
+  1 .text         00000658  00000000  00000000  00000094  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  2 .bss          00000001  008004c4  008004c4  00000850  2**0
+  2 .bss          00000016  008004c4  008004c4  00000ab0  2**0
                   ALLOC
-  3 .comment      00000030  00000000  00000000  00000850  2**0
+  3 .comment      00000030  00000000  00000000  00000ab0  2**0
                   CONTENTS, READONLY
-  4 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  00000880  2**2
+  4 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  00000ae0  2**2
                   CONTENTS, READONLY
-  5 .debug_aranges 00000068  00000000  00000000  000008bc  2**0
+  5 .debug_aranges 00000068  00000000  00000000  00000b1c  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_info   00001043  00000000  00000000  00000924  2**0
+  6 .debug_info   00001149  00000000  00000000  00000b84  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_abbrev 0000092f  00000000  00000000  00001967  2**0
+  7 .debug_abbrev 000009b5  00000000  00000000  00001ccd  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_line   0000046d  00000000  00000000  00002296  2**0
+  8 .debug_line   0000055b  00000000  00000000  00002682  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_frame  00000128  00000000  00000000  00002704  2**2
+  9 .debug_frame  00000268  00000000  00000000  00002be0  2**2
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_str    0000045c  00000000  00000000  0000282c  2**0
+ 10 .debug_str    000004cb  00000000  00000000  00002e48  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_loc    00000463  00000000  00000000  00002c88  2**0
+ 11 .debug_loc    00000a11  00000000  00000000  00003313  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_ranges 00000048  00000000  00000000  000030eb  2**0
+ 12 .debug_ranges 00000060  00000000  00000000  00003d24  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
 
 00000000 <__vectors>:
    0:	0c 94 34 00 	jmp	0x68	; 0x68 <__ctors_end>
-   4:	0c 94 59 00 	jmp	0xb2	; 0xb2 <__vector_1>
+   4:	0c 94 04 01 	jmp	0x208	; 0x208 <__vector_1>
    8:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
-   c:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
-  10:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+   c:	0c 94 76 00 	jmp	0xec	; 0xec <__vector_3>
+  10:	0c 94 bf 00 	jmp	0x17e	; 0x17e <__vector_4>
   14:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
   18:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
   1c:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
@@ -72,8 +72,8 @@ Disassembly of section .text:
   74:	14 e0       	ldi	r17, 0x04	; 4
   76:	a0 e0       	ldi	r26, 0x00	; 0
   78:	b1 e0       	ldi	r27, 0x01	; 1
-  7a:	e8 ef       	ldi	r30, 0xF8	; 248
-  7c:	f3 e0       	ldi	r31, 0x03	; 3
+  7a:	e8 e5       	ldi	r30, 0x58	; 88
+  7c:	f6 e0       	ldi	r31, 0x06	; 6
   7e:	02 c0       	rjmp	.+4      	; 0x84 <__do_copy_data+0x10>
   80:	05 90       	lpm	r0, Z+
   82:	0d 92       	st	X+, r0
@@ -91,798 +91,1173 @@ Disassembly of section .text:
   92:	1d 92       	st	X+, r1
 
 00000094 <.do_clear_bss_start>:
-  94:	a5 3c       	cpi	r26, 0xC5	; 197
+  94:	aa 3d       	cpi	r26, 0xDA	; 218
   96:	b2 07       	cpc	r27, r18
   98:	e1 f7       	brne	.-8      	; 0x92 <.do_clear_bss_loop>
-  9a:	0e 94 06 01 	call	0x20c	; 0x20c <main>
-  9e:	0c 94 fa 01 	jmp	0x3f4	; 0x3f4 <_exit>
+  9a:	0e 94 04 02 	call	0x408	; 0x408 <main>
+  9e:	0c 94 2a 03 	jmp	0x654	; 0x654 <_exit>
 
 000000a2 <__bad_interrupt>:
   a2:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
 
 000000a6 <setupInt>:
-}
-
-
-
-void setupInt() {        
-  EICRA = (1<<ISC10) | (1<<ISC00);  // we need to set up int0 and int1 to trigger interrupts on both edges         
-  a6:	85 e0       	ldi	r24, 0x05	; 5
-  a8:	80 93 69 00 	sts	0x0069, r24	; 0x800069 <__TEXT_REGION_LENGTH__+0x7f8069>
-  EIMSK = (1<<INT0) | (0<<INT1); // then enable them.
-  ac:	81 e0       	ldi	r24, 0x01	; 1
-  ae:	8d bb       	out	0x1d, r24	; 29
-}
-  b0:	08 95       	ret
-
-000000b2 <__vector_1>:
- 
-
-ISR(INT0_vect){ // the scanning produces brief pulses, we just need to know if it saw one since we last cleared the flag.
-  b2:	1f 92       	push	r1
-  b4:	0f 92       	push	r0
-  b6:	0f b6       	in	r0, 0x3f	; 63
-  b8:	0f 92       	push	r0
-  ba:	11 24       	eor	r1, r1
-  bc:	8f 93       	push	r24
-   Flag = 1;
-  be:	81 e0       	ldi	r24, 0x01	; 1
-  c0:	80 93 c4 04 	sts	0x04C4, r24	; 0x8004c4 <__data_end>
-}
-  c4:	8f 91       	pop	r24
-  c6:	0f 90       	pop	r0
-  c8:	0f be       	out	0x3f, r0	; 63
-  ca:	0f 90       	pop	r0
-  cc:	1f 90       	pop	r1
-  ce:	18 95       	reti
-
-000000d0 <send16>:
-
-
-// send a 16bit word, msb first
-void send16 (unsigned int bits) {
-  unsigned int temp;  
-  CSlow();
-  d0:	5d 98       	cbi	0x0b, 5	; 11
-  d2:	40 e1       	ldi	r20, 0x10	; 16
-  d4:	50 e0       	ldi	r21, 0x00	; 0
-  for( temp = (0x0001<<15); temp != 0; temp >>= 1) {    
-  d6:	20 e0       	ldi	r18, 0x00	; 0
-  d8:	30 e8       	ldi	r19, 0x80	; 128
-  da:	0d c0       	rjmp	.+26     	; 0xf6 <send16+0x26>
-    if ( (bits & temp) != 0 ) {    SendOne();
-  dc:	5b 9a       	sbi	0x0b, 3	; 11
-    } else {                       SendZero();
-  de:	5c 98       	cbi	0x0b, 4	; 11
-  e0:	00 00       	nop
-  e2:	00 00       	nop
-  e4:	5c 9a       	sbi	0x0b, 4	; 11
-  e6:	00 00       	nop
-    }    
-   NOP();
-  e8:	00 00       	nop
-   NOP();
-  ea:	00 00       	nop
-
-// send a 16bit word, msb first
-void send16 (unsigned int bits) {
-  unsigned int temp;  
-  CSlow();
-  for( temp = (0x0001<<15); temp != 0; temp >>= 1) {    
-  ec:	36 95       	lsr	r19
-  ee:	27 95       	ror	r18
-  f0:	41 50       	subi	r20, 0x01	; 1
-  f2:	51 09       	sbc	r21, r1
-  f4:	39 f0       	breq	.+14     	; 0x104 <send16+0x34>
-    if ( (bits & temp) != 0 ) {    SendOne();
-  f6:	bc 01       	movw	r22, r24
-  f8:	62 23       	and	r22, r18
-  fa:	73 23       	and	r23, r19
-  fc:	67 2b       	or	r22, r23
-  fe:	71 f7       	brne	.-36     	; 0xdc <send16+0xc>
-    } else {                       SendZero();
- 100:	5b 98       	cbi	0x0b, 3	; 11
- 102:	ed cf       	rjmp	.-38     	; 0xde <send16+0xe>
-    }    
-   NOP();
-   NOP();
-  } 
-  CShigh();
- 104:	5d 9a       	sbi	0x0b, 5	; 11
-}
- 106:	08 95       	ret
-
-00000108 <max7219MakePacket>:
-
-unsigned int max7219MakePacket(unsigned char cmd, unsigned char value) {
-  return ( (cmd<<8) | (value));
-}
- 108:	98 2f       	mov	r25, r24
- 10a:	86 2f       	mov	r24, r22
- 10c:	08 95       	ret
-
-0000010e <max7219Init>:
-
-
-void max7219Init( ) { 
-   send16(max7219MakePacket(cmdPOWER,  0x01));   // wakeup
- 10e:	81 e0       	ldi	r24, 0x01	; 1
- 110:	9c e0       	ldi	r25, 0x0C	; 12
- 112:	0e 94 68 00 	call	0xd0	; 0xd0 <send16>
-   send16(max7219MakePacket(cmdTEST,   0x00));   // no test mode   
- 116:	80 e0       	ldi	r24, 0x00	; 0
- 118:	9d e0       	ldi	r25, 0x0D	; 13
- 11a:	0e 94 68 00 	call	0xd0	; 0xd0 <send16>
-   send16(max7219MakePacket(cmdINT,    0x07)); // 1/2 brightness (8/15)     
- 11e:	87 e0       	ldi	r24, 0x07	; 7
- 120:	9a e0       	ldi	r25, 0x0A	; 10
- 122:	0e 94 68 00 	call	0xd0	; 0xd0 <send16>
-   send16(max7219MakePacket(cmdSCAN,   0xFF)); // all digits
- 126:	8f ef       	ldi	r24, 0xFF	; 255
- 128:	9b e0       	ldi	r25, 0x0B	; 11
- 12a:	0e 94 68 00 	call	0xd0	; 0xd0 <send16>
-   send16(max7219MakePacket(cmdMODE,   0x00)); // no decode
- 12e:	80 e0       	ldi	r24, 0x00	; 0
- 130:	99 e0       	ldi	r25, 0x09	; 9
- 132:	0e 94 68 00 	call	0xd0	; 0xd0 <send16>
-  // send16(max7219MakePacket(cmdMODE,   0xFF));  // all decode
-  
-   send16(max7219MakePacket(cmdDIG0+0, 0x00)); // dots!
- 136:	80 e0       	ldi	r24, 0x00	; 0
- 138:	91 e0       	ldi	r25, 0x01	; 1
- 13a:	0e 94 68 00 	call	0xd0	; 0xd0 <send16>
-   send16(max7219MakePacket(cmdDIG0+1, 0x00)); // dots!
- 13e:	80 e0       	ldi	r24, 0x00	; 0
- 140:	92 e0       	ldi	r25, 0x02	; 2
- 142:	0e 94 68 00 	call	0xd0	; 0xd0 <send16>
-   send16(max7219MakePacket(cmdDIG0+2, 0x00)); // dots!
- 146:	80 e0       	ldi	r24, 0x00	; 0
- 148:	93 e0       	ldi	r25, 0x03	; 3
- 14a:	0e 94 68 00 	call	0xd0	; 0xd0 <send16>
-   send16(max7219MakePacket(cmdDIG0+3, 0x00)); // dots!
- 14e:	80 e0       	ldi	r24, 0x00	; 0
- 150:	94 e0       	ldi	r25, 0x04	; 4
- 152:	0e 94 68 00 	call	0xd0	; 0xd0 <send16>
-   send16(max7219MakePacket(cmdDIG0+4, 0xFF)); // dots!
- 156:	8f ef       	ldi	r24, 0xFF	; 255
- 158:	95 e0       	ldi	r25, 0x05	; 5
- 15a:	0e 94 68 00 	call	0xd0	; 0xd0 <send16>
-   send16(max7219MakePacket(cmdDIG0+5, 0xFF)); // dots!
- 15e:	8f ef       	ldi	r24, 0xFF	; 255
- 160:	96 e0       	ldi	r25, 0x06	; 6
- 162:	0e 94 68 00 	call	0xd0	; 0xd0 <send16>
-   send16(max7219MakePacket(cmdDIG0+6, 0xFF)); // dots!
- 166:	8f ef       	ldi	r24, 0xFF	; 255
- 168:	97 e0       	ldi	r25, 0x07	; 7
- 16a:	0e 94 68 00 	call	0xd0	; 0xd0 <send16>
-   send16(max7219MakePacket(cmdDIG0+7, 0xFF)); // dots! 
- 16e:	8f ef       	ldi	r24, 0xFF	; 255
- 170:	98 e0       	ldi	r25, 0x08	; 8
- 172:	0c 94 68 00 	jmp	0xd0	; 0xd0 <send16>
-
-00000176 <max7219SetDisplay>:
-    
-}
-
-void max7219SetDisplay( unsigned char digit, unsigned char v)   { 
-   digit &= 0x07;
- 176:	87 70       	andi	r24, 0x07	; 7
-   send16(max7219MakePacket(cmdDIG0+digit, v));       
- 178:	8f 5f       	subi	r24, 0xFF	; 255
- 17a:	98 2f       	mov	r25, r24
- 17c:	86 2f       	mov	r24, r22
- 17e:	0c 94 68 00 	jmp	0xd0	; 0xd0 <send16>
-
-00000182 <max7219Blit>:
-}
-
-void max7219Blit( uint8_t *i) {
- 182:	cf 93       	push	r28
- 184:	df 93       	push	r29
- 186:	ec 01       	movw	r28, r24
-  } 
-  CShigh();
-}
-
-unsigned int max7219MakePacket(unsigned char cmd, unsigned char value) {
-  return ( (cmd<<8) | (value));
- 188:	88 81       	ld	r24, Y
- 18a:	90 e0       	ldi	r25, 0x00	; 0
-   digit &= 0x07;
-   send16(max7219MakePacket(cmdDIG0+digit, v));       
-}
-
-void max7219Blit( uint8_t *i) {
-   send16(max7219MakePacket(cmdDIG0+0, *(i+0))); // dots!
- 18c:	91 60       	ori	r25, 0x01	; 1
- 18e:	0e 94 68 00 	call	0xd0	; 0xd0 <send16>
-  } 
-  CShigh();
-}
-
-unsigned int max7219MakePacket(unsigned char cmd, unsigned char value) {
-  return ( (cmd<<8) | (value));
- 192:	89 81       	ldd	r24, Y+1	; 0x01
- 194:	90 e0       	ldi	r25, 0x00	; 0
-   send16(max7219MakePacket(cmdDIG0+digit, v));       
-}
-
-void max7219Blit( uint8_t *i) {
-   send16(max7219MakePacket(cmdDIG0+0, *(i+0))); // dots!
-   send16(max7219MakePacket(cmdDIG0+1, *(i+1))); // dots!
- 196:	92 60       	ori	r25, 0x02	; 2
- 198:	0e 94 68 00 	call	0xd0	; 0xd0 <send16>
-  } 
-  CShigh();
-}
-
-unsigned int max7219MakePacket(unsigned char cmd, unsigned char value) {
-  return ( (cmd<<8) | (value));
- 19c:	8a 81       	ldd	r24, Y+2	; 0x02
- 19e:	90 e0       	ldi	r25, 0x00	; 0
-}
-
-void max7219Blit( uint8_t *i) {
-   send16(max7219MakePacket(cmdDIG0+0, *(i+0))); // dots!
-   send16(max7219MakePacket(cmdDIG0+1, *(i+1))); // dots!
-   send16(max7219MakePacket(cmdDIG0+2, *(i+2))); // dots!
- 1a0:	93 60       	ori	r25, 0x03	; 3
- 1a2:	0e 94 68 00 	call	0xd0	; 0xd0 <send16>
-  } 
-  CShigh();
-}
-
-unsigned int max7219MakePacket(unsigned char cmd, unsigned char value) {
-  return ( (cmd<<8) | (value));
- 1a6:	8b 81       	ldd	r24, Y+3	; 0x03
- 1a8:	90 e0       	ldi	r25, 0x00	; 0
-
-void max7219Blit( uint8_t *i) {
-   send16(max7219MakePacket(cmdDIG0+0, *(i+0))); // dots!
-   send16(max7219MakePacket(cmdDIG0+1, *(i+1))); // dots!
-   send16(max7219MakePacket(cmdDIG0+2, *(i+2))); // dots!
-   send16(max7219MakePacket(cmdDIG0+3, *(i+3))); // dots!
- 1aa:	94 60       	ori	r25, 0x04	; 4
- 1ac:	0e 94 68 00 	call	0xd0	; 0xd0 <send16>
-  } 
-  CShigh();
-}
-
-unsigned int max7219MakePacket(unsigned char cmd, unsigned char value) {
-  return ( (cmd<<8) | (value));
- 1b0:	8c 81       	ldd	r24, Y+4	; 0x04
- 1b2:	90 e0       	ldi	r25, 0x00	; 0
-void max7219Blit( uint8_t *i) {
-   send16(max7219MakePacket(cmdDIG0+0, *(i+0))); // dots!
-   send16(max7219MakePacket(cmdDIG0+1, *(i+1))); // dots!
-   send16(max7219MakePacket(cmdDIG0+2, *(i+2))); // dots!
-   send16(max7219MakePacket(cmdDIG0+3, *(i+3))); // dots!
-   send16(max7219MakePacket(cmdDIG0+4, *(i+4))); // dots!
- 1b4:	95 60       	ori	r25, 0x05	; 5
- 1b6:	0e 94 68 00 	call	0xd0	; 0xd0 <send16>
-  } 
-  CShigh();
-}
-
-unsigned int max7219MakePacket(unsigned char cmd, unsigned char value) {
-  return ( (cmd<<8) | (value));
- 1ba:	8d 81       	ldd	r24, Y+5	; 0x05
- 1bc:	90 e0       	ldi	r25, 0x00	; 0
-   send16(max7219MakePacket(cmdDIG0+0, *(i+0))); // dots!
-   send16(max7219MakePacket(cmdDIG0+1, *(i+1))); // dots!
-   send16(max7219MakePacket(cmdDIG0+2, *(i+2))); // dots!
-   send16(max7219MakePacket(cmdDIG0+3, *(i+3))); // dots!
-   send16(max7219MakePacket(cmdDIG0+4, *(i+4))); // dots!
-   send16(max7219MakePacket(cmdDIG0+5, *(i+5))); // dots!
- 1be:	96 60       	ori	r25, 0x06	; 6
- 1c0:	0e 94 68 00 	call	0xd0	; 0xd0 <send16>
-  } 
-  CShigh();
-}
-
-unsigned int max7219MakePacket(unsigned char cmd, unsigned char value) {
-  return ( (cmd<<8) | (value));
- 1c4:	8e 81       	ldd	r24, Y+6	; 0x06
- 1c6:	90 e0       	ldi	r25, 0x00	; 0
-   send16(max7219MakePacket(cmdDIG0+1, *(i+1))); // dots!
-   send16(max7219MakePacket(cmdDIG0+2, *(i+2))); // dots!
-   send16(max7219MakePacket(cmdDIG0+3, *(i+3))); // dots!
-   send16(max7219MakePacket(cmdDIG0+4, *(i+4))); // dots!
-   send16(max7219MakePacket(cmdDIG0+5, *(i+5))); // dots!
-   send16(max7219MakePacket(cmdDIG0+6, *(i+6))); // dots!
- 1c8:	97 60       	ori	r25, 0x07	; 7
- 1ca:	0e 94 68 00 	call	0xd0	; 0xd0 <send16>
-  } 
-  CShigh();
-}
-
-unsigned int max7219MakePacket(unsigned char cmd, unsigned char value) {
-  return ( (cmd<<8) | (value));
- 1ce:	8f 81       	ldd	r24, Y+7	; 0x07
- 1d0:	90 e0       	ldi	r25, 0x00	; 0
-   send16(max7219MakePacket(cmdDIG0+2, *(i+2))); // dots!
-   send16(max7219MakePacket(cmdDIG0+3, *(i+3))); // dots!
-   send16(max7219MakePacket(cmdDIG0+4, *(i+4))); // dots!
-   send16(max7219MakePacket(cmdDIG0+5, *(i+5))); // dots!
-   send16(max7219MakePacket(cmdDIG0+6, *(i+6))); // dots!
-   send16(max7219MakePacket(cmdDIG0+7, *(i+7))); // dots! 
- 1d2:	98 60       	ori	r25, 0x08	; 8
-}
- 1d4:	df 91       	pop	r29
- 1d6:	cf 91       	pop	r28
-   send16(max7219MakePacket(cmdDIG0+2, *(i+2))); // dots!
-   send16(max7219MakePacket(cmdDIG0+3, *(i+3))); // dots!
-   send16(max7219MakePacket(cmdDIG0+4, *(i+4))); // dots!
-   send16(max7219MakePacket(cmdDIG0+5, *(i+5))); // dots!
-   send16(max7219MakePacket(cmdDIG0+6, *(i+6))); // dots!
-   send16(max7219MakePacket(cmdDIG0+7, *(i+7))); // dots! 
- 1d8:	0c 94 68 00 	jmp	0xd0	; 0xd0 <send16>
-
-000001dc <max7219SetIntensity>:
-  } 
-  CShigh();
-}
-
-unsigned int max7219MakePacket(unsigned char cmd, unsigned char value) {
-  return ( (cmd<<8) | (value));
- 1dc:	90 e0       	ldi	r25, 0x00	; 0
-   send16(max7219MakePacket(cmdDIG0+5, *(i+5))); // dots!
-   send16(max7219MakePacket(cmdDIG0+6, *(i+6))); // dots!
-   send16(max7219MakePacket(cmdDIG0+7, *(i+7))); // dots! 
-}
-
-void max7219SetIntensity( unsigned char v)   { send16(max7219MakePacket(cmdINT, v)); }
- 1de:	9a 60       	ori	r25, 0x0A	; 10
- 1e0:	0c 94 68 00 	jmp	0xd0	; 0xd0 <send16>
-
-000001e4 <max7219SetScanLimit>:
-  } 
-  CShigh();
-}
-
-unsigned int max7219MakePacket(unsigned char cmd, unsigned char value) {
-  return ( (cmd<<8) | (value));
- 1e4:	90 e0       	ldi	r25, 0x00	; 0
-   send16(max7219MakePacket(cmdDIG0+6, *(i+6))); // dots!
-   send16(max7219MakePacket(cmdDIG0+7, *(i+7))); // dots! 
-}
-
-void max7219SetIntensity( unsigned char v)   { send16(max7219MakePacket(cmdINT, v)); }
-void max7219SetScanLimit( unsigned char v)   { send16(max7219MakePacket(cmdSCAN, v)); }
- 1e6:	9b 60       	ori	r25, 0x0B	; 11
- 1e8:	0c 94 68 00 	jmp	0xd0	; 0xd0 <send16>
-
-000001ec <max7219SetDecodeFlags>:
-  } 
-  CShigh();
-}
-
-unsigned int max7219MakePacket(unsigned char cmd, unsigned char value) {
-  return ( (cmd<<8) | (value));
- 1ec:	90 e0       	ldi	r25, 0x00	; 0
-   send16(max7219MakePacket(cmdDIG0+7, *(i+7))); // dots! 
-}
-
-void max7219SetIntensity( unsigned char v)   { send16(max7219MakePacket(cmdINT, v)); }
-void max7219SetScanLimit( unsigned char v)   { send16(max7219MakePacket(cmdSCAN, v)); }
-void max7219SetDecodeFlags( unsigned char v) { send16(max7219MakePacket(cmdMODE, v)); }
- 1ee:	99 60       	ori	r25, 0x09	; 9
- 1f0:	0c 94 68 00 	jmp	0xd0	; 0xd0 <send16>
-
-000001f4 <Delay>:
-#include "nopDelay.h"
-
-void Delay(uint32_t d) {
- 1f4:	05 c0       	rjmp	.+10     	; 0x200 <Delay+0xc>
-  for (; d; d--)  asm volatile ("nop"::); 
- 1f6:	00 00       	nop
- 1f8:	61 50       	subi	r22, 0x01	; 1
- 1fa:	71 09       	sbc	r23, r1
- 1fc:	81 09       	sbc	r24, r1
- 1fe:	91 09       	sbc	r25, r1
- 200:	61 15       	cp	r22, r1
- 202:	71 05       	cpc	r23, r1
- 204:	81 05       	cpc	r24, r1
- 206:	91 05       	cpc	r25, r1
- 208:	b1 f7       	brne	.-20     	; 0x1f6 <Delay+0x2>
-}
- 20a:	08 95       	ret
-
-0000020c <main>:
-  [0x40] = {{0x80, 0xFE}, {0xFF, 0x06}}, 
-  [0x80] = {{0xFF, 0xFE}, {0xFF, 0x07}}, 
-  [0x00] = {{0x0F, 0x0F}, {0xFF, 0xFF}} 
-};
-
-int main( void ) {
- 20c:	cf 93       	push	r28
- 20e:	df 93       	push	r29
- 210:	cd b7       	in	r28, 0x3d	; 61
- 212:	de b7       	in	r29, 0x3e	; 62
- 214:	2c 97       	sbiw	r28, 0x0c	; 12
- 216:	0f b6       	in	r0, 0x3f	; 63
- 218:	f8 94       	cli
- 21a:	de bf       	out	0x3e, r29	; 62
- 21c:	0f be       	out	0x3f, r0	; 63
- 21e:	cd bf       	out	0x3d, r28	; 61
- int8_t detX, detY;
- uint8_t step;
- 
-
-    // set up directions 
-  DDRB = (OUTPUT << PB0 | OUTPUT << PB1 | INPUT << PB2 | INPUT << PB3 | INPUT << PB4 |OUTPUT << PB5 | INPUT << PB6 | INPUT << PB7);
- 220:	83 e2       	ldi	r24, 0x23	; 35
- 222:	84 b9       	out	0x04, r24	; 4
-  DDRD = (INPUT << PD0 | INPUT << PD1 | INPUT << PD2 |OUTPUT << PD3 |OUTPUT << PD4 |OUTPUT << PD5 |OUTPUT << PD6 |INPUT << PD7);        
- 224:	88 e7       	ldi	r24, 0x78	; 120
- 226:	8a b9       	out	0x0a, r24	; 10
-  DDRC = (INPUT << PC0 | INPUT << PC1 | INPUT << PC2 |INPUT << PC3 |INPUT << PC4 |INPUT << PC5 |INPUT << PC6 ); 
- 228:	17 b8       	out	0x07, r1	; 7
-  
-  max7219Init();
- 22a:	0e 94 87 00 	call	0x10e	; 0x10e <max7219Init>
-}
-
-
-
-void setupInt() {        
-  EICRA = (1<<ISC10) | (1<<ISC00);  // we need to set up int0 and int1 to trigger interrupts on both edges         
- 22e:	85 e0       	ldi	r24, 0x05	; 5
- 230:	80 93 69 00 	sts	0x0069, r24	; 0x800069 <__TEXT_REGION_LENGTH__+0x7f8069>
-  EIMSK = (1<<INT0) | (0<<INT1); // then enable them.
- 234:	81 e0       	ldi	r24, 0x01	; 1
- 236:	8d bb       	out	0x1d, r24	; 29
-  DDRD = (INPUT << PD0 | INPUT << PD1 | INPUT << PD2 |OUTPUT << PD3 |OUTPUT << PD4 |OUTPUT << PD5 |OUTPUT << PD6 |INPUT << PD7);        
-  DDRC = (INPUT << PC0 | INPUT << PC1 | INPUT << PC2 |INPUT << PC3 |INPUT << PC4 |INPUT << PC5 |INPUT << PC6 ); 
-  
-  max7219Init();
-  setupInt();
-  sei(); 
- 238:	78 94       	sei
-
-  penX = penY = 0;
- 23a:	d1 2c       	mov	r13, r1
- 23c:	e1 2c       	mov	r14, r1
-  
-  SetBit(6, PORTD);
- 
-uint8_t step = 0x00; 
-while (step < 0xFE) {    
-  uint8_t flagIndex = Flag ? 1 : 0;
- 23e:	cc 24       	eor	r12, r12
- 240:	c3 94       	inc	r12
- 242:	29 c0       	rjmp	.+82     	; 0x296 <main+0x8a>
-    Delay(3000); // Change this delay down to about 3000 min. for high-speed scanning.
   }
 }
 
-    
-if (detX != -1) {
- 244:	ff ef       	ldi	r31, 0xFF	; 255
- 246:	ff 12       	cpse	r15, r31
- 248:	78 c0       	rjmp	.+240    	; 0x33a <main+0x12e>
-        penY = detY;
+void setupInt()
+{
+  EICRA = (1 << ISC10) | (1 << ISC00); // we need to set up int0 and int1 to trigger interrupts on both edges
+  a6:	85 e0       	ldi	r24, 0x05	; 5
+  a8:	80 93 69 00 	sts	0x0069, r24	; 0x800069 <__TEXT_REGION_LENGTH__+0x7f8069>
+  EIMSK = (1 << INT0) | (0 << INT1);   // then enable them.
+  ac:	81 e0       	ldi	r24, 0x01	; 1
+  ae:	8d bb       	out	0x1d, r24	; 29
+
+  PCICR = (1 << PCIE0);
+  b0:	e8 e6       	ldi	r30, 0x68	; 104
+  b2:	f0 e0       	ldi	r31, 0x00	; 0
+  b4:	80 83       	st	Z, r24
+
+  // Enable pin change interrupt on pin PB2 (which is PCINT2) and PB4 (which is PCINT4)
+  PCMSK0 = (1 << PCINT2) | (1 << PCINT4);
+  b6:	84 e1       	ldi	r24, 0x14	; 20
+  b8:	80 93 6b 00 	sts	0x006B, r24	; 0x80006b <__TEXT_REGION_LENGTH__+0x7f806b>
+
+  // Enable pin change interrupt on port C (PCIE1 for PCINT8 to PCINT15)
+  PCICR |= (1 << PCIE1);
+  bc:	80 81       	ld	r24, Z
+  be:	82 60       	ori	r24, 0x02	; 2
+  c0:	80 83       	st	Z, r24
+
+  // Enable pin change interrupt on pin PC3 (which is PCINT11)
+  PCMSK1 |= (1 << PCINT11);
+  c2:	ec e6       	ldi	r30, 0x6C	; 108
+  c4:	f0 e0       	ldi	r31, 0x00	; 0
+  c6:	80 81       	ld	r24, Z
+  c8:	88 60       	ori	r24, 0x08	; 8
+  ca:	80 83       	st	Z, r24
+}
+  cc:	08 95       	ret
+
+000000ce <clearImage>:
+
+void clearImage()
+{
+  for (int i = 0; i < 8; i++)
+  {
+    image2[i] = 0x00;
+  ce:	e6 ec       	ldi	r30, 0xC6	; 198
+  d0:	f4 e0       	ldi	r31, 0x04	; 4
+  d2:	10 82       	st	Z, r1
+  d4:	11 82       	std	Z+1, r1	; 0x01
+  d6:	12 82       	std	Z+2, r1	; 0x02
+  d8:	13 82       	std	Z+3, r1	; 0x03
+  da:	14 82       	std	Z+4, r1	; 0x04
+  dc:	15 82       	std	Z+5, r1	; 0x05
+  de:	16 82       	std	Z+6, r1	; 0x06
+  e0:	17 82       	std	Z+7, r1	; 0x07
+  }
+  penX = penY = 0;
+  e2:	10 92 d6 04 	sts	0x04D6, r1	; 0x8004d6 <penY>
+  e6:	10 92 d7 04 	sts	0x04D7, r1	; 0x8004d7 <penX>
+}
+  ea:	08 95       	ret
+
+000000ec <__vector_3>:
+ISR(PCINT0_vect)
+{
+  ec:	1f 92       	push	r1
+  ee:	0f 92       	push	r0
+  f0:	0f b6       	in	r0, 0x3f	; 63
+  f2:	0f 92       	push	r0
+  f4:	11 24       	eor	r1, r1
+  f6:	2f 93       	push	r18
+  f8:	3f 93       	push	r19
+  fa:	4f 93       	push	r20
+  fc:	5f 93       	push	r21
+  fe:	6f 93       	push	r22
+ 100:	7f 93       	push	r23
+ 102:	8f 93       	push	r24
+ 104:	9f 93       	push	r25
+ 106:	af 93       	push	r26
+ 108:	bf 93       	push	r27
+ 10a:	ef 93       	push	r30
+ 10c:	ff 93       	push	r31
+  Delay(3000); // debounce delay
+ 10e:	68 eb       	ldi	r22, 0xB8	; 184
+ 110:	7b e0       	ldi	r23, 0x0B	; 11
+ 112:	80 e0       	ldi	r24, 0x00	; 0
+ 114:	90 e0       	ldi	r25, 0x00	; 0
+ 116:	0e 94 f8 01 	call	0x3f0	; 0x3f0 <Delay>
+  bounce_count++;
+ 11a:	80 91 c4 04 	lds	r24, 0x04C4	; 0x8004c4 <__data_end>
+ 11e:	8f 5f       	subi	r24, 0xFF	; 255
+ 120:	80 93 c4 04 	sts	0x04C4, r24	; 0x8004c4 <__data_end>
+  delete = 0;
+ 124:	10 92 c5 04 	sts	0x04C5, r1	; 0x8004c5 <delete>
+  if (bounce_count % 2 == 0)
+ 128:	80 ff       	sbrs	r24, 0
+ 12a:	1b c0       	rjmp	.+54     	; 0x162 <__vector_3+0x76>
+ 12c:	80 91 d8 04 	lds	r24, 0x04D8	; 0x8004d8 <record>
+  {
+    record = !record;
+    bounce_count = 0;
+  }
+  record = !record;
+ 130:	91 e0       	ldi	r25, 0x01	; 1
+ 132:	81 11       	cpse	r24, r1
+ 134:	90 e0       	ldi	r25, 0x00	; 0
+ 136:	90 93 d8 04 	sts	0x04D8, r25	; 0x8004d8 <record>
+  if (record == 1)
+ 13a:	88 23       	and	r24, r24
+ 13c:	f1 f0       	breq	.+60     	; 0x17a <__vector_3+0x8e>
+  {
+    SetBit(3, PORTB);
+  }
+  else
+  {
+    ClearBit(3, PORTB);
+ 13e:	2b 98       	cbi	0x05, 3	; 5
+  }
+}
+ 140:	ff 91       	pop	r31
+ 142:	ef 91       	pop	r30
+ 144:	bf 91       	pop	r27
+ 146:	af 91       	pop	r26
+ 148:	9f 91       	pop	r25
+ 14a:	8f 91       	pop	r24
+ 14c:	7f 91       	pop	r23
+ 14e:	6f 91       	pop	r22
+ 150:	5f 91       	pop	r21
+ 152:	4f 91       	pop	r20
+ 154:	3f 91       	pop	r19
+ 156:	2f 91       	pop	r18
+ 158:	0f 90       	pop	r0
+ 15a:	0f be       	out	0x3f, r0	; 63
+ 15c:	0f 90       	pop	r0
+ 15e:	1f 90       	pop	r1
+ 160:	18 95       	reti
+  Delay(3000); // debounce delay
+  bounce_count++;
+  delete = 0;
+  if (bounce_count % 2 == 0)
+  {
+    record = !record;
+ 162:	81 e0       	ldi	r24, 0x01	; 1
+ 164:	90 91 d8 04 	lds	r25, 0x04D8	; 0x8004d8 <record>
+ 168:	91 11       	cpse	r25, r1
+ 16a:	03 c0       	rjmp	.+6      	; 0x172 <__vector_3+0x86>
+    bounce_count = 0;
+ 16c:	10 92 c4 04 	sts	0x04C4, r1	; 0x8004c4 <__data_end>
+ 170:	df cf       	rjmp	.-66     	; 0x130 <__vector_3+0x44>
+  Delay(3000); // debounce delay
+  bounce_count++;
+  delete = 0;
+  if (bounce_count % 2 == 0)
+  {
+    record = !record;
+ 172:	80 e0       	ldi	r24, 0x00	; 0
+    bounce_count = 0;
+ 174:	10 92 c4 04 	sts	0x04C4, r1	; 0x8004c4 <__data_end>
+ 178:	db cf       	rjmp	.-74     	; 0x130 <__vector_3+0x44>
+  }
+  record = !record;
+  if (record == 1)
+  {
+    SetBit(3, PORTB);
+ 17a:	2b 9a       	sbi	0x05, 3	; 5
+ 17c:	e1 cf       	rjmp	.-62     	; 0x140 <__vector_3+0x54>
+
+0000017e <__vector_4>:
+  {
+    ClearBit(3, PORTB);
+  }
+}
+ISR(PCINT1_vect)
+{
+ 17e:	1f 92       	push	r1
+ 180:	0f 92       	push	r0
+ 182:	0f b6       	in	r0, 0x3f	; 63
+ 184:	0f 92       	push	r0
+ 186:	11 24       	eor	r1, r1
+ 188:	2f 93       	push	r18
+ 18a:	3f 93       	push	r19
+ 18c:	4f 93       	push	r20
+ 18e:	5f 93       	push	r21
+ 190:	6f 93       	push	r22
+ 192:	7f 93       	push	r23
+ 194:	8f 93       	push	r24
+ 196:	9f 93       	push	r25
+ 198:	af 93       	push	r26
+ 19a:	bf 93       	push	r27
+ 19c:	ef 93       	push	r30
+ 19e:	ff 93       	push	r31
+  Delay(100000);
+ 1a0:	60 ea       	ldi	r22, 0xA0	; 160
+ 1a2:	76 e8       	ldi	r23, 0x86	; 134
+ 1a4:	81 e0       	ldi	r24, 0x01	; 1
+ 1a6:	90 e0       	ldi	r25, 0x00	; 0
+ 1a8:	0e 94 f8 01 	call	0x3f0	; 0x3f0 <Delay>
+  if (record == 1)
+ 1ac:	80 91 d8 04 	lds	r24, 0x04D8	; 0x8004d8 <record>
+ 1b0:	81 30       	cpi	r24, 0x01	; 1
+ 1b2:	39 f1       	breq	.+78     	; 0x202 <__vector_4+0x84>
+  {
+    delete = 1;
+  }
+  else
+  {
+    delete = 0;
+ 1b4:	10 92 c5 04 	sts	0x04C5, r1	; 0x8004c5 <delete>
+
+void clearImage()
+{
+  for (int i = 0; i < 8; i++)
+  {
+    image2[i] = 0x00;
+ 1b8:	10 92 c6 04 	sts	0x04C6, r1	; 0x8004c6 <image2>
+ 1bc:	10 92 c7 04 	sts	0x04C7, r1	; 0x8004c7 <image2+0x1>
+ 1c0:	10 92 c8 04 	sts	0x04C8, r1	; 0x8004c8 <image2+0x2>
+ 1c4:	10 92 c9 04 	sts	0x04C9, r1	; 0x8004c9 <image2+0x3>
+ 1c8:	10 92 ca 04 	sts	0x04CA, r1	; 0x8004ca <image2+0x4>
+ 1cc:	10 92 cb 04 	sts	0x04CB, r1	; 0x8004cb <image2+0x5>
+ 1d0:	10 92 cc 04 	sts	0x04CC, r1	; 0x8004cc <image2+0x6>
+ 1d4:	10 92 cd 04 	sts	0x04CD, r1	; 0x8004cd <image2+0x7>
+  }
+  penX = penY = 0;
+ 1d8:	10 92 d6 04 	sts	0x04D6, r1	; 0x8004d6 <penY>
+ 1dc:	10 92 d7 04 	sts	0x04D7, r1	; 0x8004d7 <penX>
+  else
+  {
+    delete = 0;
+    clearImage();
+  }
+}
+ 1e0:	ff 91       	pop	r31
+ 1e2:	ef 91       	pop	r30
+ 1e4:	bf 91       	pop	r27
+ 1e6:	af 91       	pop	r26
+ 1e8:	9f 91       	pop	r25
+ 1ea:	8f 91       	pop	r24
+ 1ec:	7f 91       	pop	r23
+ 1ee:	6f 91       	pop	r22
+ 1f0:	5f 91       	pop	r21
+ 1f2:	4f 91       	pop	r20
+ 1f4:	3f 91       	pop	r19
+ 1f6:	2f 91       	pop	r18
+ 1f8:	0f 90       	pop	r0
+ 1fa:	0f be       	out	0x3f, r0	; 63
+ 1fc:	0f 90       	pop	r0
+ 1fe:	1f 90       	pop	r1
+ 200:	18 95       	reti
+ISR(PCINT1_vect)
+{
+  Delay(100000);
+  if (record == 1)
+  {
+    delete = 1;
+ 202:	80 93 c5 04 	sts	0x04C5, r24	; 0x8004c5 <delete>
+ 206:	ec cf       	rjmp	.-40     	; 0x1e0 <__vector_4+0x62>
+
+00000208 <__vector_1>:
+    clearImage();
+  }
+}
+
+ISR(INT0_vect)
+{ // the scanning produces brief pulses, we just need to know if it saw one since we last cleared the flag.
+ 208:	1f 92       	push	r1
+ 20a:	0f 92       	push	r0
+ 20c:	0f b6       	in	r0, 0x3f	; 63
+ 20e:	0f 92       	push	r0
+ 210:	11 24       	eor	r1, r1
+ 212:	8f 93       	push	r24
+  Flag = 1;
+ 214:	81 e0       	ldi	r24, 0x01	; 1
+ 216:	80 93 d9 04 	sts	0x04D9, r24	; 0x8004d9 <Flag>
+}
+ 21a:	8f 91       	pop	r24
+ 21c:	0f 90       	pop	r0
+ 21e:	0f be       	out	0x3f, r0	; 63
+ 220:	0f 90       	pop	r0
+ 222:	1f 90       	pop	r1
+ 224:	18 95       	reti
+
+00000226 <send16>:
+
+// Send a 16-bit word, MSB first
+void send16(uint8_t numDevices, unsigned int bits) {
+    unsigned int temp;
+    uint8_t shift = numDevices * 16 - 1;
+    CSlow();
+ 226:	5d 98       	cbi	0x0b, 5	; 11
+
+
+// Send a 16-bit word, MSB first
+void send16(uint8_t numDevices, unsigned int bits) {
+    unsigned int temp;
+    uint8_t shift = numDevices * 16 - 1;
+ 228:	82 95       	swap	r24
+ 22a:	80 7f       	andi	r24, 0xF0	; 240
+ 22c:	2f ef       	ldi	r18, 0xFF	; 255
+ 22e:	28 0f       	add	r18, r24
+    CSlow();
+
+    for (temp = (0x0001 << shift); temp != 0; temp >>= 1) {
+ 230:	81 e0       	ldi	r24, 0x01	; 1
+ 232:	90 e0       	ldi	r25, 0x00	; 0
+ 234:	02 c0       	rjmp	.+4      	; 0x23a <send16+0x14>
+ 236:	88 0f       	add	r24, r24
+ 238:	99 1f       	adc	r25, r25
+ 23a:	2a 95       	dec	r18
+ 23c:	e2 f7       	brpl	.-8      	; 0x236 <send16+0x10>
+ 23e:	00 97       	sbiw	r24, 0x00	; 0
+ 240:	61 f4       	brne	.+24     	; 0x25a <send16+0x34>
+ 242:	12 c0       	rjmp	.+36     	; 0x268 <send16+0x42>
+        if ((bits & temp) != 0) {
+            SendOne();
+ 244:	5b 9a       	sbi	0x0b, 3	; 11
+        } else {
+            SendZero();
+ 246:	5c 98       	cbi	0x0b, 4	; 11
+ 248:	00 00       	nop
+ 24a:	00 00       	nop
+ 24c:	5c 9a       	sbi	0x0b, 4	; 11
+ 24e:	00 00       	nop
+        }
+        NOP();
+ 250:	00 00       	nop
+void send16(uint8_t numDevices, unsigned int bits) {
+    unsigned int temp;
+    uint8_t shift = numDevices * 16 - 1;
+    CSlow();
+
+    for (temp = (0x0001 << shift); temp != 0; temp >>= 1) {
+ 252:	96 95       	lsr	r25
+ 254:	87 95       	ror	r24
+ 256:	00 97       	sbiw	r24, 0x00	; 0
+ 258:	39 f0       	breq	.+14     	; 0x268 <send16+0x42>
+        if ((bits & temp) != 0) {
+ 25a:	9b 01       	movw	r18, r22
+ 25c:	28 23       	and	r18, r24
+ 25e:	39 23       	and	r19, r25
+ 260:	23 2b       	or	r18, r19
+ 262:	81 f7       	brne	.-32     	; 0x244 <send16+0x1e>
+            SendOne();
+        } else {
+            SendZero();
+ 264:	5b 98       	cbi	0x0b, 3	; 11
+ 266:	ef cf       	rjmp	.-34     	; 0x246 <send16+0x20>
+        }
+        NOP();
+    }
+
+    CShigh();
+ 268:	5d 9a       	sbi	0x0b, 5	; 11
+}
+ 26a:	08 95       	ret
+
+0000026c <max7219MakePacket>:
+
+unsigned int max7219MakePacket(unsigned char cmd, unsigned char value) {
+    return ((cmd << 8) | (value));
+}
+ 26c:	98 2f       	mov	r25, r24
+ 26e:	86 2f       	mov	r24, r22
+ 270:	08 95       	ret
+
+00000272 <max7219Init>:
+
+void max7219Init(uint8_t numDevices) {
+ 272:	0f 93       	push	r16
+ 274:	1f 93       	push	r17
+ 276:	cf 93       	push	r28
+ 278:	df 93       	push	r29
+    for (uint8_t i = 0; i < numDevices; i++) {
+ 27a:	88 23       	and	r24, r24
+ 27c:	49 f1       	breq	.+82     	; 0x2d0 <max7219Init+0x5e>
+ 27e:	18 2f       	mov	r17, r24
+ 280:	00 e0       	ldi	r16, 0x00	; 0
+        send16(numDevices, max7219MakePacket(cmdPOWER, 0x01));   // Wake up
+ 282:	61 e0       	ldi	r22, 0x01	; 1
+ 284:	7c e0       	ldi	r23, 0x0C	; 12
+ 286:	81 2f       	mov	r24, r17
+ 288:	0e 94 13 01 	call	0x226	; 0x226 <send16>
+        send16(numDevices, max7219MakePacket(cmdTEST, 0x00));    // No test mode
+ 28c:	60 e0       	ldi	r22, 0x00	; 0
+ 28e:	7d e0       	ldi	r23, 0x0D	; 13
+ 290:	81 2f       	mov	r24, r17
+ 292:	0e 94 13 01 	call	0x226	; 0x226 <send16>
+        send16(numDevices, max7219MakePacket(cmdINT, 0x07));     // 1/2 brightness (8/15)
+ 296:	67 e0       	ldi	r22, 0x07	; 7
+ 298:	7a e0       	ldi	r23, 0x0A	; 10
+ 29a:	81 2f       	mov	r24, r17
+ 29c:	0e 94 13 01 	call	0x226	; 0x226 <send16>
+        send16(numDevices, max7219MakePacket(cmdSCAN, 0x07));    // All digits
+ 2a0:	67 e0       	ldi	r22, 0x07	; 7
+ 2a2:	7b e0       	ldi	r23, 0x0B	; 11
+ 2a4:	81 2f       	mov	r24, r17
+ 2a6:	0e 94 13 01 	call	0x226	; 0x226 <send16>
+        send16(numDevices, max7219MakePacket(cmdMODE, 0x00));    // No decode
+ 2aa:	60 e0       	ldi	r22, 0x00	; 0
+ 2ac:	79 e0       	ldi	r23, 0x09	; 9
+ 2ae:	81 2f       	mov	r24, r17
+ 2b0:	0e 94 13 01 	call	0x226	; 0x226 <send16>
+ 2b4:	c0 e0       	ldi	r28, 0x00	; 0
+ 2b6:	d1 e0       	ldi	r29, 0x01	; 1
+        for (uint8_t j = 0; j < 8; j++) {
+            send16(numDevices, max7219MakePacket(cmdDIG0 + j, 0x00)); // Clear all digits
+ 2b8:	be 01       	movw	r22, r28
+ 2ba:	81 2f       	mov	r24, r17
+ 2bc:	0e 94 13 01 	call	0x226	; 0x226 <send16>
+ 2c0:	d3 95       	inc	r29
+        send16(numDevices, max7219MakePacket(cmdPOWER, 0x01));   // Wake up
+        send16(numDevices, max7219MakePacket(cmdTEST, 0x00));    // No test mode
+        send16(numDevices, max7219MakePacket(cmdINT, 0x07));     // 1/2 brightness (8/15)
+        send16(numDevices, max7219MakePacket(cmdSCAN, 0x07));    // All digits
+        send16(numDevices, max7219MakePacket(cmdMODE, 0x00));    // No decode
+        for (uint8_t j = 0; j < 8; j++) {
+ 2c2:	c1 15       	cp	r28, r1
+ 2c4:	89 e0       	ldi	r24, 0x09	; 9
+ 2c6:	d8 07       	cpc	r29, r24
+ 2c8:	b9 f7       	brne	.-18     	; 0x2b8 <max7219Init+0x46>
+unsigned int max7219MakePacket(unsigned char cmd, unsigned char value) {
+    return ((cmd << 8) | (value));
+}
+
+void max7219Init(uint8_t numDevices) {
+    for (uint8_t i = 0; i < numDevices; i++) {
+ 2ca:	0f 5f       	subi	r16, 0xFF	; 255
+ 2cc:	10 13       	cpse	r17, r16
+ 2ce:	d9 cf       	rjmp	.-78     	; 0x282 <max7219Init+0x10>
+        send16(numDevices, max7219MakePacket(cmdMODE, 0x00));    // No decode
+        for (uint8_t j = 0; j < 8; j++) {
+            send16(numDevices, max7219MakePacket(cmdDIG0 + j, 0x00)); // Clear all digits
+        }
+    }
+}
+ 2d0:	df 91       	pop	r29
+ 2d2:	cf 91       	pop	r28
+ 2d4:	1f 91       	pop	r17
+ 2d6:	0f 91       	pop	r16
+ 2d8:	08 95       	ret
+
+000002da <max7219SetDisplay>:
+
+void max7219SetDisplay(uint8_t digit, uint8_t value, uint8_t numDevices) {
+ 2da:	0f 93       	push	r16
+ 2dc:	1f 93       	push	r17
+ 2de:	cf 93       	push	r28
+ 2e0:	df 93       	push	r29
+    digit &= 0x07;
+ 2e2:	87 70       	andi	r24, 0x07	; 7
+    for (uint8_t i = 0; i < numDevices; i++) {
+ 2e4:	44 23       	and	r20, r20
+ 2e6:	61 f0       	breq	.+24     	; 0x300 <max7219SetDisplay+0x26>
+ 2e8:	d4 2f       	mov	r29, r20
+        send16(numDevices, max7219MakePacket(cmdDIG0 + digit, value));
+ 2ea:	8f 5f       	subi	r24, 0xFF	; 255
+
+    CShigh();
+}
+
+unsigned int max7219MakePacket(unsigned char cmd, unsigned char value) {
+    return ((cmd << 8) | (value));
+ 2ec:	18 2f       	mov	r17, r24
+ 2ee:	06 2f       	mov	r16, r22
     }
 }
 
-   
-   ClearBit(6, PORTD);
- 24a:	5e 98       	cbi	0x0b, 6	; 11
-   send16(max7219MakePacket(cmdINT,    0x0C)); // 1/2 brightness (C/15)     
- 24c:	6c e0       	ldi	r22, 0x0C	; 12
- 24e:	8a e0       	ldi	r24, 0x0A	; 10
- 250:	0e 94 84 00 	call	0x108	; 0x108 <max7219MakePacket>
- 254:	0e 94 68 00 	call	0xd0	; 0xd0 <send16>
-     for( i = 0; i < 8; i++) { // clear image
-       image[i] = 0x00;
- 258:	19 82       	std	Y+1, r1	; 0x01
- 25a:	1a 82       	std	Y+2, r1	; 0x02
- 25c:	1b 82       	std	Y+3, r1	; 0x03
- 25e:	1c 82       	std	Y+4, r1	; 0x04
- 260:	1d 82       	std	Y+5, r1	; 0x05
- 262:	1e 82       	std	Y+6, r1	; 0x06
- 264:	1f 82       	std	Y+7, r1	; 0x07
- 266:	18 86       	std	Y+8, r1	; 0x08
-     }
-     
-     image[penY] = (1<<penX);
- 268:	e1 e0       	ldi	r30, 0x01	; 1
- 26a:	f0 e0       	ldi	r31, 0x00	; 0
- 26c:	ec 0f       	add	r30, r28
- 26e:	fd 1f       	adc	r31, r29
- 270:	ed 0d       	add	r30, r13
- 272:	f1 1d       	adc	r31, r1
- 274:	8c 2d       	mov	r24, r12
- 276:	0e 2c       	mov	r0, r14
- 278:	01 c0       	rjmp	.+2      	; 0x27c <main+0x70>
- 27a:	88 0f       	add	r24, r24
- 27c:	0a 94       	dec	r0
- 27e:	ea f7       	brpl	.-6      	; 0x27a <main+0x6e>
- 280:	80 83       	st	Z, r24
-     
-     max7219Blit( image );   
- 282:	ce 01       	movw	r24, r28
- 284:	01 96       	adiw	r24, 0x01	; 1
- 286:	0e 94 c1 00 	call	0x182	; 0x182 <max7219Blit>
-     
-     Delay(80000);   //<--- this is the amount of time to show the detected location before searching again.
- 28a:	60 e8       	ldi	r22, 0x80	; 128
- 28c:	78 e3       	ldi	r23, 0x38	; 56
- 28e:	81 e0       	ldi	r24, 0x01	; 1
- 290:	90 e0       	ldi	r25, 0x00	; 0
- 292:	0e 94 fa 00 	call	0x1f4	; 0x1f4 <Delay>
+void max7219SetDisplay(uint8_t digit, uint8_t value, uint8_t numDevices) {
+    digit &= 0x07;
+    for (uint8_t i = 0; i < numDevices; i++) {
+ 2f0:	c0 e0       	ldi	r28, 0x00	; 0
+        send16(numDevices, max7219MakePacket(cmdDIG0 + digit, value));
+ 2f2:	b8 01       	movw	r22, r16
+ 2f4:	8d 2f       	mov	r24, r29
+ 2f6:	0e 94 13 01 	call	0x226	; 0x226 <send16>
+    }
+}
+
+void max7219SetDisplay(uint8_t digit, uint8_t value, uint8_t numDevices) {
+    digit &= 0x07;
+    for (uint8_t i = 0; i < numDevices; i++) {
+ 2fa:	cf 5f       	subi	r28, 0xFF	; 255
+ 2fc:	dc 13       	cpse	r29, r28
+ 2fe:	f9 cf       	rjmp	.-14     	; 0x2f2 <max7219SetDisplay+0x18>
+        send16(numDevices, max7219MakePacket(cmdDIG0 + digit, value));
+    }
+}
+ 300:	df 91       	pop	r29
+ 302:	cf 91       	pop	r28
+ 304:	1f 91       	pop	r17
+ 306:	0f 91       	pop	r16
+ 308:	08 95       	ret
+
+0000030a <max7219Blit>:
+
+void max7219Blit(uint8_t *data, uint8_t numDevices) {
+ 30a:	cf 92       	push	r12
+ 30c:	df 92       	push	r13
+ 30e:	ef 92       	push	r14
+ 310:	ff 92       	push	r15
+ 312:	0f 93       	push	r16
+ 314:	1f 93       	push	r17
+ 316:	cf 93       	push	r28
+ 318:	df 93       	push	r29
+ 31a:	d6 2f       	mov	r29, r22
+ 31c:	6c 01       	movw	r12, r24
+    for (uint8_t digit = 0; digit < 8; digit++) {
+        for (uint8_t i = 0; i < numDevices; i++) {
+ 31e:	e1 2c       	mov	r14, r1
+ 320:	ff 24       	eor	r15, r15
+ 322:	f3 94       	inc	r15
+
+    CShigh();
+}
+
+unsigned int max7219MakePacket(unsigned char cmd, unsigned char value) {
+    return ((cmd << 8) | (value));
+ 324:	86 01       	movw	r16, r12
+    }
+}
+
+void max7219Blit(uint8_t *data, uint8_t numDevices) {
+    for (uint8_t digit = 0; digit < 8; digit++) {
+        for (uint8_t i = 0; i < numDevices; i++) {
+ 326:	c0 e0       	ldi	r28, 0x00	; 0
+ 328:	dd 23       	and	r29, r29
+ 32a:	61 f0       	breq	.+24     	; 0x344 <max7219Blit+0x3a>
+
+    CShigh();
+}
+
+unsigned int max7219MakePacket(unsigned char cmd, unsigned char value) {
+    return ((cmd << 8) | (value));
+ 32c:	f8 01       	movw	r30, r16
+ 32e:	80 81       	ld	r24, Z
+ 330:	b7 01       	movw	r22, r14
+ 332:	68 2b       	or	r22, r24
+}
+
+void max7219Blit(uint8_t *data, uint8_t numDevices) {
+    for (uint8_t digit = 0; digit < 8; digit++) {
+        for (uint8_t i = 0; i < numDevices; i++) {
+            send16(numDevices, max7219MakePacket(cmdDIG0 + digit, data[digit + (i * 8)]));
+ 334:	8d 2f       	mov	r24, r29
+ 336:	0e 94 13 01 	call	0x226	; 0x226 <send16>
+    }
+}
+
+void max7219Blit(uint8_t *data, uint8_t numDevices) {
+    for (uint8_t digit = 0; digit < 8; digit++) {
+        for (uint8_t i = 0; i < numDevices; i++) {
+ 33a:	cf 5f       	subi	r28, 0xFF	; 255
+ 33c:	08 5f       	subi	r16, 0xF8	; 248
+ 33e:	1f 4f       	sbci	r17, 0xFF	; 255
+ 340:	dc 13       	cpse	r29, r28
+ 342:	f4 cf       	rjmp	.-24     	; 0x32c <max7219Blit+0x22>
+ 344:	ff ef       	ldi	r31, 0xFF	; 255
+ 346:	cf 1a       	sub	r12, r31
+ 348:	df 0a       	sbc	r13, r31
+ 34a:	f3 94       	inc	r15
+        send16(numDevices, max7219MakePacket(cmdDIG0 + digit, value));
+    }
+}
+
+void max7219Blit(uint8_t *data, uint8_t numDevices) {
+    for (uint8_t digit = 0; digit < 8; digit++) {
+ 34c:	e1 14       	cp	r14, r1
+ 34e:	e9 e0       	ldi	r30, 0x09	; 9
+ 350:	fe 06       	cpc	r15, r30
+ 352:	41 f7       	brne	.-48     	; 0x324 <max7219Blit+0x1a>
+        for (uint8_t i = 0; i < numDevices; i++) {
+            send16(numDevices, max7219MakePacket(cmdDIG0 + digit, data[digit + (i * 8)]));
+        }
+    }
+}
+ 354:	df 91       	pop	r29
+ 356:	cf 91       	pop	r28
+ 358:	1f 91       	pop	r17
+ 35a:	0f 91       	pop	r16
+ 35c:	ff 90       	pop	r15
+ 35e:	ef 90       	pop	r14
+ 360:	df 90       	pop	r13
+ 362:	cf 90       	pop	r12
+ 364:	08 95       	ret
+
+00000366 <max7219SetIntensity>:
+
+void max7219SetIntensity(uint8_t intensity, uint8_t numDevices) {
+ 366:	0f 93       	push	r16
+ 368:	1f 93       	push	r17
+ 36a:	cf 93       	push	r28
+ 36c:	df 93       	push	r29
+    for (uint8_t i = 0; i < numDevices; i++) {
+ 36e:	66 23       	and	r22, r22
+ 370:	61 f0       	breq	.+24     	; 0x38a <max7219SetIntensity+0x24>
+ 372:	d6 2f       	mov	r29, r22
+ 374:	08 2f       	mov	r16, r24
+ 376:	10 e0       	ldi	r17, 0x00	; 0
+ 378:	1a 60       	ori	r17, 0x0A	; 10
+ 37a:	c0 e0       	ldi	r28, 0x00	; 0
+        send16(numDevices, max7219MakePacket(cmdINT, intensity));
+ 37c:	b8 01       	movw	r22, r16
+ 37e:	8d 2f       	mov	r24, r29
+ 380:	0e 94 13 01 	call	0x226	; 0x226 <send16>
+        }
+    }
+}
+
+void max7219SetIntensity(uint8_t intensity, uint8_t numDevices) {
+    for (uint8_t i = 0; i < numDevices; i++) {
+ 384:	cf 5f       	subi	r28, 0xFF	; 255
+ 386:	dc 13       	cpse	r29, r28
+ 388:	f9 cf       	rjmp	.-14     	; 0x37c <max7219SetIntensity+0x16>
+        send16(numDevices, max7219MakePacket(cmdINT, intensity));
+    }
+}
+ 38a:	df 91       	pop	r29
+ 38c:	cf 91       	pop	r28
+ 38e:	1f 91       	pop	r17
+ 390:	0f 91       	pop	r16
+ 392:	08 95       	ret
+
+00000394 <max7219SetScanLimit>:
+
+void max7219SetScanLimit(uint8_t limit, uint8_t numDevices) {
+ 394:	0f 93       	push	r16
+ 396:	1f 93       	push	r17
+ 398:	cf 93       	push	r28
+ 39a:	df 93       	push	r29
+    for (uint8_t i = 0; i < numDevices; i++) {
+ 39c:	66 23       	and	r22, r22
+ 39e:	61 f0       	breq	.+24     	; 0x3b8 <max7219SetScanLimit+0x24>
+ 3a0:	d6 2f       	mov	r29, r22
+ 3a2:	08 2f       	mov	r16, r24
+ 3a4:	10 e0       	ldi	r17, 0x00	; 0
+ 3a6:	1b 60       	ori	r17, 0x0B	; 11
+ 3a8:	c0 e0       	ldi	r28, 0x00	; 0
+        send16(numDevices, max7219MakePacket(cmdSCAN, limit));
+ 3aa:	b8 01       	movw	r22, r16
+ 3ac:	8d 2f       	mov	r24, r29
+ 3ae:	0e 94 13 01 	call	0x226	; 0x226 <send16>
+        send16(numDevices, max7219MakePacket(cmdINT, intensity));
+    }
+}
+
+void max7219SetScanLimit(uint8_t limit, uint8_t numDevices) {
+    for (uint8_t i = 0; i < numDevices; i++) {
+ 3b2:	cf 5f       	subi	r28, 0xFF	; 255
+ 3b4:	dc 13       	cpse	r29, r28
+ 3b6:	f9 cf       	rjmp	.-14     	; 0x3aa <max7219SetScanLimit+0x16>
+        send16(numDevices, max7219MakePacket(cmdSCAN, limit));
+    }
+}
+ 3b8:	df 91       	pop	r29
+ 3ba:	cf 91       	pop	r28
+ 3bc:	1f 91       	pop	r17
+ 3be:	0f 91       	pop	r16
+ 3c0:	08 95       	ret
+
+000003c2 <max7219SetDecodeFlags>:
+
+void max7219SetDecodeFlags(uint8_t flags, uint8_t numDevices) {
+ 3c2:	0f 93       	push	r16
+ 3c4:	1f 93       	push	r17
+ 3c6:	cf 93       	push	r28
+ 3c8:	df 93       	push	r29
+    for (uint8_t i = 0; i < numDevices; i++) {
+ 3ca:	66 23       	and	r22, r22
+ 3cc:	61 f0       	breq	.+24     	; 0x3e6 <max7219SetDecodeFlags+0x24>
+ 3ce:	d6 2f       	mov	r29, r22
+ 3d0:	08 2f       	mov	r16, r24
+ 3d2:	10 e0       	ldi	r17, 0x00	; 0
+ 3d4:	19 60       	ori	r17, 0x09	; 9
+ 3d6:	c0 e0       	ldi	r28, 0x00	; 0
+        send16(numDevices, max7219MakePacket(cmdMODE, flags));
+ 3d8:	b8 01       	movw	r22, r16
+ 3da:	8d 2f       	mov	r24, r29
+ 3dc:	0e 94 13 01 	call	0x226	; 0x226 <send16>
+        send16(numDevices, max7219MakePacket(cmdSCAN, limit));
+    }
+}
+
+void max7219SetDecodeFlags(uint8_t flags, uint8_t numDevices) {
+    for (uint8_t i = 0; i < numDevices; i++) {
+ 3e0:	cf 5f       	subi	r28, 0xFF	; 255
+ 3e2:	dc 13       	cpse	r29, r28
+ 3e4:	f9 cf       	rjmp	.-14     	; 0x3d8 <max7219SetDecodeFlags+0x16>
+        send16(numDevices, max7219MakePacket(cmdMODE, flags));
+    }
+}
+ 3e6:	df 91       	pop	r29
+ 3e8:	cf 91       	pop	r28
+ 3ea:	1f 91       	pop	r17
+ 3ec:	0f 91       	pop	r16
+ 3ee:	08 95       	ret
+
+000003f0 <Delay>:
+#include "nopDelay.h"
+
+void Delay(uint32_t d) {
+ 3f0:	05 c0       	rjmp	.+10     	; 0x3fc <Delay+0xc>
+  for (; d; d--)  asm volatile ("nop"::); 
+ 3f2:	00 00       	nop
+ 3f4:	61 50       	subi	r22, 0x01	; 1
+ 3f6:	71 09       	sbc	r23, r1
+ 3f8:	81 09       	sbc	r24, r1
+ 3fa:	91 09       	sbc	r25, r1
+ 3fc:	61 15       	cp	r22, r1
+ 3fe:	71 05       	cpc	r23, r1
+ 400:	81 05       	cpc	r24, r1
+ 402:	91 05       	cpc	r25, r1
+ 404:	b1 f7       	brne	.-20     	; 0x3f2 <Delay+0x2>
+}
+ 406:	08 95       	ret
+
+00000408 <main>:
+    [0x40] = {{0x80, 0xFE}, {0xFF, 0x06}},
+    [0x80] = {{0xFF, 0xFE}, {0xFF, 0x07}},
+    [0x00] = {{0x0F, 0x0F}, {0xFF, 0xFF}}};
+
+int main(void)
+{
+ 408:	cf 93       	push	r28
+ 40a:	df 93       	push	r29
+ 40c:	00 d0       	rcall	.+0      	; 0x40e <main+0x6>
+ 40e:	00 d0       	rcall	.+0      	; 0x410 <main+0x8>
+ 410:	cd b7       	in	r28, 0x3d	; 61
+ 412:	de b7       	in	r29, 0x3e	; 62
+
+  int8_t detX, detY;
+  uint8_t step;
+
+  // set up directions
+  DDRB = (OUTPUT << PB0 | OUTPUT << PB1 | INPUT << PB2 | INPUT << PB3 | INPUT << PB4 | OUTPUT << PB5 | INPUT << PB6 | INPUT << PB7);
+ 414:	83 e2       	ldi	r24, 0x23	; 35
+ 416:	84 b9       	out	0x04, r24	; 4
+  DDRD = (INPUT << PD0 | INPUT << PD1 | INPUT << PD2 | OUTPUT << PD3 | OUTPUT << PD4 | OUTPUT << PD5 | OUTPUT << PD6 | INPUT << PD7);
+ 418:	88 e7       	ldi	r24, 0x78	; 120
+ 41a:	8a b9       	out	0x0a, r24	; 10
+  DDRC = (INPUT << PC0 | INPUT << PC1 | INPUT << PC2 | INPUT << PC3 | INPUT << PC4 | INPUT << PC5 | INPUT << PC6);
+ 41c:	17 b8       	out	0x07, r1	; 7
+
+  max7219Init(numDevices);
+ 41e:	82 e0       	ldi	r24, 0x02	; 2
+ 420:	0e 94 39 01 	call	0x272	; 0x272 <max7219Init>
+  }
+}
+
+void setupInt()
+{
+  EICRA = (1 << ISC10) | (1 << ISC00); // we need to set up int0 and int1 to trigger interrupts on both edges
+ 424:	85 e0       	ldi	r24, 0x05	; 5
+ 426:	80 93 69 00 	sts	0x0069, r24	; 0x800069 <__TEXT_REGION_LENGTH__+0x7f8069>
+  EIMSK = (1 << INT0) | (0 << INT1);   // then enable them.
+ 42a:	81 e0       	ldi	r24, 0x01	; 1
+ 42c:	8d bb       	out	0x1d, r24	; 29
+
+  PCICR = (1 << PCIE0);
+ 42e:	80 93 68 00 	sts	0x0068, r24	; 0x800068 <__TEXT_REGION_LENGTH__+0x7f8068>
+
+  // Enable pin change interrupt on pin PB2 (which is PCINT2) and PB4 (which is PCINT4)
+  PCMSK0 = (1 << PCINT2) | (1 << PCINT4);
+ 432:	84 e1       	ldi	r24, 0x14	; 20
+ 434:	80 93 6b 00 	sts	0x006B, r24	; 0x80006b <__TEXT_REGION_LENGTH__+0x7f806b>
+
+  // Enable pin change interrupt on port C (PCIE1 for PCINT8 to PCINT15)
+  PCICR |= (1 << PCIE1);
+ 438:	80 91 68 00 	lds	r24, 0x0068	; 0x800068 <__TEXT_REGION_LENGTH__+0x7f8068>
+ 43c:	82 60       	ori	r24, 0x02	; 2
+ 43e:	80 93 68 00 	sts	0x0068, r24	; 0x800068 <__TEXT_REGION_LENGTH__+0x7f8068>
+
+  // Enable pin change interrupt on pin PC3 (which is PCINT11)
+  PCMSK1 |= (1 << PCINT11);
+ 442:	80 91 6c 00 	lds	r24, 0x006C	; 0x80006c <__TEXT_REGION_LENGTH__+0x7f806c>
+ 446:	88 60       	ori	r24, 0x08	; 8
+ 448:	80 93 6c 00 	sts	0x006C, r24	; 0x80006c <__TEXT_REGION_LENGTH__+0x7f806c>
+  DDRD = (INPUT << PD0 | INPUT << PD1 | INPUT << PD2 | OUTPUT << PD3 | OUTPUT << PD4 | OUTPUT << PD5 | OUTPUT << PD6 | INPUT << PD7);
+  DDRC = (INPUT << PC0 | INPUT << PC1 | INPUT << PC2 | INPUT << PC3 | INPUT << PC4 | INPUT << PC5 | INPUT << PC6);
+
+  max7219Init(numDevices);
+  setupInt();
+  sei();
+ 44c:	78 94       	sei
+
+  penX = penY = 0;
+ 44e:	10 92 d6 04 	sts	0x04D6, r1	; 0x8004d6 <penY>
+ 452:	10 92 d7 04 	sts	0x04D7, r1	; 0x8004d7 <penX>
+    SetBit(6, PORTD);
+
+    uint8_t step = 0x00;
+    while (step < 0xFE)
+    {
+      uint8_t flagIndex = Flag ? 1 : 0;
+ 456:	ee 24       	eor	r14, r14
+ 458:	e3 94       	inc	r14
+ 45a:	34 c0       	rjmp	.+104    	; 0x4c4 <main+0xbc>
+        Flag = 0;
+        Delay(DET_DELAY); // Change this delay down to about 3000 min. for high-speed scanning.
+      }
+    }
+
+    if (detX != -1)
+ 45c:	3f ef       	ldi	r19, 0xFF	; 255
+ 45e:	f3 12       	cpse	r15, r19
+ 460:	8e c0       	rjmp	.+284    	; 0x57e <main+0x176>
+        penX = detX;
+        penY = detY;
+      }
+    }
+
+    ClearBit(6, PORTD);
+ 462:	5e 98       	cbi	0x0b, 6	; 11
+    send16(numDevices,max7219MakePacket(cmdINT, 0x0C)); // 1/2 brightness (C/15)
+ 464:	6c e0       	ldi	r22, 0x0C	; 12
+ 466:	8a e0       	ldi	r24, 0x0A	; 10
+ 468:	0e 94 36 01 	call	0x26c	; 0x26c <max7219MakePacket>
+ 46c:	bc 01       	movw	r22, r24
+ 46e:	82 e0       	ldi	r24, 0x02	; 2
+ 470:	0e 94 13 01 	call	0x226	; 0x226 <send16>
+    for (i = 0; i < 8; i++)
+    { // clear image
+      image[i] = 0x00;
+ 474:	10 92 ce 04 	sts	0x04CE, r1	; 0x8004ce <image>
+ 478:	10 92 cf 04 	sts	0x04CF, r1	; 0x8004cf <image+0x1>
+ 47c:	10 92 d0 04 	sts	0x04D0, r1	; 0x8004d0 <image+0x2>
+ 480:	10 92 d1 04 	sts	0x04D1, r1	; 0x8004d1 <image+0x3>
+ 484:	10 92 d2 04 	sts	0x04D2, r1	; 0x8004d2 <image+0x4>
+ 488:	10 92 d3 04 	sts	0x04D3, r1	; 0x8004d3 <image+0x5>
+ 48c:	10 92 d4 04 	sts	0x04D4, r1	; 0x8004d4 <image+0x6>
+ 490:	10 92 d5 04 	sts	0x04D5, r1	; 0x8004d5 <image+0x7>
+    }
+
+    image[penY] = (1 << penX);
+ 494:	e0 91 d6 04 	lds	r30, 0x04D6	; 0x8004d6 <penY>
+ 498:	f0 e0       	ldi	r31, 0x00	; 0
+ 49a:	e2 53       	subi	r30, 0x32	; 50
+ 49c:	fb 4f       	sbci	r31, 0xFB	; 251
+ 49e:	80 91 d7 04 	lds	r24, 0x04D7	; 0x8004d7 <penX>
+ 4a2:	2e 2d       	mov	r18, r14
+ 4a4:	01 c0       	rjmp	.+2      	; 0x4a8 <main+0xa0>
+ 4a6:	22 0f       	add	r18, r18
+ 4a8:	8a 95       	dec	r24
+ 4aa:	ea f7       	brpl	.-6      	; 0x4a6 <main+0x9e>
+ 4ac:	20 83       	st	Z, r18
+
+    max7219Blit(image,numDevices);
+ 4ae:	62 e0       	ldi	r22, 0x02	; 2
+ 4b0:	8e ec       	ldi	r24, 0xCE	; 206
+ 4b2:	94 e0       	ldi	r25, 0x04	; 4
+ 4b4:	0e 94 85 01 	call	0x30a	; 0x30a <max7219Blit>
+
+    Delay(MAIN_DELAY); //<--- this is the amount of time to show the detected location before searching again.
+ 4b8:	60 e8       	ldi	r22, 0x80	; 128
+ 4ba:	78 e3       	ldi	r23, 0x38	; 56
+ 4bc:	81 e0       	ldi	r24, 0x01	; 1
+ 4be:	90 e0       	ldi	r25, 0x00	; 0
+ 4c0:	0e 94 f8 01 	call	0x3f0	; 0x3f0 <Delay>
   penX = penY = 0;
 
-   
-  while(1) {
-  
-  send16(max7219MakePacket(cmdINT,    0x03)); // 1/2 brightness (7/15)     
- 296:	63 e0       	ldi	r22, 0x03	; 3
- 298:	8a e0       	ldi	r24, 0x0A	; 10
- 29a:	0e 94 84 00 	call	0x108	; 0x108 <max7219MakePacket>
- 29e:	0e 94 68 00 	call	0xd0	; 0xd0 <send16>
-  detX = detY = -1;
-  
-  
-  SetBit(6, PORTD);
- 2a2:	5e 9a       	sbi	0x0b, 6	; 11
- 
-uint8_t step = 0x00; 
- 2a4:	10 e0       	ldi	r17, 0x00	; 0
+  while (1)
+  {
 
-   
-  while(1) {
-  
-  send16(max7219MakePacket(cmdINT,    0x03)); // 1/2 brightness (7/15)     
-  detX = detY = -1;
- 2a6:	ff 24       	eor	r15, r15
- 2a8:	fa 94       	dec	r15
-  
-  SetBit(6, PORTD);
- 
-uint8_t step = 0x00; 
-while (step < 0xFE) {    
-  uint8_t flagIndex = Flag ? 1 : 0;
- 2aa:	20 91 c4 04 	lds	r18, 0x04C4	; 0x8004c4 <__data_end>
-  State currentState = stateTable[step];
- 2ae:	e1 2f       	mov	r30, r17
- 2b0:	f0 e0       	ldi	r31, 0x00	; 0
- 2b2:	ee 0f       	add	r30, r30
- 2b4:	ff 1f       	adc	r31, r31
- 2b6:	ee 0f       	add	r30, r30
- 2b8:	ff 1f       	adc	r31, r31
- 2ba:	e0 50       	subi	r30, 0x00	; 0
- 2bc:	ff 4f       	sbci	r31, 0xFF	; 255
- 2be:	80 81       	ld	r24, Z
- 2c0:	91 81       	ldd	r25, Z+1	; 0x01
- 2c2:	a2 81       	ldd	r26, Z+2	; 0x02
- 2c4:	b3 81       	ldd	r27, Z+3	; 0x03
- 2c6:	89 87       	std	Y+9, r24	; 0x09
- 2c8:	9a 87       	std	Y+10, r25	; 0x0a
- 2ca:	ab 87       	std	Y+11, r26	; 0x0b
- 2cc:	bc 87       	std	Y+12, r27	; 0x0c
-  
-  SetBit(6, PORTD);
- 
-uint8_t step = 0x00; 
-while (step < 0xFE) {    
-  uint8_t flagIndex = Flag ? 1 : 0;
- 2ce:	81 e0       	ldi	r24, 0x01	; 1
- 2d0:	90 e0       	ldi	r25, 0x00	; 0
- 2d2:	21 11       	cpse	r18, r1
- 2d4:	02 c0       	rjmp	.+4      	; 0x2da <main+0xce>
- 2d6:	90 e0       	ldi	r25, 0x00	; 0
- 2d8:	80 e0       	ldi	r24, 0x00	; 0
-  State currentState = stateTable[step];
+    send16(numDevices,max7219MakePacket(cmdINT, 0x03)); // 1/2 brightness (7/15)
+ 4c4:	63 e0       	ldi	r22, 0x03	; 3
+ 4c6:	8a e0       	ldi	r24, 0x0A	; 10
+ 4c8:	0e 94 36 01 	call	0x26c	; 0x26c <max7219MakePacket>
+ 4cc:	bc 01       	movw	r22, r24
+ 4ce:	82 e0       	ldi	r24, 0x02	; 2
+ 4d0:	0e 94 13 01 	call	0x226	; 0x226 <send16>
+    detX = detY = -1;
 
-  // step step step
-  step = currentState.nextState[flagIndex];
- 2da:	e9 e0       	ldi	r30, 0x09	; 9
- 2dc:	f0 e0       	ldi	r31, 0x00	; 0
- 2de:	ec 0f       	add	r30, r28
- 2e0:	fd 1f       	adc	r31, r29
- 2e2:	e8 0f       	add	r30, r24
- 2e4:	f9 1f       	adc	r31, r25
- 2e6:	10 81       	ld	r17, Z
+    SetBit(6, PORTD);
+ 4d4:	5e 9a       	sbi	0x0b, 6	; 11
 
-  // update x detection if needed
-  if (currentState.detValue[flagIndex] != 0xFF) {
- 2e8:	2b e0       	ldi	r18, 0x0B	; 11
- 2ea:	30 e0       	ldi	r19, 0x00	; 0
- 2ec:	2c 0f       	add	r18, r28
- 2ee:	3d 1f       	adc	r19, r29
- 2f0:	82 0f       	add	r24, r18
- 2f2:	93 1f       	adc	r25, r19
- 2f4:	fc 01       	movw	r30, r24
- 2f6:	80 81       	ld	r24, Z
- 2f8:	8f 3f       	cpi	r24, 0xFF	; 255
- 2fa:	09 f0       	breq	.+2      	; 0x2fe <main+0xf2>
-    detX = currentState.detValue[flagIndex];
- 2fc:	f8 2e       	mov	r15, r24
-  }
+    uint8_t step = 0x00;
+ 4d6:	10 e0       	ldi	r17, 0x00	; 0
 
-  if (step < 0xFE) {
- 2fe:	1e 3f       	cpi	r17, 0xFE	; 254
- 300:	08 f0       	brcs	.+2      	; 0x304 <main+0xf8>
- 302:	a0 cf       	rjmp	.-192    	; 0x244 <main+0x38>
-    for (int i = 0; i < 8; i++) {
-      image[i] = step;
- 304:	19 83       	std	Y+1, r17	; 0x01
- 306:	1a 83       	std	Y+2, r17	; 0x02
- 308:	1b 83       	std	Y+3, r17	; 0x03
- 30a:	1c 83       	std	Y+4, r17	; 0x04
- 30c:	1d 83       	std	Y+5, r17	; 0x05
- 30e:	1e 83       	std	Y+6, r17	; 0x06
- 310:	1f 83       	std	Y+7, r17	; 0x07
- 312:	18 87       	std	Y+8, r17	; 0x08
-    } 
-    max7219Blit(image);   
- 314:	ce 01       	movw	r24, r28
- 316:	01 96       	adiw	r24, 0x01	; 1
- 318:	0e 94 c1 00 	call	0x182	; 0x182 <max7219Blit>
-    Delay(2000); // 'finish scanning and accept new data' delay
- 31c:	60 ed       	ldi	r22, 0xD0	; 208
- 31e:	77 e0       	ldi	r23, 0x07	; 7
- 320:	80 e0       	ldi	r24, 0x00	; 0
- 322:	90 e0       	ldi	r25, 0x00	; 0
- 324:	0e 94 fa 00 	call	0x1f4	; 0x1f4 <Delay>
-    Flag = 0;
- 328:	10 92 c4 04 	sts	0x04C4, r1	; 0x8004c4 <__data_end>
-    Delay(3000); // Change this delay down to about 3000 min. for high-speed scanning.
- 32c:	68 eb       	ldi	r22, 0xB8	; 184
- 32e:	7b e0       	ldi	r23, 0x0B	; 11
- 330:	80 e0       	ldi	r24, 0x00	; 0
- 332:	90 e0       	ldi	r25, 0x00	; 0
- 334:	0e 94 fa 00 	call	0x1f4	; 0x1f4 <Delay>
- 338:	b8 cf       	rjmp	.-144    	; 0x2aa <main+0x9e>
+  while (1)
+  {
 
-   
-  while(1) {
-  
-  send16(max7219MakePacket(cmdINT,    0x03)); // 1/2 brightness (7/15)     
-  detX = detY = -1;
- 33a:	bb 24       	eor	r11, r11
- 33c:	ba 94       	dec	r11
- 33e:	10 e0       	ldi	r17, 0x00	; 0
- 340:	00 e0       	ldi	r16, 0x00	; 0
+    send16(numDevices,max7219MakePacket(cmdINT, 0x03)); // 1/2 brightness (7/15)
+    detX = detY = -1;
+ 4d8:	ff 24       	eor	r15, r15
+ 4da:	fa 94       	dec	r15
+    SetBit(6, PORTD);
 
-    
-if (detX != -1) {
-    uint8_t step = 0x00; 
-    while (step < 0xFE) {    
+    uint8_t step = 0x00;
+    while (step < 0xFE)
+    {
+      uint8_t flagIndex = Flag ? 1 : 0;
+ 4dc:	20 91 d9 04 	lds	r18, 0x04D9	; 0x8004d9 <Flag>
+      State currentState = stateTable[step];
+ 4e0:	e1 2f       	mov	r30, r17
+ 4e2:	f0 e0       	ldi	r31, 0x00	; 0
+ 4e4:	ee 0f       	add	r30, r30
+ 4e6:	ff 1f       	adc	r31, r31
+ 4e8:	ee 0f       	add	r30, r30
+ 4ea:	ff 1f       	adc	r31, r31
+ 4ec:	e0 50       	subi	r30, 0x00	; 0
+ 4ee:	ff 4f       	sbci	r31, 0xFF	; 255
+ 4f0:	80 81       	ld	r24, Z
+ 4f2:	91 81       	ldd	r25, Z+1	; 0x01
+ 4f4:	a2 81       	ldd	r26, Z+2	; 0x02
+ 4f6:	b3 81       	ldd	r27, Z+3	; 0x03
+ 4f8:	89 83       	std	Y+1, r24	; 0x01
+ 4fa:	9a 83       	std	Y+2, r25	; 0x02
+ 4fc:	ab 83       	std	Y+3, r26	; 0x03
+ 4fe:	bc 83       	std	Y+4, r27	; 0x04
+    SetBit(6, PORTD);
+
+    uint8_t step = 0x00;
+    while (step < 0xFE)
+    {
+      uint8_t flagIndex = Flag ? 1 : 0;
+ 500:	81 e0       	ldi	r24, 0x01	; 1
+ 502:	90 e0       	ldi	r25, 0x00	; 0
+ 504:	21 11       	cpse	r18, r1
+ 506:	02 c0       	rjmp	.+4      	; 0x50c <main+0x104>
+ 508:	90 e0       	ldi	r25, 0x00	; 0
+ 50a:	80 e0       	ldi	r24, 0x00	; 0
+      State currentState = stateTable[step];
+
+      // step step step
+      step = currentState.nextState[flagIndex];
+ 50c:	e1 e0       	ldi	r30, 0x01	; 1
+ 50e:	f0 e0       	ldi	r31, 0x00	; 0
+ 510:	ec 0f       	add	r30, r28
+ 512:	fd 1f       	adc	r31, r29
+ 514:	e8 0f       	add	r30, r24
+ 516:	f9 1f       	adc	r31, r25
+ 518:	10 81       	ld	r17, Z
+
+      // update x detection if needed
+      if (currentState.detValue[flagIndex] != 0xFF)
+ 51a:	23 e0       	ldi	r18, 0x03	; 3
+ 51c:	30 e0       	ldi	r19, 0x00	; 0
+ 51e:	2c 0f       	add	r18, r28
+ 520:	3d 1f       	adc	r19, r29
+ 522:	82 0f       	add	r24, r18
+ 524:	93 1f       	adc	r25, r19
+ 526:	fc 01       	movw	r30, r24
+ 528:	80 81       	ld	r24, Z
+ 52a:	8f 3f       	cpi	r24, 0xFF	; 255
+ 52c:	09 f0       	breq	.+2      	; 0x530 <main+0x128>
+      {
+        detX = currentState.detValue[flagIndex];
+ 52e:	f8 2e       	mov	r15, r24
+      }
+
+      if (step < 0xFE)
+ 530:	1e 3f       	cpi	r17, 0xFE	; 254
+ 532:	08 f0       	brcs	.+2      	; 0x536 <main+0x12e>
+ 534:	93 cf       	rjmp	.-218    	; 0x45c <main+0x54>
+      {
+        for (int i = 0; i < 8; i++)
+        {
+          image[i] = step;
+ 536:	10 93 ce 04 	sts	0x04CE, r17	; 0x8004ce <image>
+ 53a:	10 93 cf 04 	sts	0x04CF, r17	; 0x8004cf <image+0x1>
+ 53e:	10 93 d0 04 	sts	0x04D0, r17	; 0x8004d0 <image+0x2>
+ 542:	10 93 d1 04 	sts	0x04D1, r17	; 0x8004d1 <image+0x3>
+ 546:	10 93 d2 04 	sts	0x04D2, r17	; 0x8004d2 <image+0x4>
+ 54a:	10 93 d3 04 	sts	0x04D3, r17	; 0x8004d3 <image+0x5>
+ 54e:	10 93 d4 04 	sts	0x04D4, r17	; 0x8004d4 <image+0x6>
+ 552:	10 93 d5 04 	sts	0x04D5, r17	; 0x8004d5 <image+0x7>
+        }
+        max7219Blit(image,numDevices);
+ 556:	62 e0       	ldi	r22, 0x02	; 2
+ 558:	8e ec       	ldi	r24, 0xCE	; 206
+ 55a:	94 e0       	ldi	r25, 0x04	; 4
+ 55c:	0e 94 85 01 	call	0x30a	; 0x30a <max7219Blit>
+        Delay(DET_DELAY); // 'finish scanning and accept new data' delay
+ 560:	68 eb       	ldi	r22, 0xB8	; 184
+ 562:	7b e0       	ldi	r23, 0x0B	; 11
+ 564:	80 e0       	ldi	r24, 0x00	; 0
+ 566:	90 e0       	ldi	r25, 0x00	; 0
+ 568:	0e 94 f8 01 	call	0x3f0	; 0x3f0 <Delay>
+        Flag = 0;
+ 56c:	10 92 d9 04 	sts	0x04D9, r1	; 0x8004d9 <Flag>
+        Delay(DET_DELAY); // Change this delay down to about 3000 min. for high-speed scanning.
+ 570:	68 eb       	ldi	r22, 0xB8	; 184
+ 572:	7b e0       	ldi	r23, 0x0B	; 11
+ 574:	80 e0       	ldi	r24, 0x00	; 0
+ 576:	90 e0       	ldi	r25, 0x00	; 0
+ 578:	0e 94 f8 01 	call	0x3f0	; 0x3f0 <Delay>
+ 57c:	af cf       	rjmp	.-162    	; 0x4dc <main+0xd4>
+
+  while (1)
+  {
+
+    send16(numDevices,max7219MakePacket(cmdINT, 0x03)); // 1/2 brightness (7/15)
+    detX = detY = -1;
+ 57e:	dd 24       	eor	r13, r13
+ 580:	da 94       	dec	r13
+ 582:	10 e0       	ldi	r17, 0x00	; 0
+ 584:	00 e0       	ldi	r16, 0x00	; 0
+    if (detX != -1)
+    {
+      uint8_t step = 0x00;
+      while (step < 0xFE)
+      {
         uint8_t flagIndex = Flag ? 1 : 0;
- 342:	20 91 c4 04 	lds	r18, 0x04C4	; 0x8004c4 <__data_end>
+ 586:	20 91 d9 04 	lds	r18, 0x04D9	; 0x8004d9 <Flag>
         State currentStateY = stateTable[step];
- 346:	00 0f       	add	r16, r16
- 348:	11 1f       	adc	r17, r17
- 34a:	00 0f       	add	r16, r16
- 34c:	11 1f       	adc	r17, r17
- 34e:	f8 01       	movw	r30, r16
- 350:	e0 50       	subi	r30, 0x00	; 0
- 352:	ff 4f       	sbci	r31, 0xFF	; 255
- 354:	80 81       	ld	r24, Z
- 356:	91 81       	ldd	r25, Z+1	; 0x01
- 358:	a2 81       	ldd	r26, Z+2	; 0x02
- 35a:	b3 81       	ldd	r27, Z+3	; 0x03
- 35c:	89 87       	std	Y+9, r24	; 0x09
- 35e:	9a 87       	std	Y+10, r25	; 0x0a
- 360:	ab 87       	std	Y+11, r26	; 0x0b
- 362:	bc 87       	std	Y+12, r27	; 0x0c
-
-    
-if (detX != -1) {
-    uint8_t step = 0x00; 
-    while (step < 0xFE) {    
+ 58a:	00 0f       	add	r16, r16
+ 58c:	11 1f       	adc	r17, r17
+ 58e:	00 0f       	add	r16, r16
+ 590:	11 1f       	adc	r17, r17
+ 592:	f8 01       	movw	r30, r16
+ 594:	e0 50       	subi	r30, 0x00	; 0
+ 596:	ff 4f       	sbci	r31, 0xFF	; 255
+ 598:	80 81       	ld	r24, Z
+ 59a:	91 81       	ldd	r25, Z+1	; 0x01
+ 59c:	a2 81       	ldd	r26, Z+2	; 0x02
+ 59e:	b3 81       	ldd	r27, Z+3	; 0x03
+ 5a0:	89 83       	std	Y+1, r24	; 0x01
+ 5a2:	9a 83       	std	Y+2, r25	; 0x02
+ 5a4:	ab 83       	std	Y+3, r26	; 0x03
+ 5a6:	bc 83       	std	Y+4, r27	; 0x04
+    if (detX != -1)
+    {
+      uint8_t step = 0x00;
+      while (step < 0xFE)
+      {
         uint8_t flagIndex = Flag ? 1 : 0;
- 364:	81 e0       	ldi	r24, 0x01	; 1
- 366:	90 e0       	ldi	r25, 0x00	; 0
- 368:	21 11       	cpse	r18, r1
- 36a:	02 c0       	rjmp	.+4      	; 0x370 <main+0x164>
- 36c:	90 e0       	ldi	r25, 0x00	; 0
- 36e:	80 e0       	ldi	r24, 0x00	; 0
+ 5a8:	81 e0       	ldi	r24, 0x01	; 1
+ 5aa:	90 e0       	ldi	r25, 0x00	; 0
+ 5ac:	21 11       	cpse	r18, r1
+ 5ae:	02 c0       	rjmp	.+4      	; 0x5b4 <main+0x1ac>
+ 5b0:	90 e0       	ldi	r25, 0x00	; 0
+ 5b2:	80 e0       	ldi	r24, 0x00	; 0
         State currentStateY = stateTable[step];
 
         // step step step
         step = currentStateY.nextState[flagIndex];
- 370:	e9 e0       	ldi	r30, 0x09	; 9
- 372:	f0 e0       	ldi	r31, 0x00	; 0
- 374:	ec 0f       	add	r30, r28
- 376:	fd 1f       	adc	r31, r29
- 378:	e8 0f       	add	r30, r24
- 37a:	f9 1f       	adc	r31, r25
- 37c:	00 81       	ld	r16, Z
+ 5b4:	e1 e0       	ldi	r30, 0x01	; 1
+ 5b6:	f0 e0       	ldi	r31, 0x00	; 0
+ 5b8:	ec 0f       	add	r30, r28
+ 5ba:	fd 1f       	adc	r31, r29
+ 5bc:	e8 0f       	add	r30, r24
+ 5be:	f9 1f       	adc	r31, r25
+ 5c0:	00 81       	ld	r16, Z
 
         // Update y detection if needed
-        if (currentStateY.detValue[flagIndex] != 0xFF) {
- 37e:	2b e0       	ldi	r18, 0x0B	; 11
- 380:	30 e0       	ldi	r19, 0x00	; 0
- 382:	2c 0f       	add	r18, r28
- 384:	3d 1f       	adc	r19, r29
- 386:	82 0f       	add	r24, r18
- 388:	93 1f       	adc	r25, r19
- 38a:	fc 01       	movw	r30, r24
- 38c:	80 81       	ld	r24, Z
- 38e:	8f 3f       	cpi	r24, 0xFF	; 255
- 390:	09 f0       	breq	.+2      	; 0x394 <main+0x188>
-            detY = currentStateY.detValue[flagIndex];
- 392:	b8 2e       	mov	r11, r24
+        if (currentStateY.detValue[flagIndex] != 0xFF)
+ 5c2:	23 e0       	ldi	r18, 0x03	; 3
+ 5c4:	30 e0       	ldi	r19, 0x00	; 0
+ 5c6:	2c 0f       	add	r18, r28
+ 5c8:	3d 1f       	adc	r19, r29
+ 5ca:	82 0f       	add	r24, r18
+ 5cc:	93 1f       	adc	r25, r19
+ 5ce:	fc 01       	movw	r30, r24
+ 5d0:	80 81       	ld	r24, Z
+ 5d2:	8f 3f       	cpi	r24, 0xFF	; 255
+ 5d4:	09 f0       	breq	.+2      	; 0x5d8 <main+0x1d0>
+        {
+          detY = currentStateY.detValue[flagIndex];
+ 5d6:	d8 2e       	mov	r13, r24
         }
 
-        if (step < 0xFE) {
- 394:	0e 3f       	cpi	r16, 0xFE	; 254
- 396:	38 f0       	brcs	.+14     	; 0x3a6 <main+0x19a>
-            Flag = 0;
-            Delay(3000); // Change this delay down to about 3000 min. for high-speed scanning.
+        if (step < 0xFE)
+ 5d8:	0e 3f       	cpi	r16, 0xFE	; 254
+ 5da:	48 f0       	brcs	.+18     	; 0x5ee <main+0x1e6>
+          Flag = 0;
+          Delay(DET_DELAY); // Change this delay down to about 3000 min. for high-speed scanning.
         }
-    }
-    
-    if (detY != -1) { // Accept the position if we got an X and Y
- 398:	2f ef       	ldi	r18, 0xFF	; 255
- 39a:	b2 16       	cp	r11, r18
- 39c:	09 f4       	brne	.+2      	; 0x3a0 <main+0x194>
- 39e:	55 cf       	rjmp	.-342    	; 0x24a <main+0x3e>
+      }
+
+      if (detY != -1)
+ 5dc:	8f ef       	ldi	r24, 0xFF	; 255
+ 5de:	d8 16       	cp	r13, r24
+ 5e0:	09 f4       	brne	.+2      	; 0x5e4 <main+0x1dc>
+ 5e2:	3f cf       	rjmp	.-386    	; 0x462 <main+0x5a>
+      { // Accept the position if we got an X and Y
         penX = detX;
- 3a0:	ef 2c       	mov	r14, r15
+ 5e4:	f0 92 d7 04 	sts	0x04D7, r15	; 0x8004d7 <penX>
         penY = detY;
- 3a2:	db 2c       	mov	r13, r11
- 3a4:	52 cf       	rjmp	.-348    	; 0x24a <main+0x3e>
- 3a6:	10 e0       	ldi	r17, 0x00	; 0
- 3a8:	fe 01       	movw	r30, r28
- 3aa:	31 96       	adiw	r30, 0x01	; 1
-        if (currentStateY.detValue[flagIndex] != 0xFF) {
-            detY = currentStateY.detValue[flagIndex];
+ 5e8:	d0 92 d6 04 	sts	0x04D6, r13	; 0x8004d6 <penY>
+ 5ec:	3a cf       	rjmp	.-396    	; 0x462 <main+0x5a>
+        if (step < 0xFE)
+        {
+          for (int i = 0; i < 8; i++)
+          {
+            image[i] = (step & (1 << i)) ? 0xFF : 0x00;
+            image2[i] = image[i] & (1 << penX);
+ 5ee:	80 91 d7 04 	lds	r24, 0x04D7	; 0x8004d7 <penX>
+ 5f2:	4e 2d       	mov	r20, r14
+ 5f4:	01 c0       	rjmp	.+2      	; 0x5f8 <main+0x1f0>
+ 5f6:	44 0f       	add	r20, r20
+ 5f8:	8a 95       	dec	r24
+ 5fa:	ea f7       	brpl	.-6      	; 0x5f6 <main+0x1ee>
+ 5fc:	10 e0       	ldi	r17, 0x00	; 0
+ 5fe:	ae ec       	ldi	r26, 0xCE	; 206
+ 600:	b4 e0       	ldi	r27, 0x04	; 4
+ 602:	e6 ec       	ldi	r30, 0xC6	; 198
+ 604:	f4 e0       	ldi	r31, 0x04	; 4
+          detY = currentStateY.detValue[flagIndex];
         }
 
-        if (step < 0xFE) {
-            for (int i = 0; i < 8; i++) {
- 3ac:	30 e0       	ldi	r19, 0x00	; 0
- 3ae:	20 e0       	ldi	r18, 0x00	; 0
-                image[i] = (step & (1 << i)) ? 0xFF : 0x00;
- 3b0:	c8 01       	movw	r24, r16
- 3b2:	02 2e       	mov	r0, r18
- 3b4:	02 c0       	rjmp	.+4      	; 0x3ba <main+0x1ae>
- 3b6:	95 95       	asr	r25
- 3b8:	87 95       	ror	r24
- 3ba:	0a 94       	dec	r0
- 3bc:	e2 f7       	brpl	.-8      	; 0x3b6 <main+0x1aa>
- 3be:	81 70       	andi	r24, 0x01	; 1
- 3c0:	81 95       	neg	r24
- 3c2:	81 93       	st	Z+, r24
-        if (currentStateY.detValue[flagIndex] != 0xFF) {
-            detY = currentStateY.detValue[flagIndex];
+        if (step < 0xFE)
+        {
+          for (int i = 0; i < 8; i++)
+ 606:	30 e0       	ldi	r19, 0x00	; 0
+ 608:	20 e0       	ldi	r18, 0x00	; 0
+          {
+            image[i] = (step & (1 << i)) ? 0xFF : 0x00;
+ 60a:	c8 01       	movw	r24, r16
+ 60c:	02 2e       	mov	r0, r18
+ 60e:	02 c0       	rjmp	.+4      	; 0x614 <main+0x20c>
+ 610:	95 95       	asr	r25
+ 612:	87 95       	ror	r24
+ 614:	0a 94       	dec	r0
+ 616:	e2 f7       	brpl	.-8      	; 0x610 <main+0x208>
+ 618:	81 70       	andi	r24, 0x01	; 1
+ 61a:	81 95       	neg	r24
+ 61c:	8d 93       	st	X+, r24
+            image2[i] = image[i] & (1 << penX);
+ 61e:	84 23       	and	r24, r20
+ 620:	81 93       	st	Z+, r24
+          detY = currentStateY.detValue[flagIndex];
         }
 
-        if (step < 0xFE) {
-            for (int i = 0; i < 8; i++) {
- 3c4:	2f 5f       	subi	r18, 0xFF	; 255
- 3c6:	3f 4f       	sbci	r19, 0xFF	; 255
- 3c8:	28 30       	cpi	r18, 0x08	; 8
- 3ca:	31 05       	cpc	r19, r1
- 3cc:	89 f7       	brne	.-30     	; 0x3b0 <main+0x1a4>
-                image[i] = (step & (1 << i)) ? 0xFF : 0x00;
-            }
-            max7219Blit(image);   
- 3ce:	ce 01       	movw	r24, r28
- 3d0:	01 96       	adiw	r24, 0x01	; 1
- 3d2:	0e 94 c1 00 	call	0x182	; 0x182 <max7219Blit>
-            Delay(2000); // 'finish scanning and accept new data' delay
- 3d6:	60 ed       	ldi	r22, 0xD0	; 208
- 3d8:	77 e0       	ldi	r23, 0x07	; 7
- 3da:	80 e0       	ldi	r24, 0x00	; 0
- 3dc:	90 e0       	ldi	r25, 0x00	; 0
- 3de:	0e 94 fa 00 	call	0x1f4	; 0x1f4 <Delay>
-            Flag = 0;
- 3e2:	10 92 c4 04 	sts	0x04C4, r1	; 0x8004c4 <__data_end>
-            Delay(3000); // Change this delay down to about 3000 min. for high-speed scanning.
- 3e6:	68 eb       	ldi	r22, 0xB8	; 184
- 3e8:	7b e0       	ldi	r23, 0x0B	; 11
- 3ea:	80 e0       	ldi	r24, 0x00	; 0
- 3ec:	90 e0       	ldi	r25, 0x00	; 0
- 3ee:	0e 94 fa 00 	call	0x1f4	; 0x1f4 <Delay>
- 3f2:	a7 cf       	rjmp	.-178    	; 0x342 <main+0x136>
+        if (step < 0xFE)
+        {
+          for (int i = 0; i < 8; i++)
+ 622:	2f 5f       	subi	r18, 0xFF	; 255
+ 624:	3f 4f       	sbci	r19, 0xFF	; 255
+ 626:	28 30       	cpi	r18, 0x08	; 8
+ 628:	31 05       	cpc	r19, r1
+ 62a:	79 f7       	brne	.-34     	; 0x60a <main+0x202>
+          {
+            image[i] = (step & (1 << i)) ? 0xFF : 0x00;
+            image2[i] = image[i] & (1 << penX);
+          }
+          max7219Blit(image,numDevices);
+ 62c:	62 e0       	ldi	r22, 0x02	; 2
+ 62e:	8e ec       	ldi	r24, 0xCE	; 206
+ 630:	94 e0       	ldi	r25, 0x04	; 4
+ 632:	0e 94 85 01 	call	0x30a	; 0x30a <max7219Blit>
+          Delay(DET_DELAY); // 'finish scanning and accept new data' delay
+ 636:	68 eb       	ldi	r22, 0xB8	; 184
+ 638:	7b e0       	ldi	r23, 0x0B	; 11
+ 63a:	80 e0       	ldi	r24, 0x00	; 0
+ 63c:	90 e0       	ldi	r25, 0x00	; 0
+ 63e:	0e 94 f8 01 	call	0x3f0	; 0x3f0 <Delay>
+          Flag = 0;
+ 642:	10 92 d9 04 	sts	0x04D9, r1	; 0x8004d9 <Flag>
+          Delay(DET_DELAY); // Change this delay down to about 3000 min. for high-speed scanning.
+ 646:	68 eb       	ldi	r22, 0xB8	; 184
+ 648:	7b e0       	ldi	r23, 0x0B	; 11
+ 64a:	80 e0       	ldi	r24, 0x00	; 0
+ 64c:	90 e0       	ldi	r25, 0x00	; 0
+ 64e:	0e 94 f8 01 	call	0x3f0	; 0x3f0 <Delay>
+ 652:	99 cf       	rjmp	.-206    	; 0x586 <main+0x17e>
 
-000003f4 <_exit>:
- 3f4:	f8 94       	cli
+00000654 <_exit>:
+ 654:	f8 94       	cli
 
-000003f6 <__stop_program>:
- 3f6:	ff cf       	rjmp	.-2      	; 0x3f6 <__stop_program>
+00000656 <__stop_program>:
+ 656:	ff cf       	rjmp	.-2      	; 0x656 <__stop_program>
