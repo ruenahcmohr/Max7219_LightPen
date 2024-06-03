@@ -2,6 +2,13 @@
 
 avr @ 16Mhz 
 
+Max 7219 light pen demo
+
+This version adds two buttons, 
+set_pixel, and delete_pixel to allow the user to draw
+on the led array
+
+
 on pro mini:
 
 0   rxd    rxd

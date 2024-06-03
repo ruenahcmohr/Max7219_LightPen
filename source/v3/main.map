@@ -3,14 +3,12 @@ Archive member included to satisfy reference by file (symbol)
 /usr/lib/gcc/avr/5.4.0/avr5/libgcc.a(_exit.o)
                               /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avr5/crtatmega328.o (exit)
 /usr/lib/gcc/avr/5.4.0/avr5/libgcc.a(_clear_bss.o)
-                              /tmp/ccns7QzW.o (__do_clear_bss)
+                              /tmp/ccA7dgvI.o (__do_clear_bss)
 
 Allocating common symbols
 Common symbol       size              file
 
-penY                0x1               /tmp/ccns7QzW.o
-penX                0x1               /tmp/ccns7QzW.o
-Flag                0x1               /tmp/ccns7QzW.o
+Flag                0x1               /tmp/ccA7dgvI.o
 
 Memory Configuration
 
@@ -28,9 +26,9 @@ Linker script and memory map
 
 Address of section .data set to 0x800100
 LOAD /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avr5/crtatmega328.o
-LOAD /tmp/ccns7QzW.o
-LOAD /tmp/cc8iDlvZ.o
-LOAD /tmp/ccqdEmRW.o
+LOAD /tmp/ccA7dgvI.o
+LOAD /tmp/ccrx40sJ.o
+LOAD /tmp/ccPpYLFH.o
 START GROUP
 LOAD /usr/lib/gcc/avr/5.4.0/avr5/libgcc.a
 LOAD /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avr5/libm.a
@@ -137,7 +135,7 @@ END GROUP
 .rela.plt
  *(.rela.plt)
 
-.text           0x0000000000000000      0x836
+.text           0x0000000000000000      0x370
  *(.vectors)
  .vectors       0x0000000000000000       0x68 /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avr5/crtatmega328.o
                 0x0000000000000000                __vectors
@@ -219,58 +217,57 @@ END GROUP
                 0x000000000000008c                __vector_16
                 0x000000000000008c                __vector_18
                 0x000000000000008c                __vector_20
- .text          0x0000000000000090      0x55a /tmp/ccns7QzW.o
-                0x0000000000000090                GetLoc
-                0x00000000000005c0                setupInt
-                0x00000000000005cc                __vector_1
- .text          0x00000000000005ea      0x12c /tmp/cc8iDlvZ.o
-                0x00000000000005ea                send16
-                0x0000000000000622                max7219MakePacket
-                0x000000000000062c                max7219Init
-                0x0000000000000694                max7219SetDisplay
-                0x00000000000006a4                max7219Blit
-                0x00000000000006fe                max7219SetIntensity
-                0x0000000000000706                max7219SetScanLimit
-                0x000000000000070e                max7219SetDecodeFlags
- .text          0x0000000000000716       0x18 /tmp/ccqdEmRW.o
-                0x0000000000000716                Delay
- .text          0x000000000000072e        0x0 /usr/lib/gcc/avr/5.4.0/avr5/libgcc.a(_exit.o)
- .text          0x000000000000072e        0x0 /usr/lib/gcc/avr/5.4.0/avr5/libgcc.a(_clear_bss.o)
-                0x000000000000072e                . = ALIGN (0x2)
+ .text          0x0000000000000090       0x2a /tmp/ccA7dgvI.o
+                0x0000000000000090                setupInt
+                0x000000000000009c                __vector_1
+ .text          0x00000000000000ba      0x12c /tmp/ccrx40sJ.o
+                0x00000000000000ba                send16
+                0x00000000000000f2                max7219MakePacket
+                0x00000000000000fc                max7219Init
+                0x0000000000000164                max7219SetDisplay
+                0x0000000000000174                max7219Blit
+                0x00000000000001ce                max7219SetIntensity
+                0x00000000000001d6                max7219SetScanLimit
+                0x00000000000001de                max7219SetDecodeFlags
+ .text          0x00000000000001e6       0x18 /tmp/ccPpYLFH.o
+                0x00000000000001e6                Delay
+ .text          0x00000000000001fe        0x0 /usr/lib/gcc/avr/5.4.0/avr5/libgcc.a(_exit.o)
+ .text          0x00000000000001fe        0x0 /usr/lib/gcc/avr/5.4.0/avr5/libgcc.a(_clear_bss.o)
+                0x00000000000001fe                . = ALIGN (0x2)
  *(.text.*)
- .text.startup  0x000000000000072e      0x104 /tmp/ccns7QzW.o
-                0x000000000000072e                main
+ .text.startup  0x00000000000001fe      0x16e /tmp/ccA7dgvI.o
+                0x00000000000001fe                main
  .text.libgcc.mul
-                0x0000000000000832        0x0 /usr/lib/gcc/avr/5.4.0/avr5/libgcc.a(_exit.o)
+                0x000000000000036c        0x0 /usr/lib/gcc/avr/5.4.0/avr5/libgcc.a(_exit.o)
  .text.libgcc.div
-                0x0000000000000832        0x0 /usr/lib/gcc/avr/5.4.0/avr5/libgcc.a(_exit.o)
- .text.libgcc   0x0000000000000832        0x0 /usr/lib/gcc/avr/5.4.0/avr5/libgcc.a(_exit.o)
+                0x000000000000036c        0x0 /usr/lib/gcc/avr/5.4.0/avr5/libgcc.a(_exit.o)
+ .text.libgcc   0x000000000000036c        0x0 /usr/lib/gcc/avr/5.4.0/avr5/libgcc.a(_exit.o)
  .text.libgcc.prologue
-                0x0000000000000832        0x0 /usr/lib/gcc/avr/5.4.0/avr5/libgcc.a(_exit.o)
+                0x000000000000036c        0x0 /usr/lib/gcc/avr/5.4.0/avr5/libgcc.a(_exit.o)
  .text.libgcc.builtins
-                0x0000000000000832        0x0 /usr/lib/gcc/avr/5.4.0/avr5/libgcc.a(_exit.o)
+                0x000000000000036c        0x0 /usr/lib/gcc/avr/5.4.0/avr5/libgcc.a(_exit.o)
  .text.libgcc.fmul
-                0x0000000000000832        0x0 /usr/lib/gcc/avr/5.4.0/avr5/libgcc.a(_exit.o)
+                0x000000000000036c        0x0 /usr/lib/gcc/avr/5.4.0/avr5/libgcc.a(_exit.o)
  .text.libgcc.fixed
-                0x0000000000000832        0x0 /usr/lib/gcc/avr/5.4.0/avr5/libgcc.a(_exit.o)
+                0x000000000000036c        0x0 /usr/lib/gcc/avr/5.4.0/avr5/libgcc.a(_exit.o)
  .text.libgcc.mul
-                0x0000000000000832        0x0 /usr/lib/gcc/avr/5.4.0/avr5/libgcc.a(_clear_bss.o)
+                0x000000000000036c        0x0 /usr/lib/gcc/avr/5.4.0/avr5/libgcc.a(_clear_bss.o)
  .text.libgcc.div
-                0x0000000000000832        0x0 /usr/lib/gcc/avr/5.4.0/avr5/libgcc.a(_clear_bss.o)
- .text.libgcc   0x0000000000000832        0x0 /usr/lib/gcc/avr/5.4.0/avr5/libgcc.a(_clear_bss.o)
+                0x000000000000036c        0x0 /usr/lib/gcc/avr/5.4.0/avr5/libgcc.a(_clear_bss.o)
+ .text.libgcc   0x000000000000036c        0x0 /usr/lib/gcc/avr/5.4.0/avr5/libgcc.a(_clear_bss.o)
  .text.libgcc.prologue
-                0x0000000000000832        0x0 /usr/lib/gcc/avr/5.4.0/avr5/libgcc.a(_clear_bss.o)
+                0x000000000000036c        0x0 /usr/lib/gcc/avr/5.4.0/avr5/libgcc.a(_clear_bss.o)
  .text.libgcc.builtins
-                0x0000000000000832        0x0 /usr/lib/gcc/avr/5.4.0/avr5/libgcc.a(_clear_bss.o)
+                0x000000000000036c        0x0 /usr/lib/gcc/avr/5.4.0/avr5/libgcc.a(_clear_bss.o)
  .text.libgcc.fmul
-                0x0000000000000832        0x0 /usr/lib/gcc/avr/5.4.0/avr5/libgcc.a(_clear_bss.o)
+                0x000000000000036c        0x0 /usr/lib/gcc/avr/5.4.0/avr5/libgcc.a(_clear_bss.o)
  .text.libgcc.fixed
-                0x0000000000000832        0x0 /usr/lib/gcc/avr/5.4.0/avr5/libgcc.a(_clear_bss.o)
-                0x0000000000000832                . = ALIGN (0x2)
+                0x000000000000036c        0x0 /usr/lib/gcc/avr/5.4.0/avr5/libgcc.a(_clear_bss.o)
+                0x000000000000036c                . = ALIGN (0x2)
  *(.fini9)
- .fini9         0x0000000000000832        0x0 /usr/lib/gcc/avr/5.4.0/avr5/libgcc.a(_exit.o)
-                0x0000000000000832                exit
-                0x0000000000000832                _exit
+ .fini9         0x000000000000036c        0x0 /usr/lib/gcc/avr/5.4.0/avr5/libgcc.a(_exit.o)
+                0x000000000000036c                exit
+                0x000000000000036c                _exit
  *(.fini9)
  *(.fini8)
  *(.fini8)
@@ -289,17 +286,17 @@ END GROUP
  *(.fini1)
  *(.fini1)
  *(.fini0)
- .fini0         0x0000000000000832        0x4 /usr/lib/gcc/avr/5.4.0/avr5/libgcc.a(_exit.o)
+ .fini0         0x000000000000036c        0x4 /usr/lib/gcc/avr/5.4.0/avr5/libgcc.a(_exit.o)
  *(.fini0)
-                0x0000000000000836                _etext = .
+                0x0000000000000370                _etext = .
 
-.data           0x0000000000800100        0x0 load address 0x0000000000000836
+.data           0x0000000000800100        0x0 load address 0x0000000000000370
                 [!provide]                        PROVIDE (__data_start, .)
  *(.data)
  .data          0x0000000000800100        0x0 /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avr5/crtatmega328.o
- .data          0x0000000000800100        0x0 /tmp/ccns7QzW.o
- .data          0x0000000000800100        0x0 /tmp/cc8iDlvZ.o
- .data          0x0000000000800100        0x0 /tmp/ccqdEmRW.o
+ .data          0x0000000000800100        0x0 /tmp/ccA7dgvI.o
+ .data          0x0000000000800100        0x0 /tmp/ccrx40sJ.o
+ .data          0x0000000000800100        0x0 /tmp/ccPpYLFH.o
  .data          0x0000000000800100        0x0 /usr/lib/gcc/avr/5.4.0/avr5/libgcc.a(_exit.o)
  .data          0x0000000000800100        0x0 /usr/lib/gcc/avr/5.4.0/avr5/libgcc.a(_clear_bss.o)
  *(.data*)
@@ -311,30 +308,28 @@ END GROUP
                 0x0000000000800100                _edata = .
                 [!provide]                        PROVIDE (__data_end, .)
 
-.bss            0x0000000000800100        0x3
+.bss            0x0000000000800100        0x1
                 0x0000000000800100                PROVIDE (__bss_start, .)
  *(.bss)
  .bss           0x0000000000800100        0x0 /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avr5/crtatmega328.o
- .bss           0x0000000000800100        0x0 /tmp/ccns7QzW.o
- .bss           0x0000000000800100        0x0 /tmp/cc8iDlvZ.o
- .bss           0x0000000000800100        0x0 /tmp/ccqdEmRW.o
+ .bss           0x0000000000800100        0x0 /tmp/ccA7dgvI.o
+ .bss           0x0000000000800100        0x0 /tmp/ccrx40sJ.o
+ .bss           0x0000000000800100        0x0 /tmp/ccPpYLFH.o
  .bss           0x0000000000800100        0x0 /usr/lib/gcc/avr/5.4.0/avr5/libgcc.a(_exit.o)
  .bss           0x0000000000800100        0x0 /usr/lib/gcc/avr/5.4.0/avr5/libgcc.a(_clear_bss.o)
  *(.bss*)
  *(COMMON)
- COMMON         0x0000000000800100        0x3 /tmp/ccns7QzW.o
-                0x0000000000800100                penY
-                0x0000000000800101                penX
-                0x0000000000800102                Flag
-                0x0000000000800103                PROVIDE (__bss_end, .)
-                0x0000000000000836                __data_load_start = LOADADDR (.data)
-                0x0000000000000836                __data_load_end = (__data_load_start + SIZEOF (.data))
+ COMMON         0x0000000000800100        0x1 /tmp/ccA7dgvI.o
+                0x0000000000800100                Flag
+                0x0000000000800101                PROVIDE (__bss_end, .)
+                0x0000000000000370                __data_load_start = LOADADDR (.data)
+                0x0000000000000370                __data_load_end = (__data_load_start + SIZEOF (.data))
 
-.noinit         0x0000000000800103        0x0
+.noinit         0x0000000000800101        0x0
                 [!provide]                        PROVIDE (__noinit_start, .)
  *(.noinit*)
                 [!provide]                        PROVIDE (__noinit_end, .)
-                0x0000000000800103                _end = .
+                0x0000000000800101                _end = .
                 [!provide]                        PROVIDE (__heap_start, .)
 
 .eeprom         0x0000000000810000        0x0
@@ -356,17 +351,17 @@ END GROUP
 .user_signatures
  *(.user_signatures*)
 
-.stab           0x0000000000000000     0x15cc
+.stab           0x0000000000000000     0x1248
  *(.stab)
- .stab          0x0000000000000000      0xbac /tmp/ccns7QzW.o
- .stab          0x0000000000000bac      0x720 /tmp/cc8iDlvZ.o
+ .stab          0x0000000000000000      0x828 /tmp/ccA7dgvI.o
+ .stab          0x0000000000000828      0x720 /tmp/ccrx40sJ.o
                                         0x930 (size before relaxing)
- .stab          0x00000000000012cc      0x300 /tmp/ccqdEmRW.o
+ .stab          0x0000000000000f48      0x300 /tmp/ccPpYLFH.o
                                         0x474 (size before relaxing)
 
-.stabstr        0x0000000000000000      0xfa9
+.stabstr        0x0000000000000000      0xf7f
  *(.stabstr)
- .stabstr       0x0000000000000000      0xfa9 /tmp/ccns7QzW.o
+ .stabstr       0x0000000000000000      0xf7f /tmp/ccA7dgvI.o
 
 .stab.excl
  *(.stab.excl)
@@ -382,10 +377,10 @@ END GROUP
 
 .comment        0x0000000000000000       0x11
  *(.comment)
- .comment       0x0000000000000000       0x11 /tmp/ccns7QzW.o
+ .comment       0x0000000000000000       0x11 /tmp/ccA7dgvI.o
                                          0x12 (size before relaxing)
- .comment       0x0000000000000011       0x12 /tmp/cc8iDlvZ.o
- .comment       0x0000000000000011       0x12 /tmp/ccqdEmRW.o
+ .comment       0x0000000000000011       0x12 /tmp/ccrx40sJ.o
+ .comment       0x0000000000000011       0x12 /tmp/ccPpYLFH.o
 
 .note.gnu.avr.deviceinfo
                 0x0000000000000000       0x3c

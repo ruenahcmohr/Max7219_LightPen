@@ -14,8 +14,8 @@
   
   #define AssignBit(BIT, PORT, VALUE) ((VALUE == 0)?ClearBit(BIT, PORT):SetBit(BIT, PORT))
   
-  #define IsHigh(BIT, PORT)    ((PORT & (1<<BIT)) != 0)
-  #define IsLow(BIT, PORT)     ((PORT & (1<<BIT)) == 0)
+  #define IsHigh(BIT, PORT)    (PORT & (1<<BIT)) != 0
+  #define IsLow(BIT, PORT)     (PORT & (1<<BIT)) == 0
   #define NOP()                 asm volatile ("nop"::)
   #define ABS(a)                ((a) < 0 ? -(a) : (a))
   #define SIGN(x)               ((x)==0?0:(x)>0?1:-1)

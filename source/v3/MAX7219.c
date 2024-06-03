@@ -15,8 +15,6 @@ void send16 (unsigned int bits) {
   CShigh();
 }
 
-
-
 unsigned int max7219MakePacket(unsigned char cmd, unsigned char value) {
   return ( (cmd<<8) | (value));
 }
@@ -34,10 +32,10 @@ void max7219Init( ) {
    send16(max7219MakePacket(cmdDIG0+1, 0x00)); // dots!
    send16(max7219MakePacket(cmdDIG0+2, 0x00)); // dots!
    send16(max7219MakePacket(cmdDIG0+3, 0x00)); // dots!
-   send16(max7219MakePacket(cmdDIG0+4, 0x00)); // dots!
-   send16(max7219MakePacket(cmdDIG0+5, 0x00)); // dots!
-   send16(max7219MakePacket(cmdDIG0+6, 0x00)); // dots!
-   send16(max7219MakePacket(cmdDIG0+7, 0x00)); // dots! 
+   send16(max7219MakePacket(cmdDIG0+4, 0xFF)); // dots!
+   send16(max7219MakePacket(cmdDIG0+5, 0xFF)); // dots!
+   send16(max7219MakePacket(cmdDIG0+6, 0xFF)); // dots!
+   send16(max7219MakePacket(cmdDIG0+7, 0xFF)); // dots! 
     
 }
 

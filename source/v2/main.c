@@ -2,6 +2,11 @@
 
 avr @ 16Mhz
 
+Max 7219 light pen demo
+
+This version sets the pixel the pen was located at using 
+limited binary isolation scanning.
+
 
 on pro mini:
 
@@ -9,18 +14,18 @@ on pro mini:
 1   txd    txd
 
 2   pd2    (int0)   light pen  
-3   pd3    data
-4   pd4    sck
-5   pd5    cs
+3   pd3    
+4   pd4   
+5   pd5    
 6   pd6    
 7   pd7    
 
 8   pb0    
 9   pb1    
-10  pb2    
-11  pb4    
-12  pb3
-13  pb5    
+10  pb2   CS 
+11  pb3   DATA
+12  pb4   
+13  pb5   SCK 
 
 
 A0  pc0    
@@ -33,7 +38,6 @@ A5  pc5
 
 A6  adc6  
 A7  adc7  
-
 
 
 */
@@ -83,19 +87,17 @@ int main( void ) {
  
  uint8_t image[8];
 
- uint8_t line, row;
  uint8_t i;
  
  uint8_t penX, penY;
  int8_t detX, detY;
  uint8_t step;
  
+      // set up directions 
+  DDRB = (INPUT << PB0 | INPUT << PB1 |OUTPUT << PB2 |OUTPUT << PB3 | INPUT << PB4 |OUTPUT << PB5 | INPUT << PB6 | INPUT << PB7);
+  DDRD = (INPUT << PD0 | INPUT << PD1 | INPUT << PD2 | INPUT << PD3 | INPUT << PD4 | INPUT << PD5 | INPUT << PD6 |INPUT << PD7);        
+  DDRC = (INPUT << PC0 | INPUT << PC1 | INPUT << PC2 | INPUT << PC3 | INPUT << PC4 | INPUT << PC5 | INPUT << PC6 ); 
 
-    // set up directions 
-  DDRB = (OUTPUT << PB0 | OUTPUT << PB1 | INPUT << PB2 | INPUT << PB3 | INPUT << PB4 |OUTPUT << PB5 | INPUT << PB6 | INPUT << PB7);
-  DDRD = (INPUT << PD0 | INPUT << PD1 | INPUT << PD2 |OUTPUT << PD3 |OUTPUT << PD4 |OUTPUT << PD5 |OUTPUT << PD6 |INPUT << PD7);        
-  DDRC = (INPUT << PC0 | INPUT << PC1 | INPUT << PC2 |INPUT << PC3 |INPUT << PC4 |INPUT << PC5 |INPUT << PC6 ); 
-  
   max7219Init();
   setupInt();
   sei(); 

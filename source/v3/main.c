@@ -1,12 +1,11 @@
 /*
 
 avr @ 16Mhz
-9600 baud
 
 Max 7219 light pen demo
 
 This version sets the pixel the pen was located at using 
-XY line scanning.
+mod-n scanning.
 
 
 on pro mini:
@@ -41,7 +40,6 @@ A6  adc6
 A7  adc7  
 
 
-
 */
 #include <avr/io.h>
 #include <avr/interrupt.h>
@@ -49,8 +47,6 @@ A7  adc7
 #include "MAX7219.h"
 #include "avrcommon.h"
 #include "nopDelay.h"
-
-
 
 
 volatile uint8_t Flag;
@@ -63,18 +59,19 @@ int main( void ) {
  
  uint8_t image[8];
 
- uint8_t line, row;
- uint8_t i;
+ uint8_t i, x, y, c;
  
  uint8_t penX, penY;
  int8_t detX, detY;
+ uint8_t step;
  
 
     // set up directions 
+  
   DDRB = (INPUT << PB0 | INPUT << PB1 |OUTPUT << PB2 |OUTPUT << PB3 | INPUT << PB4 |OUTPUT << PB5 | INPUT << PB6 | INPUT << PB7);
   DDRD = (INPUT << PD0 | INPUT << PD1 | INPUT << PD2 | INPUT << PD3 | INPUT << PD4 | INPUT << PD5 | INPUT << PD6 |INPUT << PD7);        
   DDRC = (INPUT << PC0 | INPUT << PC1 | INPUT << PC2 | INPUT << PC3 | INPUT << PC4 | INPUT << PC5 | INPUT << PC6 ); 
-  
+
   max7219Init();
   setupInt();
   sei(); 
@@ -84,59 +81,47 @@ int main( void ) {
    
   while(1) {
   
-  send16(max7219MakePacket(cmdINT,    0x08)); // 1/2 brightness (8/15)     
-  detX = detY = -1;
+  send16(max7219MakePacket(cmdINT,    0x0E)); // 1/2 brightness (7/15)     
+  detX = detY = -1;      
   
+  SetBit(6, PORTD);// started scan
   
-  SetBit(6, PORTD);
+  for( i = 0; i < 8; i++) image[i] = 0xFF; // set all leds, to search for ANY pixel.
+  max7219Blit( image );   
+  Delay(800); // this is a 'finish scanning and accept new data' delay
+  Flag = 0;
+  Delay(4000);
   
-   for (line = 0; line < 8; line++) {
-     for( i = 0; i<8; i++) {
-       image[i] = (0x01<<line);
-     }  
-     
-     max7219Blit( image );   
-     Delay(10);
-     Flag = 0;
-     Delay(100000);
-     
-     if (Flag) {
-       detX = line;
-       line = 10;
-     }
-      
-   }
+  if (Flag) { // I saws a pixel!
+  
+    detX = 0;
+    for(step = 32; step != 0; step >>= 1 ) {
+      c = step;
+      i = 1;
+      for( y = 0; y < 8; y++ ) {
+	image[y] = 0x00;
+	for(x = 0; x < 8; x++ ) {
+          c--;
+          image[y] |= (i<<x);
+	  i = (c==0)?0x01-i:i;
+	  c = (c==0)?step:c;
+	} 
+      } 
+      max7219Blit( image );   
+      Delay(800); // this is a 'finish scanning and accept new data' delay
+      Flag = 0;
+      Delay(400000);
+      detX = Flag?(detX|step):detX;
+    }    
+  
+    // Then process the resulting pixel number a bit.
+    penY = 7-(detX >> 3);
+    penX = 7-(detX & 0x07);
+  
+  }   
+  ClearBit(6, PORTD); // scan done.         
    
-   if (detX != -1) {
-       for( i = 0; i < 8; i++) { // clear image
-	 image[i] = 0x00;
-       }          
-       max7219Blit( image );   
-
-     for (row = 0; row < 8; row++) {
-	for( i = 0; i < 8; i++) {
-          image[i] = (i == row)?0xFF:0x00;      
-	}
-	max7219Blit( image );   
-	Delay(10);
-	Flag = 0;
-	Delay(100000);
-
-	if (Flag) {
-          detY = row;
-	  row = 10;
-	}
-
-     }  
-     
-      if (detY != -1) {
-        penX = detX;
-	penY = detY;
-      }
-   }
-   
-   ClearBit(6, PORTD);
-   send16(max7219MakePacket(cmdINT,    0x02)); // 1/2 brightness (8/15)     
+   send16(max7219MakePacket(cmdINT,    0x02)); // 1/2 brightness (C/15)     
      for( i = 0; i < 8; i++) { // clear image
        image[i] = 0x00;
      }
@@ -145,7 +130,7 @@ int main( void ) {
      
      max7219Blit( image );   
      
-     Delay(2400000);    
+     Delay(1600000);   //<--- this is the amount of time to show the detected location before searching again.
    
   }
 
@@ -159,7 +144,7 @@ void setupInt() {
 }
  
 
-ISR(INT0_vect){
+ISR(INT0_vect){ // the scanning produces brief pulses, we just need to know if it saw one since we last cleared the flag.
    Flag = 1;
 }
 

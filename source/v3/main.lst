@@ -3,27 +3,27 @@ main.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .data         00000000  00800100  0000035a  000003ee  2**0
+  0 .data         00000000  00800100  00000370  00000404  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  1 .text         0000035a  00000000  00000000  00000094  2**1
+  1 .text         00000370  00000000  00000000  00000094  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  2 .bss          00000001  00800100  00800100  000003ee  2**0
+  2 .bss          00000001  00800100  00800100  00000404  2**0
                   ALLOC
-  3 .stab         00001218  00000000  00000000  000003f0  2**2
+  3 .stab         00001248  00000000  00000000  00000404  2**2
                   CONTENTS, READONLY, DEBUGGING
-  4 .stabstr      00000f73  00000000  00000000  00001608  2**0
+  4 .stabstr      00000f7f  00000000  00000000  0000164c  2**0
                   CONTENTS, READONLY, DEBUGGING
-  5 .comment      00000011  00000000  00000000  0000257b  2**0
+  5 .comment      00000011  00000000  00000000  000025cb  2**0
                   CONTENTS, READONLY
-  6 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  0000258c  2**2
+  6 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  000025dc  2**2
                   CONTENTS, READONLY
-  7 .debug_info   000005f4  00000000  00000000  000025c8  2**0
+  7 .debug_info   000005f4  00000000  00000000  00002618  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_abbrev 000005a2  00000000  00000000  00002bbc  2**0
+  8 .debug_abbrev 000005a2  00000000  00000000  00002c0c  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_line   0000001a  00000000  00000000  0000315e  2**0
+  9 .debug_line   0000001a  00000000  00000000  000031ae  2**0
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_str    00000208  00000000  00000000  00003178  2**0
+ 10 .debug_str    00000208  00000000  00000000  000031c8  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -78,7 +78,7 @@ Disassembly of section .text:
   80:	b2 07       	cpc	r27, r18
   82:	e1 f7       	brne	.-8      	; 0x7c <.do_clear_bss_loop>
   84:	0e 94 ff 00 	call	0x1fe	; 0x1fe <main>
-  88:	0c 94 ab 01 	jmp	0x356	; 0x356 <_exit>
+  88:	0c 94 b6 01 	jmp	0x36c	; 0x36c <_exit>
 
 0000008c <__bad_interrupt>:
   8c:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
@@ -101,7 +101,7 @@ void setupInt() {
 }
  
 
-ISR(INT0_vect){
+ISR(INT0_vect){ // the scanning produces brief pulses, we just need to know if it saw one since we last cleared the flag.
   9c:	1f 92       	push	r1
   9e:	0f 92       	push	r0
   a0:	0f b6       	in	r0, 0x3f	; 63
@@ -368,11 +368,11 @@ int main( void ) {
  20c:	de bf       	out	0x3e, r29	; 62
  20e:	0f be       	out	0x3f, r0	; 63
  210:	cd bf       	out	0x3d, r28	; 61
- uint8_t penX, penY;
- int8_t detX, detY;
+ uint8_t step;
  
 
     // set up directions 
+  
   DDRB = (INPUT << PB0 | INPUT << PB1 |OUTPUT << PB2 |OUTPUT << PB3 | INPUT << PB4 |OUTPUT << PB5 | INPUT << PB6 | INPUT << PB7);
  212:	8c e2       	ldi	r24, 0x2C	; 44
  214:	84 b9       	out	0x04, r24	; 4
@@ -380,7 +380,7 @@ int main( void ) {
  216:	1a b8       	out	0x0a, r1	; 10
   DDRC = (INPUT << PC0 | INPUT << PC1 | INPUT << PC2 | INPUT << PC3 | INPUT << PC4 | INPUT << PC5 | INPUT << PC6 ); 
  218:	17 b8       	out	0x07, r1	; 7
-  
+
   max7219Init();
  21a:	0e 94 7e 00 	call	0xfc	; 0xfc <max7219Init>
 }
@@ -396,263 +396,274 @@ void setupInt() {
  226:	8d bb       	out	0x1d, r24	; 29
   DDRD = (INPUT << PD0 | INPUT << PD1 | INPUT << PD2 | INPUT << PD3 | INPUT << PD4 | INPUT << PD5 | INPUT << PD6 |INPUT << PD7);        
   DDRC = (INPUT << PC0 | INPUT << PC1 | INPUT << PC2 | INPUT << PC3 | INPUT << PC4 | INPUT << PC5 | INPUT << PC6 ); 
-  
+
   max7219Init();
   setupInt();
   sei(); 
  228:	78 94       	sei
 
   penX = penY = 0;
- 22a:	91 2c       	mov	r9, r1
- 22c:	a1 2c       	mov	r10, r1
+ 22a:	a1 2c       	mov	r10, r1
+ 22c:	b1 2c       	mov	r11, r1
  22e:	8e 01       	movw	r16, r28
  230:	07 5f       	subi	r16, 0xF7	; 247
  232:	1f 4f       	sbci	r17, 0xFF	; 255
- 234:	bb 24       	eor	r11, r11
- 236:	b3 94       	inc	r11
-
-   
-  while(1) {
+  send16(max7219MakePacket(cmdINT,    0x0E)); // 1/2 brightness (7/15)     
+  detX = detY = -1;      
   
-  send16(max7219MakePacket(cmdINT,    0x08)); // 1/2 brightness (8/15)     
- 238:	68 e0       	ldi	r22, 0x08	; 8
- 23a:	8a e0       	ldi	r24, 0x0A	; 10
- 23c:	0e 94 79 00 	call	0xf2	; 0xf2 <max7219MakePacket>
- 240:	0e 94 5d 00 	call	0xba	; 0xba <send16>
-  detX = detY = -1;
+  SetBit(6, PORTD);// started scan
   
+  for( i = 0; i < 8; i++) image[i] = 0xFF; // set all leds, to search for ANY pixel.
+ 234:	77 24       	eor	r7, r7
+ 236:	7a 94       	dec	r7
+      for( y = 0; y < 8; y++ ) {
+	image[y] = 0x00;
+	for(x = 0; x < 8; x++ ) {
+          c--;
+          image[y] |= (i<<x);
+	  i = (c==0)?0x01-i:i;
+ 238:	88 24       	eor	r8, r8
+ 23a:	83 94       	inc	r8
+      Delay(400000);
+      detX = Flag?(detX|step):detX;
+    }    
   
-  SetBit(6, PORTD);
- 244:	5e 9a       	sbi	0x0b, 6	; 11
- 246:	e1 2c       	mov	r14, r1
- 248:	f1 2c       	mov	r15, r1
- 24a:	8b 2d       	mov	r24, r11
- 24c:	0e 2c       	mov	r0, r14
- 24e:	01 c0       	rjmp	.+2      	; 0x252 <main+0x54>
- 250:	88 0f       	add	r24, r24
- 252:	0a 94       	dec	r0
- 254:	ea f7       	brpl	.-6      	; 0x250 <main+0x52>
- 256:	fe 01       	movw	r30, r28
- 258:	31 96       	adiw	r30, 0x01	; 1
- 25a:	6f 01       	movw	r12, r30
-  
-   for (line = 0; line < 8; line++) {
-     for( i = 0; i<8; i++) {
-       image[i] = (0x01<<line);
- 25c:	81 93       	st	Z+, r24
-  
-  
-  SetBit(6, PORTD);
-  
-   for (line = 0; line < 8; line++) {
-     for( i = 0; i<8; i++) {
- 25e:	0e 17       	cp	r16, r30
- 260:	1f 07       	cpc	r17, r31
- 262:	e1 f7       	brne	.-8      	; 0x25c <main+0x5e>
-       image[i] = (0x01<<line);
-     }  
-     
-     max7219Blit( image );   
- 264:	ce 01       	movw	r24, r28
- 266:	01 96       	adiw	r24, 0x01	; 1
- 268:	0e 94 ba 00 	call	0x174	; 0x174 <max7219Blit>
-     Delay(10);
- 26c:	6a e0       	ldi	r22, 0x0A	; 10
- 26e:	70 e0       	ldi	r23, 0x00	; 0
- 270:	80 e0       	ldi	r24, 0x00	; 0
- 272:	90 e0       	ldi	r25, 0x00	; 0
- 274:	0e 94 f3 00 	call	0x1e6	; 0x1e6 <Delay>
-     Flag = 0;
- 278:	10 92 00 01 	sts	0x0100, r1	; 0x800100 <__DATA_REGION_ORIGIN__>
-     Delay(100000);
- 27c:	60 ea       	ldi	r22, 0xA0	; 160
- 27e:	76 e8       	ldi	r23, 0x86	; 134
- 280:	81 e0       	ldi	r24, 0x01	; 1
- 282:	90 e0       	ldi	r25, 0x00	; 0
- 284:	0e 94 f3 00 	call	0x1e6	; 0x1e6 <Delay>
-     
-     if (Flag) {
- 288:	80 91 00 01 	lds	r24, 0x0100	; 0x800100 <__DATA_REGION_ORIGIN__>
- 28c:	88 23       	and	r24, r24
- 28e:	09 f4       	brne	.+2      	; 0x292 <main+0x94>
- 290:	53 c0       	rjmp	.+166    	; 0x338 <main+0x13a>
-       detX = line;
- 292:	fe 01       	movw	r30, r28
- 294:	31 96       	adiw	r30, 0x01	; 1
-      
-   }
-   
-   if (detX != -1) {
-       for( i = 0; i < 8; i++) { // clear image
-	 image[i] = 0x00;
- 296:	11 92       	st	Z+, r1
-     }
-      
-   }
-   
-   if (detX != -1) {
-       for( i = 0; i < 8; i++) { // clear image
- 298:	e0 17       	cp	r30, r16
- 29a:	f1 07       	cpc	r31, r17
- 29c:	e1 f7       	brne	.-8      	; 0x296 <main+0x98>
-	 image[i] = 0x00;
-       }          
-       max7219Blit( image );   
- 29e:	ce 01       	movw	r24, r28
- 2a0:	01 96       	adiw	r24, 0x01	; 1
- 2a2:	0e 94 ba 00 	call	0x174	; 0x174 <max7219Blit>
-
-     for (row = 0; row < 8; row++) {
- 2a6:	81 2c       	mov	r8, r1
-     Delay(10);
-     Flag = 0;
-     Delay(100000);
-     
-     if (Flag) {
-       detX = line;
- 2a8:	fe 01       	movw	r30, r28
- 2aa:	31 96       	adiw	r30, 0x01	; 1
- 2ac:	90 e0       	ldi	r25, 0x00	; 0
-       }          
-       max7219Blit( image );   
-
-     for (row = 0; row < 8; row++) {
-	for( i = 0; i < 8; i++) {
-          image[i] = (i == row)?0xFF:0x00;      
- 2ae:	81 e0       	ldi	r24, 0x01	; 1
- 2b0:	89 12       	cpse	r8, r25
- 2b2:	80 e0       	ldi	r24, 0x00	; 0
- 2b4:	81 95       	neg	r24
- 2b6:	81 93       	st	Z+, r24
-	 image[i] = 0x00;
-       }          
-       max7219Blit( image );   
-
-     for (row = 0; row < 8; row++) {
-	for( i = 0; i < 8; i++) {
- 2b8:	9f 5f       	subi	r25, 0xFF	; 255
- 2ba:	98 30       	cpi	r25, 0x08	; 8
- 2bc:	c1 f7       	brne	.-16     	; 0x2ae <main+0xb0>
-          image[i] = (i == row)?0xFF:0x00;      
-	}
-	max7219Blit( image );   
- 2be:	ce 01       	movw	r24, r28
- 2c0:	01 96       	adiw	r24, 0x01	; 1
- 2c2:	0e 94 ba 00 	call	0x174	; 0x174 <max7219Blit>
-	Delay(10);
- 2c6:	6a e0       	ldi	r22, 0x0A	; 10
- 2c8:	70 e0       	ldi	r23, 0x00	; 0
- 2ca:	80 e0       	ldi	r24, 0x00	; 0
- 2cc:	90 e0       	ldi	r25, 0x00	; 0
- 2ce:	0e 94 f3 00 	call	0x1e6	; 0x1e6 <Delay>
-	Flag = 0;
- 2d2:	10 92 00 01 	sts	0x0100, r1	; 0x800100 <__DATA_REGION_ORIGIN__>
-	Delay(100000);
- 2d6:	60 ea       	ldi	r22, 0xA0	; 160
- 2d8:	76 e8       	ldi	r23, 0x86	; 134
- 2da:	81 e0       	ldi	r24, 0x01	; 1
- 2dc:	90 e0       	ldi	r25, 0x00	; 0
- 2de:	0e 94 f3 00 	call	0x1e6	; 0x1e6 <Delay>
-
-	if (Flag) {
- 2e2:	80 91 00 01 	lds	r24, 0x0100	; 0x800100 <__DATA_REGION_ORIGIN__>
- 2e6:	88 23       	and	r24, r24
- 2e8:	89 f1       	breq	.+98     	; 0x34c <main+0x14e>
-	}
-
-     }  
-     
-      if (detY != -1) {
-        penX = detX;
- 2ea:	ae 2c       	mov	r10, r14
-	penY = detY;
-      }
-   }
-   
-   ClearBit(6, PORTD);
- 2ec:	5e 98       	cbi	0x0b, 6	; 11
-   send16(max7219MakePacket(cmdINT,    0x02)); // 1/2 brightness (8/15)     
- 2ee:	62 e0       	ldi	r22, 0x02	; 2
- 2f0:	8a e0       	ldi	r24, 0x0A	; 10
- 2f2:	0e 94 79 00 	call	0xf2	; 0xf2 <max7219MakePacket>
- 2f6:	0e 94 5d 00 	call	0xba	; 0xba <send16>
+    // Then process the resulting pixel number a bit.
+    penY = 7-(detX >> 3);
+ 23c:	27 e0       	ldi	r18, 0x07	; 7
+ 23e:	52 2e       	mov	r5, r18
+   send16(max7219MakePacket(cmdINT,    0x02)); // 1/2 brightness (C/15)     
      for( i = 0; i < 8; i++) { // clear image
-       image[i] = 0x00;
- 2fa:	f6 01       	movw	r30, r12
- 2fc:	11 92       	st	Z+, r1
- 2fe:	6f 01       	movw	r12, r30
-      }
-   }
-   
-   ClearBit(6, PORTD);
-   send16(max7219MakePacket(cmdINT,    0x02)); // 1/2 brightness (8/15)     
-     for( i = 0; i < 8; i++) { // clear image
- 300:	0e 17       	cp	r16, r30
- 302:	1f 07       	cpc	r17, r31
- 304:	d1 f7       	brne	.-12     	; 0x2fa <main+0xfc>
        image[i] = 0x00;
      }
      
      image[penY] = (1<<penX);
- 306:	e1 e0       	ldi	r30, 0x01	; 1
- 308:	f0 e0       	ldi	r31, 0x00	; 0
- 30a:	ec 0f       	add	r30, r28
- 30c:	fd 1f       	adc	r31, r29
- 30e:	e8 0d       	add	r30, r8
- 310:	f1 1d       	adc	r31, r1
- 312:	8b 2d       	mov	r24, r11
- 314:	0a 2c       	mov	r0, r10
- 316:	01 c0       	rjmp	.+2      	; 0x31a <main+0x11c>
- 318:	88 0f       	add	r24, r24
- 31a:	0a 94       	dec	r0
- 31c:	ea f7       	brpl	.-6      	; 0x318 <main+0x11a>
- 31e:	80 83       	st	Z, r24
+ 240:	cc 24       	eor	r12, r12
+ 242:	c3 94       	inc	r12
+ 244:	d1 2c       	mov	r13, r1
+  penX = penY = 0;
+
+   
+  while(1) {
+  
+  send16(max7219MakePacket(cmdINT,    0x0E)); // 1/2 brightness (7/15)     
+ 246:	6e e0       	ldi	r22, 0x0E	; 14
+ 248:	8a e0       	ldi	r24, 0x0A	; 10
+ 24a:	0e 94 79 00 	call	0xf2	; 0xf2 <max7219MakePacket>
+ 24e:	0e 94 5d 00 	call	0xba	; 0xba <send16>
+  detX = detY = -1;      
+  
+  SetBit(6, PORTD);// started scan
+ 252:	5e 9a       	sbi	0x0b, 6	; 11
+ 254:	ce 01       	movw	r24, r28
+ 256:	01 96       	adiw	r24, 0x01	; 1
+ 258:	7c 01       	movw	r14, r24
+ 25a:	fc 01       	movw	r30, r24
+  
+  for( i = 0; i < 8; i++) image[i] = 0xFF; // set all leds, to search for ANY pixel.
+ 25c:	71 92       	st	Z+, r7
+ 25e:	0e 17       	cp	r16, r30
+ 260:	1f 07       	cpc	r17, r31
+ 262:	e1 f7       	brne	.-8      	; 0x25c <main+0x5e>
+  max7219Blit( image );   
+ 264:	ce 01       	movw	r24, r28
+ 266:	01 96       	adiw	r24, 0x01	; 1
+ 268:	0e 94 ba 00 	call	0x174	; 0x174 <max7219Blit>
+  Delay(800); // this is a 'finish scanning and accept new data' delay
+ 26c:	60 e2       	ldi	r22, 0x20	; 32
+ 26e:	73 e0       	ldi	r23, 0x03	; 3
+ 270:	80 e0       	ldi	r24, 0x00	; 0
+ 272:	90 e0       	ldi	r25, 0x00	; 0
+ 274:	0e 94 f3 00 	call	0x1e6	; 0x1e6 <Delay>
+  Flag = 0;
+ 278:	10 92 00 01 	sts	0x0100, r1	; 0x800100 <__DATA_REGION_ORIGIN__>
+  Delay(4000);
+ 27c:	60 ea       	ldi	r22, 0xA0	; 160
+ 27e:	7f e0       	ldi	r23, 0x0F	; 15
+ 280:	80 e0       	ldi	r24, 0x00	; 0
+ 282:	90 e0       	ldi	r25, 0x00	; 0
+ 284:	0e 94 f3 00 	call	0x1e6	; 0x1e6 <Delay>
+  
+  if (Flag) { // I saws a pixel!
+ 288:	80 91 00 01 	lds	r24, 0x0100	; 0x800100 <__DATA_REGION_ORIGIN__>
+ 28c:	88 23       	and	r24, r24
+ 28e:	09 f4       	brne	.+2      	; 0x292 <main+0x94>
+ 290:	48 c0       	rjmp	.+144    	; 0x322 <main+0x124>
+ 292:	86 e0       	ldi	r24, 0x06	; 6
+ 294:	a8 2e       	mov	r10, r24
+ 296:	b1 2c       	mov	r11, r1
+ 298:	90 e2       	ldi	r25, 0x20	; 32
+ 29a:	99 2e       	mov	r9, r25
+ 29c:	61 2c       	mov	r6, r1
+  while(1) {
+  
+  send16(max7219MakePacket(cmdINT,    0x0E)); // 1/2 brightness (7/15)     
+  detX = detY = -1;      
+  
+  SetBit(6, PORTD);// started scan
+ 29e:	fe 01       	movw	r30, r28
+ 2a0:	31 96       	adiw	r30, 0x01	; 1
+ 2a2:	29 2d       	mov	r18, r9
+ 2a4:	61 e0       	ldi	r22, 0x01	; 1
+ 2a6:	80 e0       	ldi	r24, 0x00	; 0
+ 2a8:	90 e0       	ldi	r25, 0x00	; 0
+ 2aa:	30 e0       	ldi	r19, 0x00	; 0
+      c = step;
+      i = 1;
+      for( y = 0; y < 8; y++ ) {
+	image[y] = 0x00;
+	for(x = 0; x < 8; x++ ) {
+          c--;
+ 2ac:	21 50       	subi	r18, 0x01	; 1
+          image[y] |= (i<<x);
+ 2ae:	46 2f       	mov	r20, r22
+ 2b0:	08 2e       	mov	r0, r24
+ 2b2:	01 c0       	rjmp	.+2      	; 0x2b6 <main+0xb8>
+ 2b4:	44 0f       	add	r20, r20
+ 2b6:	0a 94       	dec	r0
+ 2b8:	ea f7       	brpl	.-6      	; 0x2b4 <main+0xb6>
+ 2ba:	34 2b       	or	r19, r20
+	  i = (c==0)?0x01-i:i;
+ 2bc:	21 11       	cpse	r18, r1
+ 2be:	04 c0       	rjmp	.+8      	; 0x2c8 <main+0xca>
+ 2c0:	28 2d       	mov	r18, r8
+ 2c2:	26 1b       	sub	r18, r22
+ 2c4:	62 2f       	mov	r22, r18
+ 2c6:	29 2d       	mov	r18, r9
+ 2c8:	01 96       	adiw	r24, 0x01	; 1
+    for(step = 32; step != 0; step >>= 1 ) {
+      c = step;
+      i = 1;
+      for( y = 0; y < 8; y++ ) {
+	image[y] = 0x00;
+	for(x = 0; x < 8; x++ ) {
+ 2ca:	88 30       	cpi	r24, 0x08	; 8
+ 2cc:	91 05       	cpc	r25, r1
+ 2ce:	71 f7       	brne	.-36     	; 0x2ac <main+0xae>
+ 2d0:	31 93       	st	Z+, r19
+  
+    detX = 0;
+    for(step = 32; step != 0; step >>= 1 ) {
+      c = step;
+      i = 1;
+      for( y = 0; y < 8; y++ ) {
+ 2d2:	0e 17       	cp	r16, r30
+ 2d4:	1f 07       	cpc	r17, r31
+ 2d6:	39 f7       	brne	.-50     	; 0x2a6 <main+0xa8>
+          image[y] |= (i<<x);
+	  i = (c==0)?0x01-i:i;
+	  c = (c==0)?step:c;
+	} 
+      } 
+      max7219Blit( image );   
+ 2d8:	ce 01       	movw	r24, r28
+ 2da:	01 96       	adiw	r24, 0x01	; 1
+ 2dc:	0e 94 ba 00 	call	0x174	; 0x174 <max7219Blit>
+      Delay(800); // this is a 'finish scanning and accept new data' delay
+ 2e0:	60 e2       	ldi	r22, 0x20	; 32
+ 2e2:	73 e0       	ldi	r23, 0x03	; 3
+ 2e4:	80 e0       	ldi	r24, 0x00	; 0
+ 2e6:	90 e0       	ldi	r25, 0x00	; 0
+ 2e8:	0e 94 f3 00 	call	0x1e6	; 0x1e6 <Delay>
+      Flag = 0;
+ 2ec:	10 92 00 01 	sts	0x0100, r1	; 0x800100 <__DATA_REGION_ORIGIN__>
+      Delay(400000);
+ 2f0:	60 e8       	ldi	r22, 0x80	; 128
+ 2f2:	7a e1       	ldi	r23, 0x1A	; 26
+ 2f4:	86 e0       	ldi	r24, 0x06	; 6
+ 2f6:	90 e0       	ldi	r25, 0x00	; 0
+ 2f8:	0e 94 f3 00 	call	0x1e6	; 0x1e6 <Delay>
+      detX = Flag?(detX|step):detX;
+ 2fc:	80 91 00 01 	lds	r24, 0x0100	; 0x800100 <__DATA_REGION_ORIGIN__>
+ 300:	81 11       	cpse	r24, r1
+ 302:	69 28       	or	r6, r9
+  Delay(4000);
+  
+  if (Flag) { // I saws a pixel!
+  
+    detX = 0;
+    for(step = 32; step != 0; step >>= 1 ) {
+ 304:	96 94       	lsr	r9
+ 306:	81 e0       	ldi	r24, 0x01	; 1
+ 308:	a8 1a       	sub	r10, r24
+ 30a:	b1 08       	sbc	r11, r1
+ 30c:	41 f6       	brne	.-112    	; 0x29e <main+0xa0>
+      Delay(400000);
+      detX = Flag?(detX|step):detX;
+    }    
+  
+    // Then process the resulting pixel number a bit.
+    penY = 7-(detX >> 3);
+ 30e:	86 2d       	mov	r24, r6
+ 310:	85 95       	asr	r24
+ 312:	85 95       	asr	r24
+ 314:	85 95       	asr	r24
+ 316:	a5 2c       	mov	r10, r5
+ 318:	a8 1a       	sub	r10, r24
+    penX = 7-(detX & 0x07);
+ 31a:	86 2d       	mov	r24, r6
+ 31c:	80 95       	com	r24
+ 31e:	87 70       	andi	r24, 0x07	; 7
+ 320:	b8 2e       	mov	r11, r24
+  
+  }   
+  ClearBit(6, PORTD); // scan done.         
+ 322:	5e 98       	cbi	0x0b, 6	; 11
+   
+   send16(max7219MakePacket(cmdINT,    0x02)); // 1/2 brightness (C/15)     
+ 324:	62 e0       	ldi	r22, 0x02	; 2
+ 326:	8a e0       	ldi	r24, 0x0A	; 10
+ 328:	0e 94 79 00 	call	0xf2	; 0xf2 <max7219MakePacket>
+ 32c:	0e 94 5d 00 	call	0xba	; 0xba <send16>
+     for( i = 0; i < 8; i++) { // clear image
+       image[i] = 0x00;
+ 330:	f7 01       	movw	r30, r14
+ 332:	11 92       	st	Z+, r1
+ 334:	7f 01       	movw	r14, r30
+  
+  }   
+  ClearBit(6, PORTD); // scan done.         
+   
+   send16(max7219MakePacket(cmdINT,    0x02)); // 1/2 brightness (C/15)     
+     for( i = 0; i < 8; i++) { // clear image
+ 336:	0e 17       	cp	r16, r30
+ 338:	1f 07       	cpc	r17, r31
+ 33a:	d1 f7       	brne	.-12     	; 0x330 <main+0x132>
+       image[i] = 0x00;
+     }
+     
+     image[penY] = (1<<penX);
+ 33c:	c6 01       	movw	r24, r12
+ 33e:	0b 2c       	mov	r0, r11
+ 340:	01 c0       	rjmp	.+2      	; 0x344 <main+0x146>
+ 342:	88 0f       	add	r24, r24
+ 344:	0a 94       	dec	r0
+ 346:	ea f7       	brpl	.-6      	; 0x342 <main+0x144>
+ 348:	e1 e0       	ldi	r30, 0x01	; 1
+ 34a:	f0 e0       	ldi	r31, 0x00	; 0
+ 34c:	ec 0f       	add	r30, r28
+ 34e:	fd 1f       	adc	r31, r29
+ 350:	ea 0d       	add	r30, r10
+ 352:	f1 1d       	adc	r31, r1
+ 354:	80 83       	st	Z, r24
      
      max7219Blit( image );   
- 320:	ce 01       	movw	r24, r28
- 322:	01 96       	adiw	r24, 0x01	; 1
- 324:	0e 94 ba 00 	call	0x174	; 0x174 <max7219Blit>
+ 356:	ce 01       	movw	r24, r28
+ 358:	01 96       	adiw	r24, 0x01	; 1
+ 35a:	0e 94 ba 00 	call	0x174	; 0x174 <max7219Blit>
      
-     Delay(2400000);    
- 328:	60 e0       	ldi	r22, 0x00	; 0
- 32a:	7f e9       	ldi	r23, 0x9F	; 159
- 32c:	84 e2       	ldi	r24, 0x24	; 36
- 32e:	90 e0       	ldi	r25, 0x00	; 0
- 330:	0e 94 f3 00 	call	0x1e6	; 0x1e6 <Delay>
+     Delay(1600000);   //<--- this is the amount of time to show the detected location before searching again.
+ 35e:	60 e0       	ldi	r22, 0x00	; 0
+ 360:	7a e6       	ldi	r23, 0x6A	; 106
+ 362:	88 e1       	ldi	r24, 0x18	; 24
+ 364:	90 e0       	ldi	r25, 0x00	; 0
+ 366:	0e 94 f3 00 	call	0x1e6	; 0x1e6 <Delay>
    
   }
- 334:	98 2c       	mov	r9, r8
- 336:	80 cf       	rjmp	.-256    	; 0x238 <main+0x3a>
- 338:	2f ef       	ldi	r18, 0xFF	; 255
- 33a:	e2 1a       	sub	r14, r18
- 33c:	f2 0a       	sbc	r15, r18
-  detX = detY = -1;
-  
-  
-  SetBit(6, PORTD);
-  
-   for (line = 0; line < 8; line++) {
- 33e:	38 e0       	ldi	r19, 0x08	; 8
- 340:	e3 16       	cp	r14, r19
- 342:	f1 04       	cpc	r15, r1
- 344:	09 f0       	breq	.+2      	; 0x348 <main+0x14a>
- 346:	81 cf       	rjmp	.-254    	; 0x24a <main+0x4c>
- 348:	89 2c       	mov	r8, r9
- 34a:	d0 cf       	rjmp	.-96     	; 0x2ec <main+0xee>
-       for( i = 0; i < 8; i++) { // clear image
-	 image[i] = 0x00;
-       }          
-       max7219Blit( image );   
+ 36a:	6d cf       	rjmp	.-294    	; 0x246 <main+0x48>
 
-     for (row = 0; row < 8; row++) {
- 34c:	83 94       	inc	r8
- 34e:	f8 e0       	ldi	r31, 0x08	; 8
- 350:	8f 12       	cpse	r8, r31
- 352:	aa cf       	rjmp	.-172    	; 0x2a8 <main+0xaa>
- 354:	f9 cf       	rjmp	.-14     	; 0x348 <main+0x14a>
+0000036c <_exit>:
+ 36c:	f8 94       	cli
 
-00000356 <_exit>:
- 356:	f8 94       	cli
-
-00000358 <__stop_program>:
- 358:	ff cf       	rjmp	.-2      	; 0x358 <__stop_program>
+0000036e <__stop_program>:
+ 36e:	ff cf       	rjmp	.-2      	; 0x36e <__stop_program>

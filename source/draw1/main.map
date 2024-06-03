@@ -3,14 +3,14 @@ Archive member included to satisfy reference by file (symbol)
 /usr/lib/gcc/avr/5.4.0/avr5/libgcc.a(_exit.o)
                               /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avr5/crtatmega328.o (exit)
 /usr/lib/gcc/avr/5.4.0/avr5/libgcc.a(_clear_bss.o)
-                              /tmp/ccns7QzW.o (__do_clear_bss)
+                              /tmp/ccaMR5bQ.o (__do_clear_bss)
 
 Allocating common symbols
 Common symbol       size              file
 
-penY                0x1               /tmp/ccns7QzW.o
-penX                0x1               /tmp/ccns7QzW.o
-Flag                0x1               /tmp/ccns7QzW.o
+penY                0x1               /tmp/ccaMR5bQ.o
+penX                0x1               /tmp/ccaMR5bQ.o
+Flag                0x1               /tmp/ccaMR5bQ.o
 
 Memory Configuration
 
@@ -28,9 +28,9 @@ Linker script and memory map
 
 Address of section .data set to 0x800100
 LOAD /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avr5/crtatmega328.o
-LOAD /tmp/ccns7QzW.o
-LOAD /tmp/cc8iDlvZ.o
-LOAD /tmp/ccqdEmRW.o
+LOAD /tmp/ccaMR5bQ.o
+LOAD /tmp/ccFHfXhS.o
+LOAD /tmp/ccbTINTR.o
 START GROUP
 LOAD /usr/lib/gcc/avr/5.4.0/avr5/libgcc.a
 LOAD /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avr5/libm.a
@@ -219,11 +219,11 @@ END GROUP
                 0x000000000000008c                __vector_16
                 0x000000000000008c                __vector_18
                 0x000000000000008c                __vector_20
- .text          0x0000000000000090      0x55a /tmp/ccns7QzW.o
+ .text          0x0000000000000090      0x55a /tmp/ccaMR5bQ.o
                 0x0000000000000090                GetLoc
                 0x00000000000005c0                setupInt
                 0x00000000000005cc                __vector_1
- .text          0x00000000000005ea      0x12c /tmp/cc8iDlvZ.o
+ .text          0x00000000000005ea      0x12c /tmp/ccFHfXhS.o
                 0x00000000000005ea                send16
                 0x0000000000000622                max7219MakePacket
                 0x000000000000062c                max7219Init
@@ -232,13 +232,13 @@ END GROUP
                 0x00000000000006fe                max7219SetIntensity
                 0x0000000000000706                max7219SetScanLimit
                 0x000000000000070e                max7219SetDecodeFlags
- .text          0x0000000000000716       0x18 /tmp/ccqdEmRW.o
+ .text          0x0000000000000716       0x18 /tmp/ccbTINTR.o
                 0x0000000000000716                Delay
  .text          0x000000000000072e        0x0 /usr/lib/gcc/avr/5.4.0/avr5/libgcc.a(_exit.o)
  .text          0x000000000000072e        0x0 /usr/lib/gcc/avr/5.4.0/avr5/libgcc.a(_clear_bss.o)
                 0x000000000000072e                . = ALIGN (0x2)
  *(.text.*)
- .text.startup  0x000000000000072e      0x104 /tmp/ccns7QzW.o
+ .text.startup  0x000000000000072e      0x104 /tmp/ccaMR5bQ.o
                 0x000000000000072e                main
  .text.libgcc.mul
                 0x0000000000000832        0x0 /usr/lib/gcc/avr/5.4.0/avr5/libgcc.a(_exit.o)
@@ -297,9 +297,9 @@ END GROUP
                 [!provide]                        PROVIDE (__data_start, .)
  *(.data)
  .data          0x0000000000800100        0x0 /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avr5/crtatmega328.o
- .data          0x0000000000800100        0x0 /tmp/ccns7QzW.o
- .data          0x0000000000800100        0x0 /tmp/cc8iDlvZ.o
- .data          0x0000000000800100        0x0 /tmp/ccqdEmRW.o
+ .data          0x0000000000800100        0x0 /tmp/ccaMR5bQ.o
+ .data          0x0000000000800100        0x0 /tmp/ccFHfXhS.o
+ .data          0x0000000000800100        0x0 /tmp/ccbTINTR.o
  .data          0x0000000000800100        0x0 /usr/lib/gcc/avr/5.4.0/avr5/libgcc.a(_exit.o)
  .data          0x0000000000800100        0x0 /usr/lib/gcc/avr/5.4.0/avr5/libgcc.a(_clear_bss.o)
  *(.data*)
@@ -315,14 +315,14 @@ END GROUP
                 0x0000000000800100                PROVIDE (__bss_start, .)
  *(.bss)
  .bss           0x0000000000800100        0x0 /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avr5/crtatmega328.o
- .bss           0x0000000000800100        0x0 /tmp/ccns7QzW.o
- .bss           0x0000000000800100        0x0 /tmp/cc8iDlvZ.o
- .bss           0x0000000000800100        0x0 /tmp/ccqdEmRW.o
+ .bss           0x0000000000800100        0x0 /tmp/ccaMR5bQ.o
+ .bss           0x0000000000800100        0x0 /tmp/ccFHfXhS.o
+ .bss           0x0000000000800100        0x0 /tmp/ccbTINTR.o
  .bss           0x0000000000800100        0x0 /usr/lib/gcc/avr/5.4.0/avr5/libgcc.a(_exit.o)
  .bss           0x0000000000800100        0x0 /usr/lib/gcc/avr/5.4.0/avr5/libgcc.a(_clear_bss.o)
  *(.bss*)
  *(COMMON)
- COMMON         0x0000000000800100        0x3 /tmp/ccns7QzW.o
+ COMMON         0x0000000000800100        0x3 /tmp/ccaMR5bQ.o
                 0x0000000000800100                penY
                 0x0000000000800101                penX
                 0x0000000000800102                Flag
@@ -358,15 +358,15 @@ END GROUP
 
 .stab           0x0000000000000000     0x15cc
  *(.stab)
- .stab          0x0000000000000000      0xbac /tmp/ccns7QzW.o
- .stab          0x0000000000000bac      0x720 /tmp/cc8iDlvZ.o
+ .stab          0x0000000000000000      0xbac /tmp/ccaMR5bQ.o
+ .stab          0x0000000000000bac      0x720 /tmp/ccFHfXhS.o
                                         0x930 (size before relaxing)
- .stab          0x00000000000012cc      0x300 /tmp/ccqdEmRW.o
+ .stab          0x00000000000012cc      0x300 /tmp/ccbTINTR.o
                                         0x474 (size before relaxing)
 
-.stabstr        0x0000000000000000      0xfa9
+.stabstr        0x0000000000000000      0xfaf
  *(.stabstr)
- .stabstr       0x0000000000000000      0xfa9 /tmp/ccns7QzW.o
+ .stabstr       0x0000000000000000      0xfaf /tmp/ccaMR5bQ.o
 
 .stab.excl
  *(.stab.excl)
@@ -382,10 +382,10 @@ END GROUP
 
 .comment        0x0000000000000000       0x11
  *(.comment)
- .comment       0x0000000000000000       0x11 /tmp/ccns7QzW.o
+ .comment       0x0000000000000000       0x11 /tmp/ccaMR5bQ.o
                                          0x12 (size before relaxing)
- .comment       0x0000000000000011       0x12 /tmp/cc8iDlvZ.o
- .comment       0x0000000000000011       0x12 /tmp/ccqdEmRW.o
+ .comment       0x0000000000000011       0x12 /tmp/ccFHfXhS.o
+ .comment       0x0000000000000011       0x12 /tmp/ccbTINTR.o
 
 .note.gnu.avr.deviceinfo
                 0x0000000000000000       0x3c

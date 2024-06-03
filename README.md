@@ -11,9 +11,12 @@ v1 is a swept scan
 
 v2 is a binary state machine scan (famous video)
 
-current is the 6 bit hunt.
+v3 is a mod-n type scan, which works out in a few cool ways that generate a 6 bit value.
+
+Draw1 uses v2 (bit better on erros) with set and clear pixel buttons to allow drawing.
 
 
-This is just a quick post, I can add more detail!
+
+ messed up my light pen circuit for this post, so I'm just working on that...
 
 Ask questions!
