@@ -134,12 +134,13 @@ int main(void)
   while (1)
   {
 
-    send16(numDevices,max7219MakePacket(cmdINT, 0x03)); // 1/2 brightness (7/15)
+    send16(max7219MakePacket(cmdINT, 0x06)); // 1/2 brightness (7/15)
     detX = detY = -1;
 
     SetBit(6, PORTD);
 
     uint8_t step = 0x00;
+    if(record == 1){
     while (step < 0xFE)
     {
       uint8_t flagIndex = Flag ? 1 : 0;
@@ -160,7 +161,7 @@ int main(void)
         {
           image[i] = step;
         }
-        max7219Blit(image,numDevices);
+        max7219Blit(image);
         Delay(DET_DELAY); // 'finish scanning and accept new data' delay
         Flag = 0;
         Delay(DET_DELAY); // Change this delay down to about 3000 min. for high-speed scanning.
@@ -189,9 +190,8 @@ int main(void)
           for (int i = 0; i < 8; i++)
           {
             image[i] = (step & (1 << i)) ? 0xFF : 0x00;
-            image2[i] = image[i] & (1 << penX);
           }
-          max7219Blit(image,numDevices);
+          max7219Blit(image);
           Delay(DET_DELAY); // 'finish scanning and accept new data' delay
           Flag = 0;
           Delay(DET_DELAY); // Change this delay down to about 3000 min. for high-speed scanning.
@@ -205,21 +205,55 @@ int main(void)
       }
     }
 
-    ClearBit(6, PORTD);
-    send16(numDevices,max7219MakePacket(cmdINT, 0x0C)); // 1/2 brightness (C/15)
+ 
+    send16(max7219MakePacket(cmdINT, 0x07)); // 1/2 brightness (C/15)
     for (i = 0; i < 8; i++)
     { // clear image
       image[i] = 0x00;
     }
-
+    if(delete){
+      image2[penY] &= (~(1<<penX)); // erase 
+      continue;
+    }
     image[penY] = (1 << penX);
-
-    max7219Blit(image,numDevices);
-
+    image2[penY] |= (1<<penX);  ;
+    send16(max7219MakePacket(cmdINT, 0x0C)); // 1/2 brightness (C/15)
+    max7219Blit(image2);
+    }
+    else{
+      diagonal_scroll();
+    //scroll();
+    }
+   
+  
     Delay(MAIN_DELAY); //<--- this is the amount of time to show the detected location before searching again.
+    
   }
 }
+void scroll(){
+   send16(max7219MakePacket(cmdINT, 0x07));
+  for (int i = 0; i < 8; i++)
+  {
+    image2[i] = image2[i] << 1 | image2[i] >> 7;
+    max7219Blit(image2);
+    Delay(10000);
+  }
 
+}
+
+void diagonal_scroll(){
+    uint8_t temp = image2[0]; 
+
+    for (int j = 0; j < 7; j++) { /
+        image2[j] = image2[j + 1];
+    }
+    image2[7] = temp; 
+    for (int j = 0; j < 8; j++) {
+        image2[j] = (image2[j] << 1) | (image2[j] >> 7);
+    }
+    max7219Blit(image2);
+    Delay(20000);
+}
 void setupInt()
 {
   EICRA = (1 << ISC10) | (1 << ISC00); // we need to set up int0 and int1 to trigger interrupts on both edges
@@ -247,7 +281,7 @@ void clearImage()
 }
 ISR(PCINT0_vect)
 {
-  Delay(3000); // debounce delay
+  Delay(1000); // debounce delay
   bounce_count++;
   delete = 0;
   if (bounce_count % 2 == 0)
